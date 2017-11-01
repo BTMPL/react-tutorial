@@ -1,0 +1,50 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 1270px;
+  margin: 0 auto;
+}
+
+.narrow {
+  max-width: 970px;
+}
+
+.full {
+  max-width: 100%;
+}
+
+.column {
+  flex: 1;  
+  padding: 10px;
+}
+
+.generate-columns(12);
+
+.generate-columns(@n, @i: 1) when (@i =< @n) {
+  .desktop-@{i} {
+    min-width: (100% / (12/@i));
+    max-width: (100% / (12/@i));
+  }
+
+  @media screen and (max-width: 640px) {
+    .mobile-@{i} {
+      min-width: (100% / (12/@i));
+      max-width: (100% / (12/@i));
+    }  
+  }
+
+  .generate-columns(@n, (@i + 1));
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.center {
+  text-align: center;
+}

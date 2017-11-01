@@ -1,0 +1,4 @@
+import React from "react";
+import { render } from "react-dom";
+
+render(<p>Koniec z TODO!</p>, document.getElementById("root"));
