@@ -4,6 +4,8 @@ import Navigate from "../../common/Navigate/Navigate";
 import { Row, Column } from "../../common/Layout/Layout";
 import Example from "./../../common/example/Example";
 
+import devtools from "./react-devtools.jpg";
+
 export const title = "Lekcja 1 - Podstawowe pojęcia, konfiguracja środowiska pracy";
 
 export default class Lesson extends React.Component {
@@ -208,9 +210,168 @@ export default class Lesson extends React.Component {
             </p>
           </Column>
         </Row>
+        <Row>
+          <Column><h3>React Developer Tools</h3></Column>
+          <Column width={6}>
+            <p>
+              Oficjalny dodatek do narzędzi przeglądarki, wspomagający pracę z Reactem - podobnie jak domyślne narzędzia pozwalają na pracę z HTML, tak React Developer Tools pokazuje (i pozwala nam modyfikować) w przeglądarce strukturę aplikacji Reactowej.
+            </p>  
+            <ul>
+              <li><a href="https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi" target="_blank">Pobierz dla Chrome</a></li>
+              <li><a href="https://addons.mozilla.org/pl/firefox/addon/react-devtools/" target="_blank">Pobierz dla Firefox</a></li>
+              <li><a href="https://www.npmjs.com/package/react-devtools" target="_blank">Pobierz wersję Standalone</a></li>
+            </ul>                   
+          </Column>          
+          <Column width={6}>            
+            <img src={devtools} alt="React Developer Tools" />
+          </Column>
+        </Row>
+
         <Navigate prev="/lekcja/lekcja1/srodowisko-pracy" next="/lekcja/lekcja1/create-react-app" />
       </div>      
     )    
+  }
+
+  renderCreateReactApp = () => {
+    return (
+      <div>
+        <Row>
+          <Column>
+            <h2>create react app</h2>
+            <p>
+              Jednym z najczęstszych zarzutów, z jakimi początkowo borykał się React była znacząca ilość pracy, jaką developerzy musieli poświęcić na przygotowanie środowiska pracy - dobór pakietów, konfiguracja babel, webpack etc. Odpowiedzią na to był wysyp nieoficjalnych boilerplate udostępnianych jako pakiety npm lub repozytoria git.
+            </p>
+            <p>
+              <b>create react app</b> to oficjalny boilerplate przygotowany przez zespół Facebook do tworzenia aplikacji React. Od typowych boilerplate odróżnia go:
+            </p>  
+            <ul>
+              <li>sposób instalacji - cra instaluje się globalnie w naszym systemie i pozwala na tworzenie nowych projektów za pomocą jednej komendy</li>
+              <li>ukrycie konfiguracji - pliki konfiguracyjne przechowywane są w katalogu create-react-app, nie katalogu aplikacji, przez co mamy pewność, że nie wprowadzimy w nich przypadkowych zmian i projekt stworzony u jednego developera zadziała bez problemów u innego developera</li>
+              <li>mniej dependencji - w teorii nasz projekt potrzebuje tylko create-react-app jako zależność, dzięki czemu aktualizując naszą globalną instalację CRA automatycznie aktualizujemy nasz projekt</li>
+            </ul>
+            <p>
+              Ukrycie konfiguracji pozwala nam na zapobieganie przypadkowym zmianom w plikach konfiguracyjnych, ale jednocześnie uniemożliwia celowe zmiany. Jeżeli musimy dodać jakąś brakującą funkcjonalność - do dyspozycji pozostaję nam mechanizm ejectowania (<b>npm run eject</b>) który "wypakuje" nam wszystkie pliki do katalogu naszego projektu, jednak tracimy możliwość aktualizowania projektu wraz z CRA.
+            </p>
+          </Column>
+        </Row>     
+        <Row>
+          <Column><h3>instalacja</h3></Column>
+          <Column width={6}>
+            <p>
+              Aby rozpocząć, zainstalujmy create-react-app globalnie wywołując komendę:<br />
+              <code>npm install create-react-app --global</code>
+            </p>   
+            <p>
+              Kiedy proces zakończy się, powinniśmy mieć możliwość uruchomienia nowej komendy - <code>create-react-app</code>. Jeżeli po wywołaniu w/w komendy otrzymasz komunikat informujący o braku programu, uruchom nowe okno powłoki.
+            </p>       
+            <p>
+              Możemy teraz utworzyć nasz nowy projekt za pomocą komendy:<br />
+              <code>create-react-app nazwa-katalogu</code><br />
+              Należy pamiętać, że nazwa katalogu nie może pokrywać się z nazwą instalowanych w nim pakietów npm, dlatego nie używajmy naz typu "react" etc.
+            </p>
+          </Column>          
+          <Column width={6}>
+            <Example>{`
+              λ npm install create-react-app --global
+              + create-react-app@1.4.3
+            `}</Example>
+            <p><small>Instalacja create-react-app jako pakiet globalny</small></p>
+            <Example>{`
+              λ create-react-app react-tweetorial
+              
+              Creating a new React app in D:\Praca\Projekty\react-tweetorial.
+              
+              Installing packages. This might take a couple of minutes.
+              Installing react, react-dom, and react-scripts...            
+              // ...
+              Success! Created react-tweetorial at D:\Praca\Projekty\react-tweetorial          
+              Inside that directory, you can run several commands:                             
+                                                                                               
+                yarn start                                                                     
+                  Starts the development server.                                               
+                                                                                               
+                yarn build                                                                     
+                  Bundles the app into static files for production.                            
+                                                                                               
+                yarn test                                                                      
+                  Starts the test runner.                                                      
+                                                                                               
+                yarn eject                                                                     
+                  Removes this tool and copies build dependencies, configuration files         
+                  and scripts into the app directory. If you do this, you can’t go back!       
+                                                                                               
+              We suggest that you begin by typing:                                             
+                                                                                               
+                cd react-tweetorial                                                            
+                yarn start                                                                     
+                                                                                               
+              Happy hacking!                                                                                 
+            `}</Example>
+            <p><small>Przygotowanie nowego projektu</small></p>
+          </Column>
+        </Row>
+        <Row>
+          <Column><h3>uruchomenie</h3></Column>
+          <Column width={6}>
+            <p>Po utworzeniu nowego projektu możemy od razu uruchomić go przechodząc do katalogu projektu i wywołując komendę `<code>npm start</code>`</p>
+            <p>
+              W terminalu pojawi się informacja o uruchomionym serwerze a strona projektu otworzy się automatycznie w domyślnej przeglądarce systemowej. Jeżeli tak się nie stało, ręcznie otwórzmy domyślny adres <a href="http://localhost:3000">http://localhost:3000</a>
+            </p>
+          </Column>          
+          <Column width={6}>
+            <Example>{`
+              λ cd react-tweetorial
+              λ npm start
+
+              Compiled successfully!
+              
+              You can now view react-tweetorial in the browser.
+              
+                Local:            http://localhost:3000/
+                On Your Network:  http://192.168.1.27:3000/
+              
+              Note that the development build is not optimized.
+              To create a production build, use yarn build.              
+            `}</Example>
+            <p>
+              <small>Przykładowy plik konfiguracyjny Webpack, zapewniający transpilację kodu JS oraz LESS.</small>
+            </p>
+          </Column>
+        </Row>   
+        <Row>
+          <Column><h3>struktura projektu</h3></Column>
+          <Column width={6}>
+            <p>
+              W katalogu projektu utworzone zostało kilka plików i folderów, są to:
+            </p>         
+            <ul>
+              <li>node_modules - wszystkie używane przez projekt moduły</li>
+              <li>package.json - plik zawierające podstawowe informacje o naszym projekcie jak jego nazwa, lista pakietów etc.</li>
+              <li>yarn.lock (lub package-lock.json) - pliki określające dokładne wersje pobranych pakietów, dzięki czemu ponowna instalacja nie pobierze "przypadkiem" nowszych</li>
+              <li>public - katalog zawierający "statyczne" zasoby projektu (jak ikona, manifest i plik index.html)</li>
+              <li>src - katalog ze źródłem naszej aplikacji</li> 
+            </ul>
+          </Column>          
+          <Column width={6}>
+            <Example>{`
+              λ ls -la
+              total 729
+              -rw-r--r-- 1 btm 197610    285 Nov  8 22:26 .gitignore
+              -rw-r--r-- 1 btm 197610 108987 Nov  8 22:26 README.md
+              drwxr-xr-x 1 btm 197610      0 Nov  8 22:30 node_modules
+              -rw-r--r-- 1 btm 197610    353 Nov  8 22:26 package.json
+              drwxr-xr-x 1 btm 197610      0 Nov  8 22:26 public
+              drwxr-xr-x 1 btm 197610      0 Nov  8 22:26 src
+              -rw-r--r-- 1 btm 197610 234792 Nov  8 22:26 yarn.lock
+            `}</Example>
+            <p>
+              <small>Przykładowe podsumowanie znalezionych błedów</small>
+            </p>
+          </Column>
+        </Row>
+        <Navigate prev="/lekcja/lekcja1/narzedzia-wspomagajace" next="/lekcja/lekcja1/create-react-app" />
+      </div>      
+    )      
   }
 
   render() {
