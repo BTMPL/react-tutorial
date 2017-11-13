@@ -42,11 +42,11 @@ export default class Lesson extends React.Component {
     this.loadLesson(this.props.match.params.lesson);
   }
 
-  componentDidUpdate(prevProps) {
-    if(prevProps.match.params.lesson !== this.props.match.params.lesson) {
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.match.params.lesson !== this.props.match.params.lesson) {
       this.setState({
         lessonComponent: null
-      }, () => this.loadLesson(this.props.match.params.lesson));
+      }, () => this.loadLesson(nextProps.match.params.lesson));
     }
   }
 }

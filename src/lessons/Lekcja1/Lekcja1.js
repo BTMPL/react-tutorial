@@ -14,6 +14,53 @@ export default class Lesson extends React.Component {
     section: PropTypes.string
   }
 
+  getSections = () => {
+    return [
+      {
+        url: '/lekcja/lekcja1/podstawowe-pojecia',
+        title: 'Podstawowe pojęcia',
+      },
+      {
+        url: '/lekcja/lekcja1/srodowisko-pracy',
+        title: 'Środowisko NodeJS',
+      },
+      {
+        url: '/lekcja/lekcja1/narzedzia-wspomagajace',
+        title: 'Narzędzia wspomagające',
+      },
+      {
+        url: '/lekcja/lekcja1/create-react-app',
+        title: 'create react app',
+      }
+    ]
+  }
+
+  renderIndex = () => {
+
+  }
+
+  getPrev = (currentUrl) => {
+    const index = this.getSections().findIndex((item => {
+      const split = item.url.split('/');
+      return split[split.length - 1] === currentUrl;
+    }));
+    if(index === 0) {
+      return;
+    }
+    return this.getSections()[index - 1];
+  }
+
+  getNext = (currentUrl) => {
+    const index = this.getSections().findIndex((item => {
+      const split = item.url.split('/');
+      return split[split.length - 1] === currentUrl;
+    }));
+    if(index + 1 === this.getSections().length) {
+      return;
+    }
+    return this.getSections()[index + 1];
+  }   
+
   renderPodstawowePojecia = () => {
     return (
       <div>
@@ -53,7 +100,7 @@ export default class Lesson extends React.Component {
             </p>            
           </Column>
         </Row>
-        <Navigate prev="/lekcja/intro" next="/lekcja/lekcja1/srodowisko-pracy" />
+        <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
       </div>
     )
   }
@@ -107,7 +154,7 @@ export default class Lesson extends React.Component {
             </ul>
           </Column>
         </Row>                      
-        <Navigate prev="/lekcja/lekcja1/podstawowe-pojecia" next="/lekcja/lekcja1/narzedzia-wspomagajace" />
+        <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
       </div>      
     )
   }
@@ -227,7 +274,7 @@ export default class Lesson extends React.Component {
           </Column>
         </Row>
 
-        <Navigate prev="/lekcja/lekcja1/srodowisko-pracy" next="/lekcja/lekcja1/create-react-app" />
+        <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
       </div>      
     )    
   }
@@ -369,7 +416,7 @@ export default class Lesson extends React.Component {
             </p>
           </Column>
         </Row>
-        <Navigate prev="/lekcja/lekcja1/narzedzia-wspomagajace" next="/lekcja/lekcja1/create-react-app" />
+        <Navigate prev={this.getPrev(this.props.section)} next={{title:'Lekcja 2', url: '/lekcja/lekcja2/wprowadzenie-do-react'}} />
       </div>      
     )      
   }
@@ -382,7 +429,7 @@ export default class Lesson extends React.Component {
     
       return this[section]()
     }
-    
-    return <div>Lesson 2</div>
+
+    else return this.renderPodstawowePojecia();
   }
 }

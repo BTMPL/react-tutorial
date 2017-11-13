@@ -10,21 +10,27 @@ import Style from "./Navigate.less";
 export default class Navigate extends React.Component {
 
   static propTypes = {
-    prev: PropTypes.string,
-    next: PropTypes.string
+    prev: PropTypes.shape({
+      url: PropTypes.string,
+      title: PropTypes.string
+    }),
+    next: PropTypes.shape({
+      url: PropTypes.string,
+      title: PropTypes.string
+    })
   }
 
   render() {
     return (
       <Row className={Style.Navigate}>
         <Column width={6} mobileWidth={6}>
-          <Align center>
-            {this.props.prev && <Link to={this.props.prev}>Poprzednia sekcja</Link>}
+          <Align left>
+            {this.props.prev && <Link to={this.props.prev.url}>{this.props.prev.title}</Link>}
           </Align>        
         </Column>
         <Column width={6} mobileWidth={6}>
-          <Align center>
-            {this.props.next && <Link to={this.props.next}>Następna sekcja</Link>}
+          <Align right>
+            {this.props.next && <Link to={this.props.next.url}>{this.props.next.title}</Link>}
           </Align>          
         </Column>
       </Row>

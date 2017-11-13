@@ -84,7 +84,7 @@ module.exports = [
         loader: "file-loader",
         options: {
           outputPath: path.join("assets", "/"),
-          publicPath: "assets/",
+          //publicPath: "assets/",
           name: '[name]--[hash:base64:5].[ext]'
         }
       }

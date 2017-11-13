@@ -14,7 +14,7 @@ class LessonTitle extends React.PureComponent {
 
   loadLesson = (lesson) => {
     const fileName = `${lesson.substr(0, 1).toUpperCase()}${lesson.substr(1)}`;
-    import(`../../lessons/${fileName}/${fileName}`).then(data => this.setState({
+    import(`../../Lessons/${fileName}/${fileName}`).then(data => this.setState({
       title: data.title
     }));    
   }
@@ -24,7 +24,6 @@ class LessonTitle extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('lesson', this.props.match.params.lesson);
     if(prevProps.match.params.lesson !== this.props.match.params.lesson) {
       this.loadLesson(this.props.match.params.lesson);
     }
@@ -52,15 +51,11 @@ export default class Header extends React.Component {
           <Column width={6}>        
             <Align right>
               <NavLink to="/" exact>O kursie</NavLink>
-              <Link to="/lekcja/intro" strict>Start</Link>
+              <Link to="/lekcja/intro" strict="true">Start</Link>
             </Align>
           </Column>
         </Row>
       </header>
     )
-  }
-
-  componentDidUpdate() {
-    console.log('hi');
   }
 }

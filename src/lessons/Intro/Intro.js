@@ -52,7 +52,7 @@ export default class Lesson extends React.Component {
             <Example code={es6} />
           </Column>
         </Row>           
-        <Navigate next="/lekcja/lekcja1/podstawowe-pojecia" />
+        <Navigate next={{url: '/lekcja/lekcja1/podstawowe-pojecia', title: 'Lekcja 1'}} />
       </div>
     )
   }

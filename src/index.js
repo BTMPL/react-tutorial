@@ -4,7 +4,7 @@ import { HashRouter, Route, Switch, Link } from "react-router-dom";
 
 import Header from "common/Header/Header";
 
-import Lesson from "./lessons/Lesson";
+import Lesson from "./Lessons/Lesson";
 import Home from "./Home/Home";
 
 import "./App.less";
@@ -13,7 +13,7 @@ class Scroll extends React.Component {
 
   componentDidUpdate(prevProps) {
     if(prevProps.location.pathname !== this.props.location.pathname) {
-      window.scrollTo(0,0)
+      window.scrollTo(0,0);
     }
   }
   render = () => null;
