@@ -34,6 +34,18 @@ export default class Lesson extends React.Component {
       {
         url: '/lekcja/lekcja2/prop-types',
         title: 'propTypes i defaultProps'
+      },
+      {
+        url: '/lekcja/lekcja2/listy-komponentow',
+        title: 'Listy komponentów'
+      },
+      {
+        url: '/lekcja/lekcja2/stan-komponentu-i-zdarzenia',
+        title: 'Stan komponentu i zdarzenia'
+      },
+      {
+        url: '/lekcja/lekcja2/formularze-kontrolowane-niekontrolowane-oraz-referencje',
+        title: 'Formularz kontrolowane, niekontrolowane oraz referencje'
       }
     ]
   }  
@@ -843,6 +855,756 @@ export default class Lesson extends React.Component {
       </div> 
     );
   } 
+
+  renderListyKomponentow = () => {
+    return (
+      <div>
+        <Row>
+          <Column>
+            <h2>Listy komponentów</h2>
+            <p>
+              W jednym z poprzednich ćwiczeń wyrenderowaliśmy wiele kopii elementu <code>Tweet</code> umieszczając go wielokrotnie w kodzie JSX
+              oczywiście rozwiązanie takie nie sprawdzi się w przypadku, kiedy lista elementów jest dynamiczna i chcemy wyrenderować je wszystkie.
+            </p>
+          </Column>
+        </Row>  
+        <Row>
+          <Column width={6}>
+            <p>
+              W składni JSX możemy zwrócić, albo osadzić tablicę elementów, co pomoże nam rozwiązać ten problem. Zacznijmy od prostego rozwiązania
+              renderującego tablicę komponentów <code>Tweet</code>. W tym celu stworzymy prosty komponent <code>TweetList</code>.
+            </p>  
+            <p>
+              Przykład ten zadziała dokładnie tak jak oczekujemy i wyrenderuje trzy kopie tego samego elementu <code>Tweet</code>, jednak jeżeli 
+              zajrzymy do konsoli zobaczymy, że React wygenerował komunikat błędu informujący o braku unikatowego propu <code>key</code> na każdym
+              z elementów tablicy.
+            </p>   
+            <div className="error">
+              Warning: Each child in an array or iterator should have a unique "key" prop.
+            </div>     
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              import React from "react";
+              import ReactDOM from "react-dom";
+              import PropTypes from "prop-types";
+
+              const TweetTime = (props) => {
+                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                return <time>{date}</time>
+              };
+              TweetTime.propTypes = {
+                date: PropTypes.instanceOf(Date).isRequired
+              };
+              
+              const TweetUser = ({ name, handle }) => <span><b>{name}</b> @{handle}</span>;
+              TweetUser.propTypes = {
+                handle: PropTypes.string.isRequired,
+                name: PropTypes.string  
+              };
+              TweetUser.defaultProps = {
+                name: 'Anonim'
+              };
+              
+              class Tweet extends React.Component {
+
+                static propTypes = {
+                  tweet: PropTypes.shape({
+                    user: PropTypes.shape({
+                      handle: PropTypes.string.isReqired,
+                      name: PropTypes.string,
+                    }),
+                    date: PropTypes.instanceOf(Date).isRequired,
+                    text: PropTypes.string.isRequired
+                  })
+                } 
+              
+                render() {
+                  const { user, text, date } = this.props.tweet;
+                  return (
+                    <div>
+                      <TweetUser name={user.name} handle={user.handle} /> -
+                      <TweetTime date={date} />
+                      <p>
+                        {text}
+                      </p>
+                    </div>
+                  )
+                }
+              }            
+              
+              
+              const TweetData = {
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "Witaj świecie!"
+              }
+              
+              @important
+              const TweetList = () => {
+                const tweets = [
+                  <Tweet tweet={TweetData} />,
+                  <Tweet tweet={TweetData} />,
+                  <Tweet tweet={TweetData} />,
+                ];
+                
+                return (
+                  <div>
+                    {tweets}
+                  </div>
+                );
+              }
+
+              ReactDOM.render(<TweetList />, document.getElementById('root'));              
+              @end-important
+            `}</Example>              
+          </Column>          
+        </Row> 
+        <Row>
+          <Column>
+            <h3>Znaczenie kluczy</h3>
+            <p>
+              W celu optymalizacji wydajności, przy każdym renderowaniu komponentu React stara się nie usuwać i tworzyć nowych elementów DOM i kiedy
+              to możliwe wykorzystuje już istniejące elementy. W przypadku tablic, których zawartość może ulegać zmianie (wartości są zmieniane, elementy
+              są dodawane i usuwane) React potrzebuje odrobiony pomocy ze strony developera w określeniu który element DOM należy zaktualizować, jeżeli
+              dane w tablicy zmieniły się, a który usunąć. W innym wypadku DOM i VDOM mogły by ulec rozsynchronizowaniu i nasze UI nie odzwierciedlało by
+              stanu aplikacji.
+            </p>
+          </Column>
+        </Row>  
+        <Row>    
+          <Column width={6}>
+            <p>
+              Aby zapobiec takim sytuacjom, w momencie kiedy w JSX renderowana jest kolekcja (tablica) developer musi do każdego jej elementu przekazać
+              jawnie prop <code>key</code>. Zaktualizujmy zatem nasz komponent generujący listę.
+            </p>
+            <p>
+              Musimy mieć na uwadze, aby:
+            </p>
+            <ul>
+              <li>klucze były stringami</li>
+              <li>były unikalne w skali wspólnego rodzica</li>
+              <li>były "stałe" - nie powinnyśmy generować ich losowo (np. używając <code>Math.random()</code>) w czasie renderowania</li>
+            </ul>
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              import React from "react";
+              import ReactDOM from "react-dom";
+              import PropTypes from "prop-types";
+
+              const TweetTime = (props) => {
+                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                return <time>{date}</time>
+              };
+              TweetTime.propTypes = {
+                date: PropTypes.instanceOf(Date).isRequired
+              };
+              
+              const TweetUser = ({ name, handle }) => <span><b>{name}</b> @{handle}</span>;
+              TweetUser.propTypes = {
+                handle: PropTypes.string.isRequired,
+                name: PropTypes.string  
+              };
+              TweetUser.defaultProps = {
+                name: 'Anonim'
+              };
+              
+              class Tweet extends React.Component {
+
+                static propTypes = {
+                  tweet: PropTypes.shape({
+                    user: PropTypes.shape({
+                      handle: PropTypes.string.isReqired,
+                      name: PropTypes.string,
+                    }),
+                    date: PropTypes.instanceOf(Date).isRequired,
+                    text: PropTypes.string.isRequired
+                  })
+                } 
+              
+                render() {
+                  const { user, text, date } = this.props.tweet;
+                  return (
+                    <div>
+                      <TweetUser name={user.name} handle={user.handle} /> -
+                      <TweetTime date={date} />
+                      <p>
+                        {text}
+                      </p>
+                    </div>
+                  )
+                }
+              }            
+              
+              
+              const TweetData = {
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "Witaj świecie!"
+              }
+              
+              @important
+              const TweetList = () => {
+                const tweets = [
+                  <Tweet tweet={TweetData} key="tweet1" />,
+                  <Tweet tweet={TweetData} key="tweet2" />,
+                  <Tweet tweet={TweetData} key="tweet3" />,
+                ];
+                
+                return (
+                  <div>
+                    {tweets}
+                  </div>
+                );
+              }
+              @end-important
+
+              ReactDOM.render(<TweetList />, document.getElementById('root'));              
+              
+            `}</Example>              
+          </Column>          
+        </Row>    
+        <Row>    
+          <Column width={6}>
+            <p>
+              Nasza aplikacja generuje już listę Tweetów, ale nie działa to jeszcze tak, jak byśmy chcieli. Dane o Tweetach pobieta on z aplikacji,
+              a powinien otrzymywać jako parametr, a sama lista - mimo, że jest tablicą - wciąż nie jest w żaden sposób dynamiczna. 
+            </p>
+            <p>
+              Zmieniliśmy nieco strukturę naszej zmiennej <code>TweetData</code> - jest to teraz tablica zawierająca dane 2 Tweetów, a same dane
+              wzbogaciliśmy o klucz <code>id</code>, który stanowić będzie nasz <code>key</code> dla renderowanej kolekcji Tweetów.
+            </p>
+
+            <p>
+              Zmianie uległ też sam komponent <code>TweetList</code> - teraz przyjmuje on kolekcję obiektów (Tweetów) i renderuje ją, nadając każdemu
+              elementowi odpowiedni <code>key</code>.
+            </p>
+
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              import React from "react";
+              import ReactDOM from "react-dom";
+              import PropTypes from "prop-types";
+
+              const TweetTime = (props) => {
+                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                return <time>{date}</time>
+              };
+              TweetTime.propTypes = {
+                date: PropTypes.instanceOf(Date).isRequired
+              };
+              
+              const TweetUser = ({ name, handle }) => <span><b>{name}</b> @{handle}</span>;
+              TweetUser.propTypes = {
+                handle: PropTypes.string.isRequired,
+                name: PropTypes.string  
+              };
+              TweetUser.defaultProps = {
+                name: 'Anonim'
+              };
+              
+              class Tweet extends React.Component {
+
+                static propTypes = {
+                  tweet: PropTypes.shape({
+                    user: PropTypes.shape({
+                      handle: PropTypes.string.isReqired,
+                      name: PropTypes.string,
+                    }),
+                    date: PropTypes.instanceOf(Date).isRequired,
+                    text: PropTypes.string.isRequired
+                  })
+                } 
+              
+                render() {
+                  const { user, text, date } = this.props.tweet;
+                  return (
+                    <div>
+                      <TweetUser name={user.name} handle={user.handle} /> -
+                      <TweetTime date={date} />
+                      <p>
+                        {text}
+                      </p>
+                    </div>
+                  )
+                }
+              }            
+              
+              @important
+              const TweetData = [{
+                id: 1,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "Witaj świecie!"
+              }, {
+                id: 2,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "To jest mój prywatny Twitter!"
+              }];
+                            
+              const TweetList = ({ tweets }) => {                
+                return (
+                  <div>
+                    {tweets.map(item => <Tweet tweet={item} key={item.id} />)}
+                  </div>
+                );
+              }   
+              TweetList.propTypes = {
+                tweets: PropTypes.arrayOf(PropTypes.object)
+              }
+
+              ReactDOM.render(<TweetList tweets={TweetData} />, document.getElementById('root'));              
+              @end-important              
+            `}</Example>              
+          </Column>          
+        </Row>                  
+        <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
+      </div>
+    )
+  }
+
+  renderStanKomponentuIZdarzenia = () => {
+    return (
+      <div>
+        <Row>
+          <Column>
+            <h3>Stan komponentu</h3>
+            <p>
+              Nasza aplikacja nabiera już kształtu - jesteśmy w stanie wyrenderować dowolną ilość Tweetów, ale nie mamy możliwości ich definiowania
+              z poziomu UI. Żeby to umożliwić, musimy zapoznać się z dwoma istotynymi elementami React. 
+            </p>
+            <p>
+              W jednym z poprzednich rozdziałów poznaliśmy komponenty stanowe, które poza tym, że są zapisane jako klasa, posiadają właśnie ów stan.
+              Stan komponentu to obiekt, zawierający informacje opisujące dane, jakie w danym momencie powinien reprezentować obiekt, a kiedy dane te
+              ulegną zmianie, React automatycznie ponownie wyrenderuje komponent.
+            </p>
+            <p>
+              Stwórzmy zatem prosty komponent, pozwalający na tworzenie nowych Tweetów - <code>TweetForm</code>.
+            </p>
+          </Column>
+        </Row>         
+        <Row>
+          <Column width={6}>
+            <p>
+              Nasz nowy komponent opisany będzie przez klasę, do której dodamy nowe pole - <code>state</code>.
+            </p>
+            <p>
+              Jak już wiemy, stan komponentu to zwykły obiekt JS, zdefiniujmy więc w nim pole <code>text</code> w którym będziemy przetrzymywać
+              tekst naszego Tweetu. Wyrenderujmy też nasz stan jako domyślną zawartość pola tekstowego, w którym tworzyć będziemy nasze Tweety.
+            </p>
+            <p>
+              Kiedy uruchoimy aplikację, strona wyrenderuje się z nowym - pustym formularzem. Zmień w kodzie stan:
+            </p>
+            <pre>
+              state = {`{ text: 'test' }`}
+            </pre>
+            <p>aby sprawdzić, czy wszystko działa OK - strona powinna odświeżyć się i pokazać nową zawartość.</p>
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              import React from "react";
+              import ReactDOM from "react-dom";
+              import PropTypes from "prop-types";
+
+              const TweetTime = (props) => {
+                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                return <time>{date}</time>
+              };
+              TweetTime.propTypes = {
+                date: PropTypes.instanceOf(Date).isRequired
+              };
+              
+              const TweetUser = ({ name, handle }) => <span><b>{name}</b> @{handle}</span>;
+              TweetUser.propTypes = {
+                handle: PropTypes.string.isRequired,
+                name: PropTypes.string  
+              };
+              TweetUser.defaultProps = {
+                name: 'Anonim'
+              };
+              
+              class Tweet extends React.Component {
+
+                static propTypes = {
+                  tweet: PropTypes.shape({
+                    user: PropTypes.shape({
+                      handle: PropTypes.string.isReqired,
+                      name: PropTypes.string,
+                    }),
+                    date: PropTypes.instanceOf(Date).isRequired,
+                    text: PropTypes.string.isRequired
+                  })
+                } 
+              
+                render() {
+                  const { user, text, date } = this.props.tweet;
+                  return (
+                    <div>
+                      <TweetUser name={user.name} handle={user.handle} /> -
+                      <TweetTime date={date} />
+                      <p>
+                        {text}
+                      </p>
+                    </div>
+                  )
+                }
+              }            
+                            
+              const TweetData = [{
+                id: 1,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "Witaj świecie!"
+              }, {
+                id: 2,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "To jest mój prywatny Twitter!"
+              }];
+                            
+              const TweetList = ({ tweets }) => {                
+                return (
+                  <div>
+                    {tweets.map(item => <Tweet tweet={item} key={item.id} />)}
+                  </div>
+                );
+              }   
+              TweetList.propTypes = {
+                tweets: PropTypes.arrayOf(PropTypes.object)
+              }
+
+              @important
+              class TweetForm extends React.Component {
+
+                state = {
+                  text: ''
+                }
+
+                render() {
+                  return (
+                    <div>
+                      <input type="text" onChange={this.handleChange} value={this.state.text} />
+                      <br />
+                      <button>Tweetuj!</button>
+                    </div>                    
+                  )
+                }
+              }
+
+              ReactDOM.render(<div>
+                <TweetForm />
+                <TweetList tweets={TweetData} />                
+              </div>, document.getElementById('root'));              
+              @end-important              
+            `}</Example>           
+          </Column>
+        </Row>
+        <Row>
+          <Column width={6}>
+            <p>
+              Kolejnym etapem jest pobranie zawartości po jej zmianie. Jak zapewne pamiętacie, React sugeruje jednokierunkowy przepływa danych,
+              więc kiedy wpiszemy treść do pola tekstowego wartość zmiennej <code>this.state.text</code> nie ulegnie zmianie. By pobrać wartość 
+              skorzystamy ze znanych nam ze zwykłego JS zdarzeń.
+            </p>
+            <p>
+              React używa własnego typu obiektu zdarzeń, tzw. <a href="https://reactjs.org/docs/events.html" target="_blank">SyntheticEvent</a> co
+              pozwala na kilka rzeczy - po pierwsze zwiększa wydajność (wszystkie zdarzenia obsługiwane są przez jedną instancję obiektu 
+              SyntheticEvent) oraz pozwala na ujednolicenie handlerów. Na przykład by wykryć zmianę w <code>&lt;input&gt;</code> możemy użyć
+              handlera <code>onChange</code>, a nie jak w zwykłym JS <code>onKeyDown</code> lub <code>onKeyUp</code>
+            </p>
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              import React from "react";
+              import ReactDOM from "react-dom";
+              import PropTypes from "prop-types";
+
+              const TweetTime = (props) => {
+                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                return <time>{date}</time>
+              };
+              TweetTime.propTypes = {
+                date: PropTypes.instanceOf(Date).isRequired
+              };
+              
+              const TweetUser = ({ name, handle }) => <span><b>{name}</b> @{handle}</span>;
+              TweetUser.propTypes = {
+                handle: PropTypes.string.isRequired,
+                name: PropTypes.string  
+              };
+              TweetUser.defaultProps = {
+                name: 'Anonim'
+              };
+              
+              class Tweet extends React.Component {
+
+                static propTypes = {
+                  tweet: PropTypes.shape({
+                    user: PropTypes.shape({
+                      handle: PropTypes.string.isReqired,
+                      name: PropTypes.string,
+                    }),
+                    date: PropTypes.instanceOf(Date).isRequired,
+                    text: PropTypes.string.isRequired
+                  })
+                } 
+              
+                render() {
+                  const { user, text, date } = this.props.tweet;
+                  return (
+                    <div>
+                      <TweetUser name={user.name} handle={user.handle} /> -
+                      <TweetTime date={date} />
+                      <p>
+                        {text}
+                      </p>
+                    </div>
+                  )
+                }
+              }            
+                            
+              const TweetData = [{
+                id: 1,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "Witaj świecie!"
+              }, {
+                id: 2,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "To jest mój prywatny Twitter!"
+              }];
+                            
+              const TweetList = ({ tweets }) => {                
+                return (
+                  <div>
+                    {tweets.map(item => <Tweet tweet={item} key={item.id} />)}
+                  </div>
+                );
+              }   
+              TweetList.propTypes = {
+                tweets: PropTypes.arrayOf(PropTypes.object)
+              }
+
+              
+              class TweetForm extends React.Component {
+
+                state = {
+                  text: ''
+                }
+                @important
+
+                handleChange = (event) => {
+                  console.log(event.target.value);
+                }
+
+                render() {
+                  return (
+                    <div>
+                      <input type="text" onChange={this.handleChange} value={this.state.text} />
+                      <br />
+                      <button>Tweetuj!</button>
+                    </div>                    
+                  )
+                }
+                @end-important              
+              }
+
+              ReactDOM.render(<div>
+                <TweetForm />
+                <TweetList tweets={TweetData} />                
+              </div>, document.getElementById('root'));
+            `}</Example>           
+          </Column>          
+        </Row>
+        <Row>
+          <Column>
+            <h3>Aktualizacja stanu komponentu</h3>
+            <p>
+              Teraz, kiedy wpisujemy tekst w nasze pole możemy obserwować jego wartość w konsoli! Połowiczny sukces! My znamy już wartość, nasz komponent 
+              jeszcze nie! Musimy zatem zaktualizować stan komponentu. 
+            </p>
+            <p>
+              Tutaj pojawia się kolejna ważna rzecz w React - o ile nie jesteśmy w pełni świadomi konsekwencji nie powinniśmy nigdy mutować danych - zarówno
+              zmiennych aplikacji jak i stanu komponentu. Nigdy nie próbujmy bezpośrednio zmienić wartości stanu, np. poprzez pisanie do zmiennej:{" "} 
+              <code>this.state.text = e.target.value;</code>. Jeżeli tak zrobimy, stracimy jedną z podstawowych cech komponentu stanowego - automatyczne 
+              re-renderowanie.
+            </p>
+            <p>
+              Zamiast tego posłużymy się metodą, którą przygotowali dla nas twórcy React - <code>this.setState()</code> - która domyślnie jako parametr
+              przyjmuje obiekt danych, które uległy zmianie. Dane te następnie łączone są z aktualnym stanem, a komponent ponownie renderowany.
+            </p>
+          </Column>
+        </Row>        
+        <Row>
+          <Column width={6}>
+            <p>
+              Zmieńmy zatem nieco nasz komponent (i tymczasowo dodajmy podlgąd, aby widzieć zachodzącą w stanie zmianę).
+            </p>
+            <p>
+              Do naszego handlera <code>handleChange</code> dodajemy wywołanie <code>this.setState</code>, które jako parametr
+              otrzymuje obiekt ze zmienionymi wartosciami. Jeżeli nasz komponent poza tekstem przechowywał by też inne dane w swoim stanie,
+              a my chcieli byśmy zmienić jedynie tekst, nie musimy przekazywać ponownie całego stanu (nie zmienionych elementów) a jedynie
+              obiekt zawierający pole <code>text</code>.
+            </p>
+            <p>
+              Po wpisaniu treści pojawi się dodatkowy paragraf zawierający podgląd wpisywanego Tweetu. Po sprawdzeniu, że rzeczywiście się tak
+              dzieje możemy go usunąć.
+            </p>
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              import React from "react";
+              import ReactDOM from "react-dom";
+              import PropTypes from "prop-types";
+
+              const TweetTime = (props) => {
+                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                return <time>{date}</time>
+              };
+              TweetTime.propTypes = {
+                date: PropTypes.instanceOf(Date).isRequired
+              };
+              
+              const TweetUser = ({ name, handle }) => <span><b>{name}</b> @{handle}</span>;
+              TweetUser.propTypes = {
+                handle: PropTypes.string.isRequired,
+                name: PropTypes.string  
+              };
+              TweetUser.defaultProps = {
+                name: 'Anonim'
+              };
+              
+              class Tweet extends React.Component {
+
+                static propTypes = {
+                  tweet: PropTypes.shape({
+                    user: PropTypes.shape({
+                      handle: PropTypes.string.isReqired,
+                      name: PropTypes.string,
+                    }),
+                    date: PropTypes.instanceOf(Date).isRequired,
+                    text: PropTypes.string.isRequired
+                  })
+                } 
+              
+                render() {
+                  const { user, text, date } = this.props.tweet;
+                  return (
+                    <div>
+                      <TweetUser name={user.name} handle={user.handle} /> -
+                      <TweetTime date={date} />
+                      <p>
+                        {text}
+                      </p>
+                    </div>
+                  )
+                }
+              }            
+                            
+              const TweetData = [{
+                id: 1,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "Witaj świecie!"
+              }, {
+                id: 2,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "To jest mój prywatny Twitter!"
+              }];
+                            
+              const TweetList = ({ tweets }) => {                
+                return (
+                  <div>
+                    {tweets.map(item => <Tweet tweet={item} key={item.id} />)}
+                  </div>
+                );
+              }   
+              TweetList.propTypes = {
+                tweets: PropTypes.arrayOf(PropTypes.object)
+              }
+
+              
+              class TweetForm extends React.Component {
+
+                state = {
+                  text: ''
+                }
+                @important
+
+                handleChange = (event) => {
+                  this.setState({
+                    text: event.target.value
+                  })
+                }
+
+                render() {
+                  const { text } = this.state;
+                  return (
+                    <div>
+                      <input type="text" onChange={this.handleChange} value={text} />
+                      <br />
+                      <button>Tweetuj!</button>
+                      {text && <p>Podgląd: {text}</p>}
+                    </div>                    
+                  )
+                }
+                @end-important              
+              }
+
+              ReactDOM.render(<div>
+                <TweetForm />
+                <TweetList tweets={TweetData} />                
+              </div>, document.getElementById('root'));
+            `}</Example>           
+          </Column>          
+        </Row>
+        <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
+      </div>
+    )
+  }
+
+  renderFormularzeKontrolowaneNiekontrolowaneOrazReferencje = () => {
+    return (
+      <div>
+        <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
+      </div>
+    )
+  }
 
 
   render() {
