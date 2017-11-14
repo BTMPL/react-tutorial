@@ -44,6 +44,10 @@ export default class Lesson extends React.Component {
         title: 'Stan komponentu i zdarzenia'
       },
       {
+        url: '/lekcja/lekcja2/cykl-zycia-komponentu',
+        title: 'Cykl życia komponentu',
+      },
+      {
         url: '/lekcja/lekcja2/formularze-kontrolowane-niekontrolowane-oraz-referencje',
         title: 'Formularz kontrolowane, niekontrolowane oraz referencje'
       }
@@ -1601,9 +1605,411 @@ export default class Lesson extends React.Component {
   renderFormularzeKontrolowaneNiekontrolowaneOrazReferencje = () => {
     return (
       <div>
+        <Row>
+          <Column>
+            <h3>Formularze kontrolowane, formularze niekontrolowane</h3>
+            <p>
+              Utworzony w poprzednim etapie formularz (a właściwie pole formularza) to tzw. formularz kontrolowany. Jego zawartość kontrolowana jest
+              przez React (pobierana ze stanu), zaś każda zmiana prowadzi do aktualizacji stanu. Plusem takiego rozwiązania jest fakt, że dowolny inny
+              proces może zmienić stan komponentu, co natychmiast zostanie odzwierciedlone w HTMLu i pole zostanie zaktualizowane.
+            </p>
+            <p>
+              Minusem jest to, że każde wciśnięcie klawisza powoduje ponowne wyrenderowanie całego naszego komponentu, więc jeżeli jest on bardzo 
+              rozbudowany może nieznacznie wpłynąć to na wydajność całej aplikacji. 
+            </p>
+            <p>
+              Alternatywą dla formularzy kontrolowanych są formularze niekontrolowane.
+            </p>
+          </Column>        
+        </Row>
+        <Row>
+          <Column width={6}>
+            <p>
+              W formularzu takim dane wciąż mogą być przechowywane w stanie komponentu, ale nie są one aktualizowane za każdym razem kiedy wciśniemy klawisz
+              oraz aktualzacja stanu nie prowadzi do aktualizacji danych w HTML.
+            </p>
+            <p>
+              W naszym formularzu usunęliśmy handler <code>onChange</code> a atrybut <code>value</code> zamieniliśmy na <code>defaultValue</code>. Bez 
+              tej ostatniej zmiany nie mogli byśmy wpisywać tekstu do pola, ponieważ wartość <code>this.state.text</code> nie ulega zmianie!
+            </p>
+            <p>
+              Od razu zauważymy jednak pewien problem - podczas wpisywania treści nie pojawia się jej podgląd.
+            </p>
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              class TweetForm extends React.Component {
+
+                state = {
+                  text: ''
+                }
+
+                handleChange = (event) => {
+                  this.setState({
+                    text: event.target.value
+                  })
+                }
+                @important
+                render() {
+                  const { text } = this.state;
+                  return (
+                    <div>
+                      <input type="text" defaultValue={text} />
+                      <br />
+                      <button>Tweetuj!</button>
+                      {text && <p>Podgląd: {text}</p>}
+                    </div>                    
+                  )
+                } 
+                @end-important           
+              }              
+            `}</Example>
+          </Column>
+        </Row>
+        <Row>
+          <Column>
+            <h3>referencje (ref) na element</h3>
+            <p>
+              Aby wybrnąć z tej sytuacji i zaktualizować stan, kiedy jesteśmy już gotowi musimy odczytać wartość naszego pola tekstowego. Oczywiście
+              wiemy, że JS udostępnia wiele metod do manipulowania (w tym odczytywania) DOM - możemy np. użyć <code>document.getElementById</code> aby 
+              odczytać wartość pola tekstowego. Rozwiązanie takie sprawdzi się, ale co, jeżeli będziemy chcieli renderować w środowisku innymi niż DOM
+              (np. React Native), albo ktoś już użył takiego ID?
+            </p>
+            <p>
+              Aplikacje React nie powinny używać tego typu metod do pracy z DOM - jeżeli potrzebujemy uzyskać referencję na konkretny element DOM możemy
+              zadbać o to, by przekazał nam ją VDOM w momencie renderowania.
+            </p>
+          </Column>
+        </Row>
+        <Row>
+          <Column width={6}>
+            <p>
+              Każdy element JSX może przyjąć specjalny prop <code>ref</code>, który powinien wskazywać na funkcję, która to zostanie wywołana przy 
+              renderowaniu, a jako pierwszy element przekazane zostanie wskazanie na element DOM (lub inny odpowiedni dla platformy).
+            </p>
+            <p>
+              Utworzona przez nas funkcja przyjmie taką referencje i zapisze ją jako <code>this.input</code>, a nowo dodany handler dla zdarzenia
+              usunięcia kursora z pola tekstowego zaktualizuje stan w oparciu o wartość wskazanego elementu.
+            </p>
+            <p>
+              Referencji powinniśmy używać wszędzie tam, gdzie musimy działać bezpośrednio z warstwą wizualną: aby pobrać wymiary i inne parametry
+              elementów DOM lub współpracować z bibliotekami i API nie posiadającymi implementacji w React.
+            </p>
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              class TweetForm extends React.Component {
+
+                state = {
+                  text: ''
+                }
+
+                handleChange = (event) => {
+                  this.setState({
+                    text: event.target.value
+                  })
+                }
+                @important
+                updateState = () => {
+                  this.setState({
+                    text: this.input.value
+                  });
+                }
+                render() {
+                  const { text } = this.state;
+                  return (
+                    <div>
+                      <input type="text" defaultValue={text} ref={(el) => this.input = el } onBlur={this.updateState} />
+                      <br />
+                      <button>Tweetuj!</button>
+                      {text && <p>Podgląd: {text}</p>}
+                    </div>                    
+                  )
+                } 
+                @end-important           
+              }              
+            `}</Example>
+          </Column>
+        </Row>  
+        <Row>
+          <Column>
+            <h3>refrencje na komponent</h3>
+            <p>
+              Referencje mogą wskazywać także na komponent - np. <code>&lt;TweetForm ref={`{el => this.form = el}`} /&gt;</code> dzięki czemu uzyskamy
+              dostęp do instancji danego komponentu (a nie jego HTML!) i możemy odczytać jego prywatne dane, np. <code>this.form.state.text</code>.
+              Rozwiązanie takie nie jest jednak typowym i nie powinno być stosowane w celu zapewnienia komunikacji między komponentami.
+            </p>
+          </Column>
+        </Row>              
         <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
       </div>
     )
+  }
+
+  renderCyklZyciaKomponentu = () => {
+    return (
+      <div>
+        <Row>
+          <Column>
+            <h3>Cykla życia komponentu</h3>
+            <p>
+              Kolejnym ważnym tematem odróżniającym komponenty stanowe i bezstanowe jest tzw. cykl życia (ang. life cycle) komponentu. Komponenty
+              bezstanowe tworzone są i niszczone za każdym razem, kiedy ich rodzic jest ponownie renderowany. Gdyby to samo działo się z komponentami
+              stanowymi ich stan był by resetowany. React niszczy i tworzy ponownie komponenty stanowe tylko gdy przestaniemy je renderować w rodzicu
+              po czym wyrenderujemy ponownie (lub zmienimy im props <code>key</code>).
+            </p>
+            <p>
+              Z uwagi na to, że komponenty takie nie są niszczone przydatny jest jakis sposób pozwalający im na współpracę z otoczeniem np. w celu
+              dostosowania się do zachodzących w aplikacji zmian. W tym celu dostajemy do dyspozycji kilka metod cyklu życia:
+            </p>
+
+            <h3>Metody cyklu życia</h3>
+
+            <h4>constructor(props)</h4>
+            <p>
+              Metoda ta wywoływana jest w momencie kiedy komponent pierwszy raz zostaje dodany do JSX i jako parametr otrzymuje mapę przekazanych
+              do niego propsów. Jeżeli zadeklarujemy własny konstruktor, pierwszym co musimy zrobić jest wywołanie metody <code>super</code> i przekazanie
+              do niej otrzymanych propsów.
+            </p>
+            <p>
+              Jeżeli początkowy stan komponentu powinien być oparty o wartości przekazane w props możemy zadeklarować to w konstruktorze:
+            </p>
+            <Example>{`
+              constructor(props) {
+                super(props);
+
+                this.state = {
+                  text: this.props.text
+                };
+              }
+            `}</Example>
+            <p>
+              Jest to także jedyne miejsce gdzie powinniśmy pisać wprost do <code>this.state</code> a nie używać <code>this.setState()</code>.
+            </p>
+            <p><b>tak</b></p>
+            <ul>
+              <li>ustaw początkowy stan</li>
+              <li>zainiciuj zmienne klasy</li>
+            </ul>
+            <p><b>nie</b></p>
+            <ul>
+              <li>nie wywołuj akcji asynchronicznych</li>
+            </ul>
+            <hr />
+            <h4>componentWillMount</h4>
+            <p>
+              Metoda wywoływana bezpośrednio przed pierwszym wywołaniem <code>render</code>. W obecnej formie React nie pełni ona specjalnie przydatnej 
+              roli. Należy pamiętać, że wszelkie operacje asynchroniczne (np. pobieranie danych) zainicjowane w tej metodzie nie wykonają się przed
+              wywołaniem <code>render</code> więc nie należy ich tutaj umieszczać.
+            </p>
+            <p><b>tak</b></p>
+            <ul>
+              <li>wprowadź ostatnie poprawki w stanie komponentu przed renderowaniem</li>
+            </ul>
+            <p><b>nie</b></p>
+            <ul>
+              <li>nie wywołuj akcji asynchronicznych</li>
+            </ul> 
+            <hr />           
+            <h4>componentWillReceiveProps(nextProps)</h4>
+            <p>
+              Za każdym razem, kiedy nasz komponent jest ponownie renderowany na skutek ponownego renderowania się rodzica metoda ta będzie wywoływana,
+              a jako parametr otrzyma mapę propsów, które dostępne będą jako <code>this.props</code> w dalszej części cyklu. Powinniśmy tutaj sprawdzić
+              czy aktualne i przyszłe propsy różnią się i zareagować na ewentualną zmianę. Pamiętajmy, że metoda ta jest wywoływana nawet jeżeli żadna
+              faktyczna zmiana nie miała miejsca!
+            </p> 
+            <Example>{`
+              componentWillReceiveProps(nextProps) {
+                if(nextProps.text !== this.props.text) {
+                  /**
+                   * props text uległ zmianie i jego nowa wartośc znajduje się 
+                   * w nextProps.text - powinniśmy na to jakoś zareagować
+                   */
+                }
+              }
+            `}</Example>
+            <p><b>tak</b></p>  
+            <ul>
+              <li>zareaguj na zmiany props (np. w celu synchronizacji stanu i propsów)</li>
+            </ul>
+            <p><b>nie</b></p>
+            <ul>
+              <li>nie wywołuj akcji asynchronicznych</li>
+            </ul>      
+            <hr />       
+            <h4>shouldComponentUpdate(nextProps, nextState)</h4>
+            <p>
+              Komponenty stanowe renderują się ponownie z kilku powodów - głównie ponieważ zmienił się ich stan lub ponownie wyrenderował się ich rodzic.
+              Czasami jednak nie potrzebujemy by na skutek tych operacji ponownie wyrenderował się także nasz komponent (może renderujemy jakiś obiekt
+              DOM, który mógł być zmieniony zewnętrznie jak edytor WYSIWYG, albo obliczenia potrzebne do renderowania są dosyć intensywne). W tym wypadku
+              możemy zaimplementować metodę <code>shouldComponentUpdate</code>, która otrzymuje dostęp do przyszłego stanu i przyszłych prospów oraz
+              powinna zwrócić wartość <code>true</code> jeżeli komponent ma zostać ponownie wyrenderowany, lub <code>false</code> w przeciwnym wypadku.
+            </p>  
+            <hr />   
+            <h4>componentWillUpdate(nextProps, nextState)</h4>
+            <p>
+              Jeżeli <code>shouldComponentUpdate</code> zwróciło <code>true</code> (lub funkcja ta nie była w ogóle zaimplementowana) i komponent zamierza
+              się ponownie wyrenderować, przed samym <code>render</code> wywołana zostanie ta funkcja. Jest ona przydatna, jeżeli zaimplementowaliśmy
+              <code>shoulComponentUpdate</code> i chcemy zareagować na zmianę propsów - <code>componentWillReceiveProps</code> jest wywołwane przed {" "}
+              <code>sCU</code> więc jeżeli chcemy mieć pewność, że operacja wykona się przed render, ale tylko jeżeli kompnent zamierza się ponownie
+              wyrenderować, możemy wywołać ją właśnie tutaj.
+            </p> 
+            <p><b>tak</b></p> 
+            <ul>
+              <li>zareaguj na zmiany props (np. w celu synchronizacji stanu i propsów) jeżeli używas także <code>shouldComponentUpdate</code></li>
+            </ul>
+            <p><b>nie</b></p>
+            <ul>
+              <li>nie wywołuj akcji asynchronicznych</li>
+            </ul> 
+            <hr />           
+            <h4>componentDidUpdate(prevProps, prevState)</h4>
+            <p>
+              Funkcja ta wywoływana jest tuż po tym jak zakończył się proces renderowania (wywołana została metoda <code>render</code> naszego komponentu
+              oraz wszystkich jego dzieci), a jako parametry otrzymuje poprzednie propsy i poprzedni stan. Jest to odpowiednie miejsce do wywoływania
+              zdarzeń asynchronicznych, zaś jeżeli potrzebujemy zaktualizować tutaj stan, powinniśmy być bardzo ostrożni, aby nie wpaść w pętlę
+              zdarzeń <code>render -> componentDidUpdate -> update -> this.setState -> componentDidUpdate</code>
+            </p>
+            <Example>{`
+              componentDidUpdate(prevProps) {
+                if(prevProps.text !== this.props.text) {
+                  /**
+                   * props text uległ zmianie i jego nowa wartośc znajduje się 
+                   * w this.props.text - powinniśmy na to jakoś zareagować
+                   * np. wywołując akcję asynchroniczną
+                   */
+                }
+              }
+            `}</Example>            
+            <p><b>tak</b></p>
+            <ul>
+              <li>wywołaj akcje synchroniczne</li>
+              <li>zareaguj na zmiany w DOM poprzez analizę referencji</li>
+              <li>dodaj nasłuchiwanie na zdarzenia, timery</li>
+            </ul>
+            <p><b>nie</b></p>
+            <ul>
+              <li>nie aktualizuj bezopśrednio stanu komponentu</li>
+            </ul>    
+            <hr />                     
+            <h4>componentDidMount</h4>
+            <p>
+              Metoda zostanie wywołana tylko raz w cyklu życia komponentu zaraz po pierwszym wywołaniu <code>render</code>. Nadaje się ona idealnie dla
+              wykonywania operacji asynchronicznych. Powinniśmy unikać wywoływania tutaj operacji zmieniających stan, ponieważ spowoduje to kolejne 
+              renderowanie elementu.
+            </p>
+            <p><b>tak</b></p>
+            <ul>
+              <li>wywołaj akcje synchroniczne</li>
+              <li>zareaguj na zmiany w DOM poprzez analizę referencji</li>
+              <li>dodaj nasłuchiwanie na zdarzenia, timery</li>
+            </ul>
+            <p><b>nie</b></p>
+            <ul>
+              <li>nie aktualizuj bezopśrednio stanu komponentu</li>
+            </ul>   
+            <hr />          
+            <h4>componentWillUnmount</h4>
+            <p>
+              Tuż przed usunięciem komponentu wywoływana jest metoda <code>componentWillUnmount</code>, działająca nieco jak destruktor znany z programowania
+              obiektowego. Jeżeli nasz komponent zmodyfikował DOM, uruchomił timery (<code>setTimeout()</code>) lub dodał nasłuchiwanie na zdarzenia
+              powinniśmy tutaj po sobie "posprzątać". W innym wypadku ryzykujemy wycieki pamięci i zmniejszenie stabilności aplikacji.
+            </p>
+            <p><b>tak</b></p>
+            <ul>
+              <li>usuń nasłuchiwanie na zdarzenia, timery</li>
+              <li>anuluj wszelkie trwające akcje asynchroniczne</li>
+            </ul>
+            <p><b>nie</b></p>
+            <ul>
+              <li>nie pracuj ze stanem komponentu</li>
+            </ul> 
+            <hr />            
+            <h4>componentDidCatch(errorString, errorInfo)</h4>
+            <p>
+              Specjalna metoda nie związana bezpośrednio z samym cyklem życia komponentu, lecz wywoływana w odpowiedzi na nieobsłużony błąd występujący w 
+              metodzie <code>render</code> komponentu lub jego dzieci (o ile nie złapane w nich). Jako parametry otrzymuje komunikat błędu oraz stack
+              trace. Możemy użyć jej w celu wyświetlenia komunikatu błędu, którego nie obsłużył żaden z naszych komponentów.
+            </p>
+            <Example>{`
+              componentDidCatch(errorString, errorInfo) {
+                this.setState({
+                  error: errorString
+                });
+                /**
+                 * Zapiszmy stack trace błędu dla developerów
+                 */
+                ErrorLoggingTool.log(errorInfo);
+              }
+
+              render() {
+                if(this.state.error) {
+                  /**
+                   * Wyświetlmy komunikat błędu dla użytkownika
+                   */
+                  return <ShowErrorMessage error={this.state.error} />
+                }
+                return (
+                  <InnyKomponentKtoryWywolaBlad />
+                );
+              }            
+            `}</Example>
+
+            <h3>Cykle życia</h3>
+
+            <p>
+              Po zapoznaniu się z powyższymi opisami wyróżnić możemy dwa kluczowe cykle:
+            </p>
+            <p>
+              Cykl montowania komponentu:<br />
+              <code>
+                constructor -> componentWillMount -> render -> componentDidMount
+              </code>
+            </p>
+
+            <p>
+              Cykl aktualizowania komponentu:<br />
+              <code>
+                componentWillReceiveProps -> shouldComponentUpdate -> componentWillUpdate -> render -> componentDidUpdate
+              </code>
+            </p>     
+            
+            <p>
+              Jak widać cykle te nie pokrywają się (za wyjątkiem metody render, która nie powinna robić nic innego jak zwracać JSX!), tak więc jeżeli
+              potrzebujemy by nasz komponent wykonał jakąś operację np. po zamontowaniu oraz po aktualizacji, musimy wywołać ją zarówno w <code>componentDidMount</code>
+              jak i w <code>componentDidUpdate</code>.
+            </p>
+
+            <h3>Dlaczego nie wywoływać akcji asynchronicznych w <code>componentWill*</code>?</h3>
+            <p>
+              Metody <code>componentWill*</code> zdają się być stworzone dla zadań asynchronicznych takich jak pobieranie danych z serwera - przecież
+              chcemy pobrać dane "zanim komponent"! Niestety w tym wypadku intuicja podpowiada nam nieco źle, a wynika to z powodu zmian wprowadzonych
+              w React Fiber, którego głównym celem była poprawa "płynności animacji".
+            </p>
+            <p>
+              W React Fiber wprowadzono nowy mechanizm pozwalający na (wewnętrzne) priorytetyzowanie renderowania komponentów. Każdy z przedstawionych
+              wyżej cyklów życia może zostać wstrzymany lub anulowany przed wywołaniem <code>render</code>, a kiedy zapadnie decyzja o jego wznowieniu
+              cykl ten będzie wywoływany od nowa.
+            </p>
+            <p>
+              Oznacza to, że wszystkie operacje zaplanowane w <code>componentWillUpdate</code> mogą potencjalnie zostać wykonane nie raz, ale wielokrotnie
+              w "jednym" cyklu. Funkcje <code>componentDid*</code> wywoływane są jednokrotnie - nie ma możliwości wstrzymania cyklu po wywołaniu <code>render</code>.
+            </p>
+            <div className="uwaga">
+              <h4>Uwaga</h4>
+              <p>
+                Niejako wyjątkiem jest tutaj działałanie <code>componentWillMount</code> i <code>componentDidMount</code> w przypadku, kiedy stosujemy 
+                renderowanie na serwerze. W takiej sytuacji <code>componentWillMount</code> wykonywany jest jedynie po stronie serwera, zaś
+                <code>componentDidMount</code> w przeglądarce. Jeżeli chcemy wykonać operację jedynie na serwerze, powinniśmy zainicjować ją w pierwszej
+                z tych dwóch metod.
+              </p>
+            </div>
+
+          </Column>
+        </Row>                
+        <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
+      </div>
+    ) ;   
   }
 
 
