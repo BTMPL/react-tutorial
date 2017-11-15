@@ -4,6 +4,8 @@ import Navigate from "../../common/Navigate/Navigate";
 import { Row, Column } from "../../common/Layout/Layout";
 import Example from "./../../common/example/Example";
 
+import { Uwaga } from "../../common/Inserts/Inserts";
+
 
 export const title = "Lekcja 2 - Wprowadzenie do React";
 
@@ -50,6 +52,10 @@ export default class Lesson extends React.Component {
       {
         url: '/lekcja/lekcja2/formularze-kontrolowane-niekontrolowane-oraz-referencje',
         title: 'Formularz kontrolowane, niekontrolowane oraz referencje'
+      },
+      {
+        url: '/lekcja/lekcja2/przekazywanie-danych-do-rodzica',
+        title: 'Przekazywanie danych do rodzica i rodzeństwa'
       }
     ]
   }  
@@ -198,13 +204,13 @@ export default class Lesson extends React.Component {
               ułatwienie dla developerów przy pracy z React. Jeżeli nie podoba nam się "umieszczanie HTML w JS" istnieje wiele alternatyw jak 
               react-hyperscript czy też pisanie własnoręcznie wygenerowanego kodu. 
             </p>
-            <div className="uwaga">
+            <Uwaga>
               <h4>Uwaga</h4>
               <p>           
                 Znaczniki JSX nie są interpretowane przez przeglądarkę i będą prowadzić do powstawania błędów. Od teraz wszystkie przykłady uruchamiaj
                 w środowisku create-react-app lub innym boilerplate. Kod z tej sekcji umieść w pliku <code>src/index.js</code>
               </p>
-            </div>
+            </Uwaga>
           </Column>
         </Row>
         <Row>
@@ -477,14 +483,14 @@ export default class Lesson extends React.Component {
         </Row>         
         <Row>
           <Column>
-            <div className="uwaga">
+            <Uwaga>
               <h4>Uwaga</h4>
               <p>
                 Nazwa naszego komponentu - Tweet - nie przypadkowo zaczyna się dużą literą. W ten sposób dajemy znać JSX, że chodzi nam o komponent,
                 a nie o znacznik HTML. Jeżeli utworzymy komponent <code>header</code> i nie użyjemy wielkiej litery, podczas transformacji zostanie
                 on potraktowany jako znacznik HTML i nie uzyskamy oczekiwanego efektu.
               </p>
-            </div>
+            </Uwaga>
           </Column>
         </Row>      
         <Row>
@@ -508,12 +514,12 @@ export default class Lesson extends React.Component {
         </Row>
         <Row>
           <Column>
-            <div className="uwaga">
+            <Uwaga>
               <h4>Uwaga</h4>
               <p>
                 Uwaga - jeżeli postanowiłeś użyć tablicy, nie przejmuj się chwilowo informacją o błędzie, jak React zgłasza w konsoli :)
               </p>
-            </div>          
+            </Uwaga>
           </Column>
         </Row>
         <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
@@ -1995,7 +2001,7 @@ export default class Lesson extends React.Component {
               Oznacza to, że wszystkie operacje zaplanowane w <code>componentWillUpdate</code> mogą potencjalnie zostać wykonane nie raz, ale wielokrotnie
               w "jednym" cyklu. Funkcje <code>componentDid*</code> wywoływane są jednokrotnie - nie ma możliwości wstrzymania cyklu po wywołaniu <code>render</code>.
             </p>
-            <div className="uwaga">
+            <Uwaga>
               <h4>Uwaga</h4>
               <p>
                 Niejako wyjątkiem jest tutaj działałanie <code>componentWillMount</code> i <code>componentDidMount</code> w przypadku, kiedy stosujemy 
@@ -2003,13 +2009,512 @@ export default class Lesson extends React.Component {
                 <code>componentDidMount</code> w przeglądarce. Jeżeli chcemy wykonać operację jedynie na serwerze, powinniśmy zainicjować ją w pierwszej
                 z tych dwóch metod.
               </p>
-            </div>
+            </Uwaga>
 
           </Column>
         </Row>                
         <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
       </div>
     ) ;   
+  }
+
+  renderPrzekazywanieDanychDoRodzica = () => {
+    return (
+      <div>
+        <Row>
+          <Column>
+            <h3>Przekazywanie danych do rodzica i rodzeństwa</h3>
+            <p>
+              Wiemy już jak przekazywać dane od rodzica do dziecka - używamy w tym celu props. Mechanizm ten przyda nam się także do przekazywania danych
+              w drugą stronę - od dziecka do rodzica. Zanim poznamy sposób, spójrzymy na problem, jaki pozwoli nam to rozwiązać w naszej aplikacji.
+            </p>
+            <p>
+              Aktualnie aplikacja składa się z 2 głównych komponentów - <code>TweetForm</code> oraz <code>TweetList</code>. Komponenty te nie są ze sobą 
+              w relacji rodzic-dziecko, więc w jaki sposób mogą się ze sobą komunikować? Standardowym sposobem jest <b>podniesienie stanu wyżej (ang. lift
+              the state up).</b>
+            </p>
+            <p>
+              Naszym rozwiązaniem jest stworzenie jednego wspólnego rodzica, który przetrzymywał będzie stan dla swoich dzieci oraz pomagał im w 
+              komunikacji.
+            </p>
+          </Column>
+        </Row>   
+        <Row>
+          <Column width={6}>
+            <p>
+              Utwórzmy komponent <code>TweetApp</code>, który stanowił będzie trzon naszej aplikacji - będzie on pretrzymywał informację o Tweetach
+              oraz renderował wszystkie podległe elementy.
+            </p>
+            <p>
+              Komponent ten otrzyma jako props listę utworzonych na sztywno Tweetów i w konstruktorze przepisze ją sobie do swojego wewnętrznego stanu.
+              Rozwiązanie takie pozwoli nam w kolejnym kroku zmodyfikować stan (np. dodając nowy tweet) i odświeżyć listę.
+            </p>
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              import React from "react";
+              import ReactDOM from "react-dom";
+              import PropTypes from "prop-types";
+
+              const TweetTime = (props) => {
+                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                return <time>{date}</time>
+              };
+              TweetTime.propTypes = {
+                date: PropTypes.instanceOf(Date).isRequired
+              };
+              
+              const TweetUser = ({ name, handle }) => <span><b>{name}</b> @{handle}</span>;
+              TweetUser.propTypes = {
+                handle: PropTypes.string.isRequired,
+                name: PropTypes.string  
+              };
+              TweetUser.defaultProps = {
+                name: 'Anonim'
+              };
+              
+              class Tweet extends React.Component {
+
+                static propTypes = {
+                  tweet: PropTypes.shape({
+                    user: PropTypes.shape({
+                      handle: PropTypes.string.isReqired,
+                      name: PropTypes.string,
+                    }),
+                    date: PropTypes.instanceOf(Date).isRequired,
+                    text: PropTypes.string.isRequired
+                  })
+                } 
+              
+                render() {
+                  const { user, text, date } = this.props.tweet;
+                  return (
+                    <div>
+                      <TweetUser name={user.name} handle={user.handle} /> -
+                      <TweetTime date={date} />
+                      <p>
+                        {text}
+                      </p>
+                    </div>
+                  )
+                }
+              }            
+                            
+              const TweetData = [{
+                id: 1,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "Witaj świecie!"
+              }, {
+                id: 2,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "To jest mój prywatny Twitter!"
+              }];
+                            
+              const TweetList = ({ tweets }) => {                
+                return (
+                  <div>
+                    {tweets.map(item => <Tweet tweet={item} key={item.id} />)}
+                  </div>
+                );
+              }   
+              TweetList.propTypes = {
+                tweets: PropTypes.arrayOf(PropTypes.object)
+              }
+
+              
+              class TweetForm extends React.Component {
+
+                state = {
+                  text: ''
+                }
+
+                handleChange = (event) => {
+                  this.setState({
+                    text: event.target.value
+                  })
+                }
+
+                render() {
+                  const { text } = this.state;
+                  return (
+                    <div>
+                      <input type="text" onChange={this.handleChange} value={text} />
+                      <br />
+                      <button>Tweetuj!</button>
+                      {text && <p>Podgląd: {text}</p>}
+                    </div>                    
+                  )
+                }          
+              }
+
+              @important
+              class TweetApp extends React.Component {
+
+                constructor(props) {
+                  super(props);
+                  this.state = {
+                    tweets: this.props.tweets
+                  }
+                }
+
+                render() {
+                  return (
+                    <div>
+                      <TweetForm />
+                      <TweetList tweets={this.state.tweets} />                
+                    </div>
+                  )
+                }
+              }
+              ReactDOM.render(<TweetApp tweets={TweetData} />, document.getElementById('root'));
+              @end-important
+            `}</Example>            
+          </Column>
+        </Row>   
+        <Row>
+          <Column width={6}>
+            <p>
+              Kolejnym krokiem jest przekazanie danych w drugą stronę - z formularza <code>TweetForm</code> do rodzica - <code>TweetApp</code>. W tym
+              celu rodzic musi przekazać do swojego dziecka wywołanie zwrotne (ang. callback) jako props, zaś dziecko powinno wywołać ów callback 
+              przekazując do niego dane.
+            </p>
+            <p>
+              Nasz komponent <code>TweetForm</code> posiada guzik, który oznacza, że zakończyliśmy tworzenie wiadomości, więc dodajmy do niego obsługę
+              zdarzenia <code>onClick</code>, które pośrednio wywoła przekazany handler <code>this.props.onSubmit</code>.
+            </p>
+            <p>
+              Po wpisaniu treści i przyciśnięciu klawisza dane z komponentu zostaną przekazane w górę - do rodzica - a następnie wyświetlone w oknie
+              alertu.
+            </p>
+            <Uwaga>
+              <h4>Częste błędy</h4>
+              <p>
+                Programiści, który dużo pracowali z HTML i JS mogą z rozpędu użyć zapisu:
+              </p>
+              <Example>{`
+                <button onClick={this.handleSubmit()}>Tweetuj!</button>
+              `}</Example>
+              <p>
+                jednak przekonają się, że kod ten wywołany jest od razu, a co gorsze, wywoływany jest za każdym razem, kiedy komponent ponownie się
+                wyrenderuje. Do handlerów zdarzeń powinniśmy przekazywać zawsze wskaźnik na funkcję (lub samo wyrażenie funkcji), powyższy przykład
+                wpierw wywoła funkcję <code>this.handleSubmit</code> a wartość, którą zwróci przekaże do handlera <code>onClick</code>.
+              </p>
+            </Uwaga>
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              import React from "react";
+              import ReactDOM from "react-dom";
+              import PropTypes from "prop-types";
+
+              const TweetTime = (props) => {
+                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                return <time>{date}</time>
+              };
+              TweetTime.propTypes = {
+                date: PropTypes.instanceOf(Date).isRequired
+              };
+              
+              const TweetUser = ({ name, handle }) => <span><b>{name}</b> @{handle}</span>;
+              TweetUser.propTypes = {
+                handle: PropTypes.string.isRequired,
+                name: PropTypes.string  
+              };
+              TweetUser.defaultProps = {
+                name: 'Anonim'
+              };
+              
+              class Tweet extends React.Component {
+
+                static propTypes = {
+                  tweet: PropTypes.shape({
+                    user: PropTypes.shape({
+                      handle: PropTypes.string.isReqired,
+                      name: PropTypes.string,
+                    }),
+                    date: PropTypes.instanceOf(Date).isRequired,
+                    text: PropTypes.string.isRequired
+                  })
+                } 
+              
+                render() {
+                  const { user, text, date } = this.props.tweet;
+                  return (
+                    <div>
+                      <TweetUser name={user.name} handle={user.handle} /> -
+                      <TweetTime date={date} />
+                      <p>
+                        {text}
+                      </p>
+                    </div>
+                  )
+                }
+              }            
+                            
+              const TweetData = [{
+                id: 1,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "Witaj świecie!"
+              }, {
+                id: 2,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "To jest mój prywatny Twitter!"
+              }];
+                            
+              const TweetList = ({ tweets }) => {                
+                return (
+                  <div>
+                    {tweets.map(item => <Tweet tweet={item} key={item.id} />)}
+                  </div>
+                );
+              }   
+              TweetList.propTypes = {
+                tweets: PropTypes.arrayOf(PropTypes.object)
+              }
+
+              @important
+              class TweetForm extends React.Component {
+
+                state = {
+                  text: ''
+                }
+
+                static propTypes = {
+                  onSubmit: PropTypes.func.isRequired
+                }
+
+                handleChange = (event) => {
+                  this.setState({
+                    text: event.target.value
+                  })
+                }
+
+                handleSubmit = () => {
+                  this.props.onSubmit(this.state.text)
+                }
+
+                render() {
+                  const { text } = this.state;
+                  return (
+                    <div>
+                      <input type="text" onChange={this.handleChange} value={text} />
+                      <br />
+                      <button onClick={this.handleSubmit}>Tweetuj!</button>
+                    </div>                    
+                  )
+                }          
+              }
+
+              
+              class TweetApp extends React.Component {
+
+                constructor(props) {
+                  super(props);
+                  this.state = {
+                    tweets: this.props.tweets
+                  }
+                }
+
+                addTweet = (text) => {
+                  alert(text);
+                }
+
+                render() {
+                  return (
+                    <div>
+                      <TweetForm onSubmit={this.addTweet} />
+                      <TweetList tweets={this.state.tweets} />                
+                    </div>
+                  )
+                }
+              }
+              @end-important
+
+              ReactDOM.render(<TweetApp tweets={TweetData} />, document.getElementById('root'));              
+            `}</Example>            
+          </Column>          
+        </Row>   
+        <Row>
+          <Column width={6}>
+            <p>
+              Ostatnie, co musimy zrobić to zaktualizować stan rodzica, dodając do niego nowy tweet. W tym celu używamy oczywiście metody 
+              <code>this.setState</code>. Upewnijmy się od razu, że dodawany przez nas Tweet ma odpowiednie - unikalne - <code>id</code> oraz, że 
+              umieszczony został na początku listy Tweetów.
+            </p>            
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              import React from "react";
+              import ReactDOM from "react-dom";
+              import PropTypes from "prop-types";
+
+              const TweetTime = (props) => {
+                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                return <time>{date}</time>
+              };
+              TweetTime.propTypes = {
+                date: PropTypes.instanceOf(Date).isRequired
+              };
+              
+              const TweetUser = ({ name, handle }) => <span><b>{name}</b> @{handle}</span>;
+              TweetUser.propTypes = {
+                handle: PropTypes.string.isRequired,
+                name: PropTypes.string  
+              };
+              TweetUser.defaultProps = {
+                name: 'Anonim'
+              };
+              
+              class Tweet extends React.Component {
+
+                static propTypes = {
+                  tweet: PropTypes.shape({
+                    user: PropTypes.shape({
+                      handle: PropTypes.string.isReqired,
+                      name: PropTypes.string,
+                    }),
+                    date: PropTypes.instanceOf(Date).isRequired,
+                    text: PropTypes.string.isRequired
+                  })
+                } 
+              
+                render() {
+                  const { user, text, date } = this.props.tweet;
+                  return (
+                    <div>
+                      <TweetUser name={user.name} handle={user.handle} /> -
+                      <TweetTime date={date} />
+                      <p>
+                        {text}
+                      </p>
+                    </div>
+                  )
+                }
+              }            
+                            
+              const TweetData = [{
+                id: 1,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "Witaj świecie!"
+              }, {
+                id: 2,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "To jest mój prywatny Twitter!"
+              }];
+                            
+              const TweetList = ({ tweets }) => {                
+                return (
+                  <div>
+                    {tweets.map(item => <Tweet tweet={item} key={item.id} />)}
+                  </div>
+                );
+              }   
+              TweetList.propTypes = {
+                tweets: PropTypes.arrayOf(PropTypes.object)
+              }
+
+              
+              class TweetForm extends React.Component {
+
+                state = {
+                  text: ''
+                }
+
+                static propTypes = {
+                  onSubmit: PropTypes.func.isRequired
+                }
+
+                handleChange = (event) => {
+                  this.setState({
+                    text: event.target.value
+                  })
+                }
+
+                handleSubmit = () => {
+                  this.props.onSubmit(this.state.text)
+                }
+
+                render() {
+                  const { text } = this.state;
+                  return (
+                    <div>
+                      <input type="text" onChange={this.handleChange} value={text} />
+                      <br />
+                      <button onClick={this.handleSubmit}>Tweetuj!</button>
+                    </div>                    
+                  )
+                }          
+              }
+
+              
+              class TweetApp extends React.Component {
+
+                constructor(props) {
+                  super(props);
+                  this.state = {
+                    tweets: this.props.tweets
+                  }
+                }
+
+                @important
+                addTweet = (text) => {
+                  const newTweet = {
+                    id: this.state.tweets.length + 1,
+                    user: {
+                      name: "Bartosz Szczeciński",
+                      handle: "btmpl"
+                    },
+                    date: new Date(),
+                    text: text
+                  }
+
+                  this.setState({
+                    tweets: [newTweet, ...this.state.tweets]
+                  });
+                }
+                @end-important
+
+                render() {
+                  return (
+                    <div>
+                      <TweetForm onSubmit={this.addTweet} />
+                      <TweetList tweets={this.state.tweets} />                
+                    </div>
+                  )
+                }
+              }              
+
+              ReactDOM.render(<TweetApp tweets={TweetData} />, document.getElementById('root'));              
+            `}</Example>            
+          </Column>          
+        </Row>                
+        <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
+      </div>
+    ) ;  
   }
 
 
