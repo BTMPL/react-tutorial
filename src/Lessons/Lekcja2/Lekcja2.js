@@ -2194,6 +2194,10 @@ export default class Lesson extends React.Component {
               Po wpisaniu treści i przyciśnięciu klawisza dane z komponentu zostaną przekazane w górę - do rodzica - a następnie wyświetlone w oknie
               alertu.
             </p>
+            <p>
+              Dodatkowo, ponieważ używamy kontrolowanego formularza zmieniając <code>this.state.text</code> na pusty string po przesłaniu danych
+              usuwamy tekst wpisany w pole.
+            </p>
             <Uwaga>
               <h4>Częste błędy</h4>
               <p>
@@ -2306,7 +2310,8 @@ export default class Lesson extends React.Component {
                 }
 
                 handleSubmit = () => {
-                  this.props.onSubmit(this.state.text)
+                  this.props.onSubmit(this.state.text);
+                  this.setState({ text: '' });
                 }
 
                 render() {
@@ -2455,7 +2460,8 @@ export default class Lesson extends React.Component {
                 }
 
                 handleSubmit = () => {
-                  this.props.onSubmit(this.state.text)
+                  this.props.onSubmit(this.state.text);
+                  this.setState({ text: '' });
                 }
 
                 render() {
