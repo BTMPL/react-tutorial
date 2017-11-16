@@ -6,15 +6,15 @@ import Example from "./../../common/example/Example";
 
 import devtools from "./react-devtools.jpg";
 
-export const title = "Lekcja 1 - Podstawowe pojęcia, konfiguracja środowiska pracy";
-
 export default class Lesson extends React.Component {
 
   static propTypes = {
     section: PropTypes.string
   }
 
-  getSections = () => {
+  static title = "Lekcja 1 - Podstawowe pojęcia, konfiguracja środowiska pracy";
+
+  static getSections = () => {
     return [
       {
         url: '/lekcja/lekcja1/podstawowe-pojecia',
@@ -40,25 +40,25 @@ export default class Lesson extends React.Component {
   }
 
   getPrev = (currentUrl) => {
-    const index = this.getSections().findIndex((item => {
+    const index = Lesson.getSections().findIndex((item => {
       const split = item.url.split('/');
       return split[split.length - 1] === currentUrl;
     }));
     if(index === 0) {
       return;
     }
-    return this.getSections()[index - 1];
+    return Lesson.getSections()[index - 1];
   }
 
   getNext = (currentUrl) => {
-    const index = this.getSections().findIndex((item => {
+    const index = Lesson.getSections().findIndex((item => {
       const split = item.url.split('/');
       return split[split.length - 1] === currentUrl;
     }));
-    if(index + 1 === this.getSections().length) {
+    if(index + 1 === Lesson.getSections().length) {
       return;
     }
-    return this.getSections()[index + 1];
+    return Lesson.getSections()[index + 1];
   }   
 
   renderPodstawowePojecia = () => {

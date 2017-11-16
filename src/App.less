@@ -33,6 +33,11 @@ a {
 h2 {
   font-size: 40px;
   font-weight: 400;
+  
+  @media screen and (max-width: 640px) {
+    font-size: 30px;
+    line-height: 1.2;
+  }
 }
 
 :global {
@@ -70,4 +75,8 @@ hr {
   color: transparent;
   border-top: 1px solid #d3d3d3;
   margin: 15px 0;
+}
+
+img {
+  max-width: 100%;
 }

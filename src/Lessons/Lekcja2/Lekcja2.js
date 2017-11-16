@@ -7,15 +7,15 @@ import Example from "./../../common/example/Example";
 import { Uwaga } from "../../common/Inserts/Inserts";
 
 
-export const title = "Lekcja 2 - Wprowadzenie do React";
-
 export default class Lesson extends React.Component {
 
   static propTypes = {
     section: PropTypes.string
   }
 
-  getSections = () => {
+  static title = "Lekcja 2 - Wprowadzenie do React";
+
+  static getSections = () => {
     return [
       {
         url: '/lekcja/lekcja2/wprowadzenie-do-react',
@@ -65,25 +65,25 @@ export default class Lesson extends React.Component {
   }
 
   getPrev = (currentUrl) => {
-    const index = this.getSections().findIndex((item => {
+    const index = Lesson.getSections().findIndex((item => {
       const split = item.url.split('/');
       return split[split.length - 1] === currentUrl;
     }));
     if(index === 0) {
       return;
     }
-    return this.getSections()[index - 1];
+    return Lesson.getSections()[index - 1];
   }
 
   getNext = (currentUrl) => {
-    const index = this.getSections().findIndex((item => {
+    const index = Lesson.getSections().findIndex((item => {
       const split = item.url.split('/');
       return split[split.length - 1] === currentUrl;
     }));
-    if(index + 1 === this.getSections().length) {
+    if(index + 1 === Lesson.getSections().length) {
       return;
     }
-    return this.getSections()[index + 1];
+    return Lesson.getSections()[index + 1];
   }  
 
   renderWprowadzenieDoReact = () => {
@@ -178,7 +178,7 @@ export default class Lesson extends React.Component {
             </p>          
           </Column>
         </Row>
-        <Navigate prev={{url: '/lekcja/lekcja1', title: 'Lekcja 1'}} next={this.getNext(this.props.section)} />
+        <Navigate prev={{url: '/lekcja/lekcja1/podstawowe-pojecia', title: 'Lekcja 1'}} next={this.getNext(this.props.section)} />
       </div>
     )
   }
@@ -1193,7 +1193,7 @@ export default class Lesson extends React.Component {
       <div>
         <Row>
           <Column>
-            <h3>Stan komponentu</h3>
+            <h2>Stan komponentu</h2>
             <p>
               Nasza aplikacja nabiera już kształtu - jesteśmy w stanie wyrenderować dowolną ilość Tweetów, ale nie mamy możliwości ich definiowania
               z poziomu UI. Żeby to umożliwić, musimy zapoznać się z dwoma istotynymi elementami React. 
@@ -1613,7 +1613,7 @@ export default class Lesson extends React.Component {
       <div>
         <Row>
           <Column>
-            <h3>Formularze kontrolowane, formularze niekontrolowane</h3>
+            <h2>Formularze kontrolowane, formularze niekontrolowane</h2>
             <p>
               Utworzony w poprzednim etapie formularz (a właściwie pole formularza) to tzw. formularz kontrolowany. Jego zawartość kontrolowana jest
               przez React (pobierana ze stanu), zaś każda zmiana prowadzi do aktualizacji stanu. Plusem takiego rozwiązania jest fakt, że dowolny inny
@@ -1757,7 +1757,7 @@ export default class Lesson extends React.Component {
       <div>
         <Row>
           <Column>
-            <h3>Cykla życia komponentu</h3>
+            <h2>Cykl życia komponentu</h2>
             <p>
               Kolejnym ważnym tematem odróżniającym komponenty stanowe i bezstanowe jest tzw. cykl życia (ang. life cycle) komponentu. Komponenty
               bezstanowe tworzone są i niszczone za każdym razem, kiedy ich rodzic jest ponownie renderowany. Gdyby to samo działo się z komponentami
@@ -2023,7 +2023,7 @@ export default class Lesson extends React.Component {
       <div>
         <Row>
           <Column>
-            <h3>Przekazywanie danych do rodzica i rodzeństwa</h3>
+            <h2>Przekazywanie danych do rodzica i rodzeństwa</h2>
             <p>
               Wiemy już jak przekazywać dane od rodzica do dziecka - używamy w tym celu props. Mechanizm ten przyda nam się także do przekazywania danych
               w drugą stronę - od dziecka do rodzica. Zanim poznamy sposób, spójrzymy na problem, jaki pozwoli nam to rozwiązać w naszej aplikacji.

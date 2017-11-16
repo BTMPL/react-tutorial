@@ -6,36 +6,6 @@ import { Row, Column, Align } from "../Layout/Layout";
 
 import Style from "./Header.less";
 
-class LessonTitle extends React.PureComponent {
-
-  state = {
-    title: undefined
-  }
-
-  loadLesson = (lesson) => {
-    const fileName = `${lesson.substr(0, 1).toUpperCase()}${lesson.substr(1)}`;
-    import(`../../Lessons/${fileName}/${fileName}`).then(data => this.setState({
-      title: data.title
-    }));    
-  }
-
-  componentDidMount() {
-    this.loadLesson(this.props.match.params.lesson);
-  }
-
-  componentDidUpdate(prevProps) {
-    if(prevProps.match.params.lesson !== this.props.match.params.lesson) {
-      this.loadLesson(this.props.match.params.lesson);
-    }
-  }
-
-  render() {
-    if(this.state.title) return this.state.title
-
-    return null;
-  }
-}
-
 export default class Header extends React.Component {
 
   render() {
@@ -43,10 +13,7 @@ export default class Header extends React.Component {
       <header className={Style.header}>
         <Row>
           <Column width={6}>
-            <Switch>
-              <Route path="/lekcja/:lesson" component={LessonTitle} />
-              <Route render={() => "React"} />
-            </Switch>
+            [logo]
           </Column>
           <Column width={6}>        
             <Align right>

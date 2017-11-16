@@ -1,9 +1,15 @@
 import React from "react";
 
+import { NavLink } from "react-router-dom";
+
 import { Align, Column, Row } from "../common/Layout/Layout";
 import Sidebar from "../common/Sidebar/Sidebar";
 
 import Style from "./Lesson.less";
+
+import Lesson1 from "./Lekcja1/Lekcja1";
+import Lesson2 from "./Lekcja2/Lekcja2";
+
 
 export default class Lesson extends React.Component {
   state = {
@@ -17,6 +23,25 @@ export default class Lesson extends React.Component {
     }));
   }
 
+  renderIndex = () => {
+    return (
+      <div>
+        {[Lesson1, Lesson2].map(lesson => {
+          return (
+            <ul>            
+              <li key={lesson.title} className="lesson">{lesson.title}</li>
+              {
+                lesson.getSections().map((item, index) => {
+                  return <li key={item.title}><NavLink to={item.url}>{index+1}) {item.title}</NavLink></li>
+                })
+              }
+            </ul>     
+          );
+        })}
+      </div>
+    )
+  }
+
   render() {
     if(!this.state.lessonComponent) {
       return <Row><Column><Align center><p>Wczytywanie ...</p></Align></Column></Row>
@@ -25,16 +50,18 @@ export default class Lesson extends React.Component {
     const Component = this.state.lessonComponent;
 
     return (
-      <div>
+      <Row full>
         <div className={Style.sidebar}>
-          <Sidebar />         
-        </div>      
-        <Row>
-          <Column>
-            <Component section={this.props.match.params.section} />
-          </Column>
-        </Row>
-      </div>
+          {this.renderIndex()}
+        </div>
+        <div className={Style.content}>     
+          <Row>
+            <Column>
+              <Component section={this.props.match.params.section} />
+            </Column>
+          </Row>
+        </div>
+      </Row>
     );
   }
 
