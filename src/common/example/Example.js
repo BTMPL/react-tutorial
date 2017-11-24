@@ -1,7 +1,7 @@
 import React from "react";
-import SyntaxHighlighter, { registerLanguage } from 'react-syntax-highlighter/dist/light';
-import js from 'react-syntax-highlighter/dist/languages/javascript';
-import { androidstudio as style } from 'react-syntax-highlighter/dist/styles';
+import SyntaxHighlighter, { registerLanguage } from 'react-syntax-highlighter/light';
+import js from 'react-syntax-highlighter/languages/hljs/javascript';
+import androidstudio from 'react-syntax-highlighter/styles/hljs/androidstudio';
 
 import PropTypes from "prop-types";
 
@@ -93,7 +93,7 @@ export default class Example extends React.Component {
         <SyntaxHighlighter 
           language="javascript" 
           showLineNumbers={this.props.showLineNumbers}
-          style={style}>
+          style={androidstudio}>
           {this.state.text}
         </SyntaxHighlighter>
         {this.state.fullText && <span className={styles.more} onClick={this.handleClick}>Pokaż cały kod tego przykładu</span>}
