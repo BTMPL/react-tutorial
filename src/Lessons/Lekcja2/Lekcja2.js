@@ -122,7 +122,7 @@ export default class Lesson extends React.Component {
         <Row>
           <Column width={6}>
             <p>
-              <code>var</code> jest podobny w działaniu do <code>var</code> dostępny jest on jednak tylko w zasięgu, w którym zostałzadeklarowany.
+              <code>var</code> jest podobny w działaniu do <code>var</code> dostępny jest on jednak tylko w zasięgu, w którym został zadeklarowany.
             </p>
 
             <p>
