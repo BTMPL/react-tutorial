@@ -11,14 +11,18 @@ registerLanguage('javascript', js);
 
 export default class Example extends React.Component {
 
+  static babelAdded = false;
+
   static propTypes = {
     code: PropTypes.string,
     children: PropTypes.node,
-    showLineNumbers: PropTypes.bool
+    showLineNumbers: PropTypes.bool,
+    isRunable: PropTypes.bool,
   }
 
   static defaultProps = {
-    showLineNumbers: true
+    showLineNumbers: true,
+    isRunable: false
   }
 
   state = {
@@ -54,6 +58,47 @@ export default class Example extends React.Component {
   componentWillMount() {
     this.sync(this.props);
   }
+
+  
+  
+  loadScript = (url, to) => {
+    return new Promise(res => {
+      const script = to.createElement('script');
+      script.setAttribute('src', url);
+      to.body.appendChild(script);
+      script.onload = () => {
+        res()
+      }
+    })
+  };
+
+  handleRender = () => {
+
+    this.window = window.open('', 'reactwindow', 'width=400; height=600');
+    this.window.document.body.innerHTML = `<div id="root">Please wait ...</div>`;
+
+    this.loadScript('https://unpkg.com/react@16/umd/react.production.min.js', this.window.document).then(() => {
+      this.loadScript('https://unpkg.com/react-dom@16/umd/react-dom.production.min.js', this.window.document).then(() => {
+        this.loadScript('https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.0/prop-types.min.js', this.window.document).then(() => {
+          const s = this.window.document.createElement('script');
+          let code = this.state.fullText || this.state.text;
+          code = code.replace(/import(.*)\n/g, '');
+          s.text = window.Babel.transform(code, {
+            presets: ["react"],
+            plugins: ["transform-class-properties"]
+          }).code;
+          this.window.document.body.appendChild(s);
+        })
+      })
+    })
+  }
+
+  componentDidMount() {
+    if(Example.babelAdded === false && this.props.isRunable) {
+      Example.babelAdded = true;
+      this.loadScript('https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js', document);
+    }
+  }  
 
   sync = (props) => {
     let code;
@@ -97,6 +142,7 @@ export default class Example extends React.Component {
           {this.state.text}
         </SyntaxHighlighter>
         {this.state.fullText && <span className={styles.more} onClick={this.handleClick}>Pokaż cały kod tego przykładu</span>}
+        {this.props.isRunable && <span className={styles.run} onClick={this.handleRender}>Uruchom w nowym oknie</span>}
       </div>
     )
   }

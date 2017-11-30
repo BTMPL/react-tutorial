@@ -50,7 +50,7 @@ export default class Lesson extends React.Component {
         title: 'Promise i async await',
       },      
       {
-        url: '/lekcja/lekcja2/decorators',
+        url: '/lekcja/lekcja2/dekoratory',
         title: 'Dekoratory',
       },      
     ]
@@ -482,7 +482,138 @@ export default class Lesson extends React.Component {
     );
   } 
 
-  renderDecorators = () => {
+  renderClass = () => {
+    return (
+      <div>
+        <Row>
+          <Column>
+            <h2>Szybki kurs ES6 i ESNext</h2>
+            <h3>Klasy</h3>            
+            <p>
+              Klasy wprowadzone w ES2015 nie są pełnoprawnym konstruktem, tak jak ma to miejsce w językach programowania zorientowanych obiektowo (ang. Object Oriented) - 
+              stanowią one jedynie warstwę abstrakcji nad standardowym dla JS dziedziczeniem opartym o dziedziczenie prototypowe.
+            </p>            
+          </Column>
+        </Row>        
+        <Row>
+          <Column width={6}>
+            <Example>{`
+              // kod ES6
+              class Person {
+                constructor(name) {
+                  this.name = name;
+                }
+              }              
+
+              const obj = new Person("Bartek");
+            `}
+            </Example>
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              // kod ES5
+              function _classCallCheck(instance, Constructor) { 
+                if (!(instance instanceof Constructor)) { 
+                  throw new TypeError("Cannot call a class as a function"); 
+                } 
+              }
+              
+              var Person = function Perons(name) {
+                _classCallCheck(this, Perons);
+              
+                this.name = name;
+              };
+
+              var obj = new Person("Bartek");
+            `}</Example>
+          </Column>
+        </Row>      
+        <Row>
+          <Column width={6}>
+            <p>
+              Każda klasa może zawierać wiele funkcji składowych - w JS wszystkie one są dostępne jako <code>public</code>. W celu odwołania się do funcji składowej
+              z wewnątrz klasy używamy zapisu <code>this.nazwaFunkcji()</code>. W celu odwołania się z zewnątrz, używamy <code>instancjaKlasy.nazwaFunkcji()</code>. Podobnie 
+              sprawa ma się w przypadku dostępu do zmiennych.
+            </p>
+            <p>
+              W celu zdefiniowania wartości statycznych, używamy notacji <code>NazwaKlasy.nazwaPola = 42</code> poza ciałem klasy.
+            </p>
+            <Uwaga>
+              <h4>Uwaga</h4>
+              <p>
+                Definicje klasy nie są hoistowane - oznacza to, że w odróżnieniu od funkcji, nie jesteśmy w stanie użyć klasy, a następnie ją zdefiniować.
+              </p>
+            </Uwaga>
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              // błąd! klasa nie została jeszcze zdefiniowana
+              const blad = new Person();
+              
+              class Person {
+                constructor(name) {
+                  this.name = name ? name : Person.defaultName;
+                }
+
+                sayName() {
+                  console.log(\`Witaj \$\{this.name\}!\`);
+                }
+              }                    
+              Person.defaultName = "Anonim";
+
+              // utworzenie nowej instancji klasy
+              const obj = new Person("Bartek");
+
+              // wywołanie metody na instancji
+              obj.sayName(); // Witaj Bartek!
+
+              // dostęp do zmiennej (pola) na instancji
+              console.log(obj.name); // Bartek
+
+              // dostęp do zmiennej statycznej
+              console.log(Person.defaultName); // Anonim
+            `}</Example>
+          </Column>
+        </Row>  
+        
+        <Row>
+          <Column>
+            <h3>Poza ES6</h3>
+          </Column>
+        </Row> 
+        
+        <Row>
+          <Column width={6}>
+            <p>
+              W aktualnej wersji JS nie możemy korzystać ze specyfikatorów typu <code>static</code> czy też definiować zmienne bezpośrednio w ciele klasy - ale jeżeli używamy
+              create-react-app, lub dodamy obsługę <a href="https://babeljs.io/docs/plugins/transform-class-properties/" target="_blank">class properties</a> do naszego projektu 
+              będzie to możliwe. 
+            </p>
+            <p>
+              Jest to zabieg który znacznie ułatwi nam pracę z komponentami klasowymi więc jest zdecydowanie zalecany.
+            </p>
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              class Person {
+                // zamiast używać this.name w konstruktorze dla wartości nie-dynamicznych
+                name = '';
+
+                // zamiast zapisywać Person.defaultName poza klasą
+                static defaultName = 'Anonim';
+
+                // zamiast używać zapisu this.handleClick.bind() w konstruktorze
+                handleClick = () => { }
+              }
+            `}</Example>
+          </Column>
+        </Row>                            
+        <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
+      </div> 
+    );
+  }   
+
+  renderDekoratory = () => {
     return (
       <div>
         <Row>
