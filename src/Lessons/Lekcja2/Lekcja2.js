@@ -95,7 +95,7 @@ export default class Lesson extends React.Component {
           <Column width={6}>
             <p>
               <code>const</code> używamy wszędzie tam, gdzie przypisanie do zmiennej nie będzie ulegać zmianie. Użycie tego typu nie oznacza że nie ma możliwości
-              mutowania danych - jeżeli do zmiennej przypiszemy obiekt, wciąż możemy (lecz nie powinniśmy!) modyfikować jego wartośći.
+              mutowania danych - jeżeli do zmiennej przypiszemy obiekt, wciąż możemy (lecz nie powinniśmy!) modyfikować jego wartości.
             </p>
             <p>
               Jeżeli chcemy by nasz obiekt był całkowicie nie mutowalny, możemy użyć <code>Object.freeze</code>
@@ -228,7 +228,7 @@ export default class Lesson extends React.Component {
             <h2>Szybki kurs ES6 i ESNext</h2>
             <h3>arrow function</h3>            
             <p>
-              arrow functions (zwane także "fat arrow") to nowy sposób deklarowania funkcji wprowadzony w ES6, któego główną cechą jest to, że automatycznie 
+              arrow functions (zwane także "fat arrow") to nowy sposób deklarowania funkcji wprowadzony w ES6, którego główną cechą jest to, że automatycznie 
               przechwytuje ona wartość <code>this</code> dla momentu zadeklarowania, nie wywołania funkcji. Nowa składnia najczęściej przydaje się w przypadku
               wywołań zwrotnych (ang. callback) lub funkcji wywoływanych w timerach.
             </p>
@@ -463,7 +463,7 @@ export default class Lesson extends React.Component {
             <Uwaga>
               <h4>Uwaga</h4>
               <p>
-                Kopie tego typu są kopiami płytkimi - w przypadku wielo wymiarowych tablic, tablic obiektów etc. uzyskamy kopię referencji. Uważajmy więc, by nie 
+                Kopie tego typu są kopiami płytkimi - w przypadku wielowymiarowych tablic, tablic obiektów etc. uzyskamy kopię referencji. Uważajmy więc, by nie 
                 mutować oryginalnych danych!
               </p>
               <Example>{`
@@ -531,7 +531,7 @@ export default class Lesson extends React.Component {
         <Row>
           <Column width={6}>
             <p>
-              Każda klasa może zawierać wiele funkcji składowych - w JS wszystkie one są dostępne jako <code>public</code>. W celu odwołania się do funcji składowej
+              Każda klasa może zawierać wiele funkcji składowych - w JS wszystkie one są dostępne jako <code>public</code>. W celu odwołania się do funkcji składowej
               z wewnątrz klasy używamy zapisu <code>this.nazwaFunkcji()</code>. W celu odwołania się z zewnątrz, używamy <code>instancjaKlasy.nazwaFunkcji()</code>. Podobnie 
               sprawa ma się w przypadku dostępu do zmiennych.
             </p>
@@ -585,7 +585,7 @@ export default class Lesson extends React.Component {
         <Row>
           <Column width={6}>
             <p>
-              W aktualnej wersji JS nie możemy korzystać ze specyfikatorów typu <code>static</code> czy też definiować zmienne bezpośrednio w ciele klasy - ale jeżeli używamy
+              W aktualnej wersji JS nie możemy korzystać z określeń typu <code>static</code> etc. czy też definiować zmienne bezpośrednio w ciele klasy - ale jeżeli używamy
               create-react-app, lub dodamy obsługę <a href="https://babeljs.io/docs/plugins/transform-class-properties/" target="_blank">class properties</a> do naszego projektu 
               będzie to możliwe. 
             </p>
@@ -642,14 +642,14 @@ export default class Lesson extends React.Component {
               System modułów składa się z 2 części: pliku eksportującego dane.
             </p>
             <p>
-              Plik, ktróy eksportuje dane w formacie CommonJS używa notacji <code>module.exports</code> i określa dwa typy eksportów:
+              Plik, który eksportuje dane w formacie CommonJS używa notacji <code>module.exports</code> i określa dwa typy eksportów:
             </p>
             <ul>
               <li>eksport domyślny - oznaczony jako <code>module.exports.default</code> - każdy moduł może mieć maksymalnie jeden eksport domyślny</li>
               <li>eksport nazwany - oznaczony jako <code>modules.exports.NAZWA_EKSPORTU</code> - każdy moduł może deklarować dowolną ilość nazwanych eskportów</li>
             </ul>
             <p>
-              Wszelkie wykesportowane dane mogą zostać zaimportowane przez dowolny inny moduł/aplikację, zaś dane, które nie są eksportowane są stosowane jako prywatne API
+              Wszelkie wyeksportowane dane mogą zostać zaimportowane przez dowolny inny moduł/aplikację, zaś dane, które nie są eksportowane są stosowane jako prywatne API
               modułu i jeżeli nie udostępnimy interfejsu do ich modyfikacji nie będą one mogły być w żaden sposób modyfikowane.
             </p>            
           </Column>
@@ -718,7 +718,7 @@ export default class Lesson extends React.Component {
               shaking (nie importowanie kodu, który nie jest wykorzystywany w aplikacji).
             </p>  
             <p>
-              Odpowiednik kodu z poprzednich listingów stosujacy zapis <code>export</code>:
+              Odpowiednik kodu z poprzednich listingów stosujący zapis <code>export</code>:
             </p>          
           </Column>
           <Column width={6}>
@@ -819,7 +819,7 @@ export default class Lesson extends React.Component {
             <Example>{`
               const time = (target, name, descriptor) => {
                 const original = descriptor.value;
-                // Uzyj function by umożliwić późne wiązanie this
+                // Użyj function by umożliwić późne wiązanie this
                 descriptor.value = function(...input) {
                   console.time(name);
                   original.apply(this, ...input)

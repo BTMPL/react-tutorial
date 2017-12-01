@@ -116,7 +116,7 @@ export default class Lesson extends React.Component {
               skupimy się na "domyślnym" rozwiązaniu.
             </p>
             <p>
-              Jeżeli podejrzymy kod strony, na której osadzono przykładową stronę React powinniśmy zobaczyć tylko prosą strukturę HTML
+              Jeżeli podejrzymy kod strony, na której osadzono przykładową stronę React powinniśmy zobaczyć tylko prostą strukturę HTML
               oraz odwołania do CSS i JS.
             </p>
 
@@ -145,7 +145,7 @@ export default class Lesson extends React.Component {
               Przystąpmy do tworzenia pierwszej aplikacji - typowe "hello world". Na początek stworzymy ją w jednym pliku HTML.
             </p>
             <p>
-              Utwórzmy plik <b>index.html</b>, w którym zawrzemy kod HTML powyżej, wzbogazony o naszą aplikację:
+              Utwórzmy plik <b>index.html</b>, w którym zawrzemy kod HTML powyżej, wzbogacony o naszą aplikację:
             </p>
             <p>
               Linia 9-10 - do projektu dołączone zostały dwie biblioteki JS w formacie UMD (ang. Universal Module Definition) zawierające odpowiednio
@@ -180,8 +180,8 @@ export default class Lesson extends React.Component {
           </Column>
           <Column>
             <p>
-              Metoda <code>ReactDOM.render</code> jest jedną z niewielu metod obiektu ReactDOM, którę musimy poznać. Domyślnie przyjmuje ona dwa 
-              parametry: kod JSX (alternatywnie: string, false lub undefined), który chcemy wyrenderować, oraz HTMLNode, do którego chcemy wyrenderować 
+              Metoda <code>ReactDOM.render</code> jest jedną z niewielu metod obiektu ReactDOM, które musimy poznać. Domyślnie przyjmuje ona dwa 
+              parametry: kod JSX (alternatywnie: string, false lub undefined), który chcemy wyświetlić, oraz HTMLNode, do którego chcemy wyrenderować 
               naszą aplikację. W naszym wypadku zamiast kodu JSX używamy zwykłego łańcucha tekstowego.
             </p>          
           </Column>
@@ -207,7 +207,7 @@ export default class Lesson extends React.Component {
               zostaną one również potraktowane jako łańcuch tekstowy i wyświetlone jako tekst, nie jako znaczniki HTML.
             </p>          
             <p>
-              React używa włąsnego języka znaczników - JSX, który stanowi rozszerzenie języka JS przy pomocy składni przypominającej XML. Nie jest
+              React używa własnego języka znaczników - JSX, który stanowi rozszerzenie języka JS przy pomocy składni przypominającej XML. Nie jest
               to jednak ani XML, ani HTML, a co więcej znaczniki te nie są w żaden sposób interpretowane przez przeglądarkę - stanowią one jedynie
               ułatwienie dla developerów przy pracy z React. Jeżeli nie podoba nam się "umieszczanie HTML w JS" istnieje wiele alternatyw jak 
               react-hyperscript czy też pisanie własnoręcznie wygenerowanego kodu. 
@@ -317,7 +317,7 @@ export default class Lesson extends React.Component {
               W kodzie JSX istnieje możliwość używania nie tylko stringów i znaczników HTML (oraz komponentów, o czym dowiesz się za chwilę), ale także
               kodu JS. Kod JS w JSX osadzamy dokładnie tak samo jak w przypadku template strings - w celu wskazania, że zamierzamy zamieścić kod JS otaczamy 
               go znacznikami <code>{'{ }'}</code>, zaś sam kod jest bezpośrednio wywoływany i powinien on zwrócić wartość (nie możemy zatem bezpośrednio 
-              definiować obiektów, używać konstruktór if/else etc.).
+              definiować obiektów, używać konstruktów if/else etc.).
             </p>
             <p>
               Zmodyfikujmy zatem nasz kod tak, by data była zawsze aktualna:
@@ -359,7 +359,7 @@ export default class Lesson extends React.Component {
             <p>
               Jedną z głównych zalet React jest możliwość tworzenia komponentów, które "ukrywają" nam szczegóły implementacji i pozwalają na szybkie
               dodawanie funkcjonalności do naszej aplikacji. Na przykład jeżeli chcemy dodać odtwarzacz video, dodajemy po prostu w kodzie JSX 
-              <code>&lt;Video&gt;</code> - brzmi to trochę jak tworzenie włąsnych tagów HTML i poniekąd tak wygląda. Zamieńmy zatem nasz Tweet w komponent
+              <code>&lt;Video&gt;</code> - brzmi to trochę jak tworzenie własnych tagów HTML i poniekąd tak wygląda. Zamieńmy zatem nasz Tweet w komponent
               React.
             </p>
           </Column>
@@ -372,7 +372,7 @@ export default class Lesson extends React.Component {
             </p>
             <p>
               Utwórzmy zatem funkcję i zapiszmy ją do zmiennej <code>Tweet</code> (możesz również stworzyć normalną funkcję używając składni <code>function</code>
-              ale dobrze jest znać różnice pomiędzy tymi dwiema skłądniami) i przenieśmy do niej nasz kod HTML. Funkcja ta po prostu zwraca kod JSX.
+              ale dobrze jest znać różnice pomiędzy tymi dwiema składniami) i przenieśmy do niej nasz kod HTML. Funkcja ta po prostu zwraca kod JSX.
             </p>
 
           </Column>
@@ -404,7 +404,7 @@ export default class Lesson extends React.Component {
               Następnym krokiem jest usunięcie tego kodu z wywołania <code>ReactDOM.render</code> i zastąpienie go <code>&lt;Tweet /&gt;</code>.
             </p>
             <p>
-              Na skutek tej operacji zaktualizowany zostanie kod JS - zwróć uwagę, że dookoła <code>Tweet</code> nie ma w nim cudzysłowi.
+              Na skutek tej operacji zaktualizowany zostanie kod JS - zwróć uwagę, że dookoła <code>Tweet</code> nie ma w nim cudzysłowu.
             </p>
           </Column>
           <Column width={6}>
@@ -421,7 +421,7 @@ export default class Lesson extends React.Component {
             <h3>Komponenty stanowe</h3>
             <p>
               Wspomnianym drugim typem komponentów są komponenty stanowe - odróżnia je nie tylko to, że posiadają one stan, czyli mogą przechowywać
-              dane odnośnie swojej reprecentacji (przykładowo komponent na wprowadzanie tekstu - <code>&lt;input&gt;</code> zawierałby informacje
+              dane odnośnie swojej reprezentacji (przykładowo komponent na wprowadzanie tekstu - <code>&lt;input&gt;</code> zawierałby informacje
               o aktualnie wpisanym tekście), ale posiadają też funkcje cyklu życia. Funkcje cyklu życia wywoływane są w określonych momentach i pozwalają
               na przygotowanie i sterowanie działaniem komponentu. Więcej dowiesz się o nich w dalszych rozdziałach, na razie przepiszmy nasz komponent
               na prosty komponent stanowy.
@@ -526,7 +526,7 @@ export default class Lesson extends React.Component {
         <Row>
           <Column width={6}>
             <p>
-              Jedną z mantr React jest "kompozycja ponad dziediczenie". Oznacza to, że nasze komponenty nie powinny rozszerzać funkcjonalności już 
+              Jedną z mantr React jest "kompozycja ponad dziedziczenie". Oznacza to, że nasze komponenty nie powinny rozszerzać funkcjonalności już 
               istniejących komponentów, a tworzyć nowe w oparciu o już istniejące. W praktyce sprowadza się to do wyćwiczenia u siebie umiejętności
               dostrzegania elementów UI, które będziemy mogli wykorzystać w wielu miejscach naszej aplikacji. 
             </p>
@@ -570,7 +570,7 @@ export default class Lesson extends React.Component {
         <Row>
           <Column>
             <p>
-              W ten sposób określamy także i ograniczamy API naszego komponentu - teraz za każdym razem, kiedy jako konsumenci bibliteki chcemy wyrenderować Tweet
+              W ten sposób określamy także i ograniczamy API naszego komponentu - teraz za każdym razem, kiedy jako konsumenci biblioteki chcemy wyrenderować Tweet
               używamy jednego prostego komponentu, który wewnętrznie używa mniejszych komponentów, które jego twórca może wyeksportować z biblioteki i umożliwić
               nam na użycie w innych miejscach aplikacji.
             </p>
@@ -600,12 +600,12 @@ export default class Lesson extends React.Component {
  
             <p>
               Parametry przekazywane od rodzica do dziecka w React nazywamy <code>props</code>. Props zapisujemy podobnie jak atrybuty w HTML. Wartości tekstowe 
-              przekazujemy otoczone cudzysłowiem (nie ma znaczenia czy będzie to pojedyncze czy podwójne cudzysłowie), wartości dynamiczne otaczamy natomiast 
+              przekazujemy otoczone cudzysłowem (nie ma znaczenia czy będzie to pojedyncze czy podwójne cudzysłowie), wartości dynamiczne otaczamy natomiast 
               znacznikami <code>{'{}'}</code>. Jako wartości dynamiczne możemy przekazać zarówno zmienne jak i wyrażenia dokładnie tak samo jak w przypadku ES6 
               template literals.
             </p>
             <p>
-              W przypadku komponentów bezstanowych, props zostaną przekazane do naszej funkcji jako pierwszy parametr w postaci obiektu, któego klucze odpowiadają
+              W przypadku komponentów bezstanowych, props zostaną przekazane do naszej funkcji jako pierwszy parametr w postaci obiektu, którego klucze odpowiadają
               nazwom propów.
             </p>                             
           </Column>
@@ -633,11 +633,11 @@ export default class Lesson extends React.Component {
               dzięki czemu możemy wykorzystać je przy innych Tweetach albo przy innych częściach naszego UI.
             </p>
             <p>
-              Każdy komponent, który zawiera w sobie jakieś elementy (koponenty, HTML) otrzymuje także niejawnie jeden dodatkowy props 
+              Każdy komponent, który zawiera w sobie jakieś elementy (komponenty, HTML) otrzymuje także niejawnie jeden dodatkowy props 
               - <code>props.children</code>, który zawiera właśnie te komponenty. 
             </p>
             <p>
-              W niektórych przykładach zobaczysz skłądnię <code>{'propName={{ }}'}</code> - bez obaw! Po prostu do propsu <code>propName</code> przekazujemy 
+              W niektórych przykładach zobaczysz składnię <code>{'propName={{ }}'}</code> - bez obaw! Po prostu do propsu <code>propName</code> przekazujemy 
               obiekt JS!
             </p>
           </Column>        
@@ -815,7 +815,7 @@ export default class Lesson extends React.Component {
             <h3>Przekazywanie danych</h3>
             <p>
               Jeżeli używasz create-react-app lub dodałeś do projektu preset <a href="https://babeljs.io/docs/plugins/transform-class-properties/" target="_blank">
-              babel-plugin-transform-class-properties</a> możesz używać alternatywnego, krótszego zapisu PropTypes dla komponentów stanowowych.
+              babel-plugin-transform-class-properties</a> możesz używać alternatywnego, krótszego zapisu PropTypes dla komponentów stanowych.
             </p>
             <p>
               Opiera on się o nowy typ pola danych - <code>static</code> ale w praktyce wciąż transpilowany jest na poprzednią notację.
@@ -1111,7 +1111,7 @@ export default class Lesson extends React.Component {
         <Row>    
           <Column width={6}>
             <p>
-              Nasza aplikacja generuje już listę Tweetów, ale nie działa to jeszcze tak, jak byśmy chcieli. Dane o Tweetach pobieta on z aplikacji,
+              Nasza aplikacja generuje już listę Tweetów, ale nie działa to jeszcze tak, jak byśmy chcieli. Dane o Tweetach pobiera on z aplikacji,
               a powinien otrzymywać jako parametr, a sama lista - mimo, że jest tablicą - wciąż nie jest w żaden sposób dynamiczna. 
             </p>
             <p>
@@ -1223,7 +1223,7 @@ export default class Lesson extends React.Component {
             <h2>Formularze niekontrolowane</h2>
             <p>
               Duża część interakcji, w jaką nasi użytkownicy wchodzą z naszą aplikacją opiera się o pracę z formularzami. W React wyróżniamy dwa typy formularzy.
-              Pierwszy z nich to tzw. formularz niekonotrolowany (ang. uncontrolled forms). Praca z nimi wygląda dokładnie tak, jak praca z formularzami w czystym
+              Pierwszy z nich to tzw. formularz niekontrolowany (ang. uncontrolled forms). Praca z nimi wygląda dokładnie tak, jak praca z formularzami w czystym
               HTML i JS.
             </p>     
           </Column>
@@ -1239,7 +1239,7 @@ export default class Lesson extends React.Component {
             </p>
             <ul>
               <li>
-                pole nie może mieć zdefiniowanego przez nas atrubutu <code>value</code> - kiedy go dodamy, nie mamy możliwości zmiany wartości pola, jeżeli potrzebujemy
+                pole nie może mieć zdefiniowanego przez nas atrybutu <code>value</code> - kiedy go dodamy, nie mamy możliwości zmiany wartości pola, jeżeli potrzebujemy
                 nadać polu wartość domyślną, używamy <code>defaultValue</code>
               </li>
               <li>
@@ -1247,8 +1247,8 @@ export default class Lesson extends React.Component {
               </li>              
             </ul>
             <p>
-              Osoby pracujące wcześniej z frameworkami pozwalającymi na dwu kierunkowy przepływ danych modły by pokusić się o rozwiązanie typu 
-              <code>value={this.value}</code>, jednak React nie wspiera takiego rozwiązania.
+              Osoby pracujące wcześniej z frameworkami pozwalającymi na dwu kierunkowy przepływ danych modły by pokusić się o rozwiązanie typu <code>value={`{this.value}`}</code>
+              , jednak React nie wspiera takiego rozwiązania.
             </p>
           </Column>
           <Column width={6}>
@@ -1490,7 +1490,7 @@ export default class Lesson extends React.Component {
               Poza zastosowaniem w formularzach, referencje przydatne są wszędzie tam, gdzie potrzebujemy odczytać / zmienić wartości bezpośrednio w DOM, 
               przykładowo w celu pobrania wymiarów czy pozycji elementu.
             </p>
-            <h3>refrencje na komponent</h3>
+            <h3>referencje na komponent</h3>
             <p>
               Referencje mogą wskazywać także na komponent - np. <code>&lt;TweetForm ref={`{el => this.form = el}`} /&gt;</code> dzięki czemu uzyskamy
               dostęp do instancji danego komponentu (a nie jego HTML!) i możemy odczytać jego prywatne dane. Rozwiązanie takie nie jest jednak typowym 
@@ -1500,7 +1500,7 @@ export default class Lesson extends React.Component {
             <h3>findDOMNode</h3>
             <p>
               Drugim z rozwiązań jest użycie funkcji <code>ReactDOM.findDOMNode</code>, która jako parametr akceptuje komponent (np. <code>this</code>) i zwraca
-              nam główny węzęł DOM zwrócony przez <code>render()</code>. Jeżeli komponent renderuje tablicę elementów, zwrócona zostanie referencja do 
+              nam główny węzeł DOM zwrócony przez <code>render()</code>. Jeżeli komponent renderuje tablicę elementów, zwrócona zostanie referencja do 
               pierwszego elementu tablicy.
             </p>
           </Column>
@@ -1530,7 +1530,7 @@ export default class Lesson extends React.Component {
             </p>
             <h3>Przekazywanie danych do handlerów</h3>
             <p>
-              Każdy z handlerów wywoływany jest z odpowiednią wartością - dla handlerów dodanych do elementó HTML będzie to zwyczajowo obiekt reprezentujący
+              Każdy z handlerów wywoływany jest z odpowiednią wartością - dla handlerów dodanych do elementów HTML będzie to zwyczajowo obiekt reprezentujący
               dany typ zdarzenia (nie jest to do końca prawda, o czym dowiesz się w dalszej części tej sekcji). Dla komponentów będzie to wartość, którą
               zadeklarowali twórcy danego komponentu.
             </p>
@@ -1586,7 +1586,7 @@ export default class Lesson extends React.Component {
               zamierzamy pracować ze zdarzeniem w trybie asynchronicznym przekonamy się, że wartości zostały usunięte lub uległy zmianie.
             </p>
             <p>
-              W większości wypadków wystarczy skopiować interesujace nas wartości zdarzenia do zmiennych lokalnych, np. <code>const value = event.target.value</code> lub
+              W większości wypadków wystarczy skopiować interesujące nas wartości zdarzenia do zmiennych lokalnych, np. <code>const value = event.target.value</code> lub
               jeżeli potrzebujemy wykorzystać więcej wartości i kopiowanie ich nie jest nam na rękę, możemy wywołać <code>event.persist()</code> co wyłączy daną
               instancję SyntheticEvent "z obiegu" i utworzy nową na potrzeby kolejnych zdarzeń.
             </p>
@@ -1623,7 +1623,7 @@ export default class Lesson extends React.Component {
               tekst naszego Tweetu. Wyrenderujmy też nasz stan jako domyślną zawartość pola tekstowego, w którym tworzyć będziemy nasze Tweety.
             </p>
             <p>
-              Kiedy uruchoimy aplikację, strona wyrenderuje się z nowym - pustym formularzem. Zmień w kodzie stan:
+              Kiedy uruchomimy aplikację, strona wyrenderuje się z nowym - pustym formularzem. Zmień w kodzie stan:
             </p>
             <pre>
               state = {`{ text: 'test' }`}
@@ -1879,7 +1879,7 @@ export default class Lesson extends React.Component {
             </p>
             <p>
               Do naszego handlera <code>handleChange</code> dodajemy wywołanie <code>this.setState</code>, które jako parametr
-              otrzymuje obiekt ze zmienionymi wartosciami. Jeżeli nasz komponent poza tekstem przechowywał by też inne dane w swoim stanie,
+              otrzymuje obiekt ze zmienionymi wartościami. Jeżeli nasz komponent poza tekstem przechowywał by też inne dane w swoim stanie,
               a my chcieli byśmy zmienić jedynie tekst, nie musimy przekazywać ponownie całego stanu (nie zmienionych elementów) a jedynie
               obiekt zawierający pole <code>text</code>.
             </p>
@@ -2020,7 +2020,7 @@ export default class Lesson extends React.Component {
               po czym wyrenderujemy ponownie (lub zmienimy im props <code>key</code>).
             </p>
             <p>
-              Z uwagi na to, że komponenty takie nie są niszczone przydatny jest jakis sposób pozwalający im na współpracę z otoczeniem np. w celu
+              Z uwagi na to, że komponenty takie nie są niszczone przydatny jest jakiś sposób pozwalający im na współpracę z otoczeniem np. w celu
               dostosowania się do zachodzących w aplikacji zmian. W tym celu dostajemy do dyspozycji kilka metod cyklu życia:
             </p>
 
@@ -2050,7 +2050,7 @@ export default class Lesson extends React.Component {
             <p><b>tak</b></p>
             <ul>
               <li>ustaw początkowy stan</li>
-              <li>zainiciuj zmienne klasy</li>
+              <li>zainicjuj zmienne klasy</li>
             </ul>
             <p><b>nie</b></p>
             <ul>
@@ -2111,13 +2111,13 @@ export default class Lesson extends React.Component {
             <p>
               Jeżeli <code>shouldComponentUpdate</code> zwróciło <code>true</code> (lub funkcja ta nie była w ogóle zaimplementowana) i komponent zamierza
               się ponownie wyrenderować, przed samym <code>render</code> wywołana zostanie ta funkcja. Jest ona przydatna, jeżeli zaimplementowaliśmy
-              <code>shoulComponentUpdate</code> i chcemy zareagować na zmianę propsów - <code>componentWillReceiveProps</code> jest wywołwane przed {" "}
-              <code>sCU</code> więc jeżeli chcemy mieć pewność, że operacja wykona się przed render, ale tylko jeżeli kompnent zamierza się ponownie
+              <code>shoulComponentUpdate</code> i chcemy zareagować na zmianę propsów - <code>componentWillReceiveProps</code> jest wywoływane przed {" "}
+              <code>sCU</code> więc jeżeli chcemy mieć pewność, że operacja wykona się przed render, ale tylko jeżeli komponent zamierza się ponownie
               wyrenderować, możemy wywołać ją właśnie tutaj.
             </p> 
             <p><b>tak</b></p> 
             <ul>
-              <li>zareaguj na zmiany props (np. w celu synchronizacji stanu i propsów) jeżeli używas także <code>shouldComponentUpdate</code></li>
+              <li>zareaguj na zmiany props (np. w celu synchronizacji stanu i propsów) jeżeli używasz także <code>shouldComponentUpdate</code></li>
             </ul>
             <p><b>nie</b></p>
             <ul>
@@ -2150,7 +2150,7 @@ export default class Lesson extends React.Component {
             </ul>
             <p><b>nie</b></p>
             <ul>
-              <li>nie aktualizuj bezopśrednio stanu komponentu</li>
+              <li>nie aktualizuj bezpośrednio stanu komponentu</li>
             </ul>    
             <hr />                     
             <h4>componentDidMount</h4>
@@ -2167,7 +2167,7 @@ export default class Lesson extends React.Component {
             </ul>
             <p><b>nie</b></p>
             <ul>
-              <li>nie aktualizuj bezopśrednio stanu komponentu</li>
+              <li>nie aktualizuj bezpośrednio stanu komponentu</li>
             </ul>   
             <hr />          
             <h4>componentWillUnmount</h4>
@@ -2259,9 +2259,9 @@ export default class Lesson extends React.Component {
             <Uwaga>
               <h4>Uwaga</h4>
               <p>
-                Niejako wyjątkiem jest tutaj działałanie <code>componentWillMount</code> i <code>componentDidMount</code> w przypadku, kiedy stosujemy 
-                renderowanie na serwerze. W takiej sytuacji <code>componentWillMount</code> wykonywany jest jedynie po stronie serwera, zaś
-                <code>componentDidMount</code> w przeglądarce. Jeżeli chcemy wykonać operację jedynie na serwerze, powinniśmy zainicjować ją w pierwszej
+                Niejako wyjątkiem jest tutaj działanie <code>componentWillMount</code> i <code>componentDidMount</code> w przypadku, kiedy stosujemy 
+                renderowanie na serwerze. W takiej sytuacji <code>componentWillMount</code> wykonywany jest jedynie po stronie serwera, 
+                zaś <code>componentDidMount</code> w przeglądarce. Jeżeli chcemy wykonać operację jedynie na serwerze, powinniśmy zainicjować ją w pierwszej
                 z tych dwóch metod.
               </p>
             </Uwaga>
@@ -2281,7 +2281,7 @@ export default class Lesson extends React.Component {
             <h2>Przekazywanie danych do rodzica i rodzeństwa</h2>
             <p>
               Wiemy już jak przekazywać dane od rodzica do dziecka - używamy w tym celu props. Mechanizm ten przyda nam się także do przekazywania danych
-              w drugą stronę - od dziecka do rodzica. Zanim poznamy sposób, spójrzymy na problem, jaki pozwoli nam to rozwiązać w naszej aplikacji.
+              w drugą stronę - od dziecka do rodzica. Zanim poznamy sposób, spójrzmy na problem, jaki pozwoli nam to rozwiązać w naszej aplikacji.
             </p>
             <p>
               Aktualnie aplikacja składa się z 2 głównych komponentów - <code>TweetForm</code> oraz <code>TweetList</code>. Komponenty te nie są ze sobą 
@@ -2297,7 +2297,7 @@ export default class Lesson extends React.Component {
         <Row>
           <Column width={6}>
             <p>
-              Utwórzmy komponent <code>TweetApp</code>, który stanowił będzie trzon naszej aplikacji - będzie on pretrzymywał informację o Tweetach
+              Utwórzmy komponent <code>TweetApp</code>, który stanowił będzie trzon naszej aplikacji - będzie on przetrzymywał informację o Tweetach
               oraz renderował wszystkie podległe elementy.
             </p>
             <p>

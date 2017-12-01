@@ -71,26 +71,26 @@ export default class Lesson extends React.Component {
               Przed rozpoczęciem pracy omówmy kilka podstawowych pojęć, którymi będziemy posługiwać się w kursie.
             </p>
             <p>
-              <b>ECMAScript, ES</b> - specyfikacja języka skryptowego, którego jedną z implementacji jest JavaScript. Obecnie używa się określeń typu <b>ES6</b> lub <b>ES2015</b> w celu określeni werji ECMAScript, której używamy w tworzonym kodzie JavaScript.
+              <b>ECMAScript, ES</b> - specyfikacja języka skryptowego, którego jedną z implementacji jest JavaScript. Obecnie używa się określeń typu <b>ES6</b> lub <b>ES2015</b> w celu określeni wersji ECMAScript, której używamy w tworzonym kodzie JavaScript.
             </p>
             <p>
               <b>node, nodejs</b> - środowisko, w którym możliwe jest wykonywanie aplikacji napisanych w języku JavaScript. Pozwala na uruchamianie aplikacji w odseparowaniu od systemu operacyjnego dzięki czemu aplikacje stworzone dla systemów Unixowych działają bez problemu lub z drobnymi modyfikacjami np. na platformie Windows.
             </p>
             <p>
-              <b>npm, yarn</b> - ang. <em>node package manager</em> manadżery pakietów instalowany wraz z Node. yarn sanowi alternatywę stworzoną przez Facebook. Oba projekty korzystają ze wspólnego repozytorium więc można je stosować naprzemiennie.
+              <b>npm, yarn</b> - ang. <em>node package manager</em> menadżery pakietów instalowany wraz z Node. yarn sanowi alternatywę stworzoną przez Facebook. Oba projekty korzystają ze wspólnego repozytorium więc można je stosować naprzemiennie.
             </p>
             <p>
               <b>moduł</b> - aplikacja udostępniona poprzez platformę npm, którą możemy dodać do naszego programu w celu zapewnienia składowej funkcjonalności; jako moduły npm dystrybuowane są także całe niezależne aplikacje, uruchamiane z linii poleceń.
             </p>
             <p>
-              <b>biblioteka</b> - kod rozserzający aplikacje o dodatkową funkcjonalność, nie stanowiący oddzielnej aplikacji i zwykle nie wystarczający do zaspokojenia skomplikowanych założeń biznesowych.
+              <b>biblioteka</b> - kod rozszerzający aplikacje o dodatkową funkcjonalność, nie stanowiący oddzielnej aplikacji i zwykle nie wystarczający do zaspokojenia skomplikowanych założeń biznesowych.
             </p>            
             <p>
               <b>framework</b> - samowystarczalny i kompletny zestaw bibliotek, narzędzi i standardów pozwalający na tworzenie aplikacji.
             </p>
             <h3>Pojęcia związane z React</h3>
             <p>
-              <b>VDOM</b> - "virtualna" reprezentacja DOM, czyli modelu obiektowego strony. W celu optymalizacji ilości operacji zmiany HTML React przeprowadza wszystkie operacja na virtualnym modelu - aktualizuje go w oparciu o przetworzone dane i porównuje z poprzednią wersją, po czym oblicza jakie elementy HTML należy dodać, usunąć lub zmienić.
+              <b>VDOM</b> - "wirtualna" reprezentacja DOM, czyli modelu obiektowego strony. W celu optymalizacji ilości operacji zmiany HTML React przeprowadza wszystkie operacja na wirtualnym modelu - aktualizuje go w oparciu o przetworzone dane i porównuje z poprzednią wersją, po czym oblicza jakie elementy HTML należy dodać, usunąć lub zmienić.
             </p>
             <p>
               <b>JSX</b> - język znaczników, który pozwala na opisanie wyglądu i funkcjonalności elementów za pomocą składni przypominającej HTML
@@ -166,7 +166,7 @@ export default class Lesson extends React.Component {
           <Column>
             <h2>Narzędzia wspomagające</h2>
             <p>
-              W ostatnich latach JavaScript rozwija się bardzo dynamicznie - pojawia się wiele rozwiązań, które stopniowo wdrażane są przez producentów przeglądarek. Niestety, tworząc aplikacje webowe musimy liczyć się z tym, że nasi użytkownicy nie zawsze będą posiadali najnowsze wersje przeglądarek, wspierające wszelkie rozwiązania, które chcemy zastosować. Może okazać się też, że chcemy skorzystać z dobrodziejstwa ECMAScript, które nie są jeszcze obsługiwane przez żadną z dostępnych przeglądarek. W tym celu korzystać będziemy z 2 popularnych narzędzi. Nie musisz być biegły w ich konfiguracji, ale chciałym byś wiedział do czego służą oraz znał ich ograniczenia.
+              W ostatnich latach JavaScript rozwija się bardzo dynamicznie - pojawia się wiele rozwiązań, które stopniowo wdrażane są przez producentów przeglądarek. Niestety, tworząc aplikacje webowe musimy liczyć się z tym, że nasi użytkownicy nie zawsze będą posiadali najnowsze wersje przeglądarek, wspierające wszelkie rozwiązania, które chcemy zastosować. Może okazać się też, że chcemy skorzystać z dobrodziejstwa ECMAScript, które nie są jeszcze obsługiwane przez żadną z dostępnych przeglądarek. W tym celu korzystać będziemy z 2 popularnych narzędzi. Nie musisz być biegły w ich konfiguracji, ale chciałbym byś wiedział do czego służą oraz znał ich ograniczenia.
             </p>            
           </Column>
         </Row>     
@@ -242,7 +242,7 @@ export default class Lesson extends React.Component {
           <Column><h3>eslint</h3></Column>
           <Column width={6}>
             <p>
-              <a href="https://eslint.org/" target="_blank">ESLint</a> pozwala na narzucenie standardów dotyczących tworzonego kodu a następnie skanowanie naszej aplikacji w celu wykrycia fragmentów nie spełniających tych założeń. Pozwala on zarówno na wychwycenie błędów (t.j. użycie nie zadeklarowanych zmiennych), dbanie o spójny kod (średniki lub ich brak, pojedyncze lub podwójne cudzysłowia ... spacje czy tabulatory?) ale także na wychwytywanie błędów w użytkowaniu konkretnych bibliotek (np. React!).
+              <a href="https://eslint.org/" target="_blank">ESLint</a> pozwala na narzucenie standardów dotyczących tworzonego kodu a następnie skanowanie naszej aplikacji w celu wykrycia fragmentów nie spełniających tych założeń. Pozwala on zarówno na wychwycenie błędów (t.j. użycie nie zadeklarowanych zmiennych), dbanie o spójny kod (średniki lub ich brak, pojedyncze lub podwójne cudzysłowie ... spacje czy tabulatory?) ale także na wychwytywanie błędów w użytkowaniu konkretnych bibliotek (np. React!).
             </p>         
           </Column>          
           <Column width={6}>
@@ -253,7 +253,7 @@ export default class Lesson extends React.Component {
                 47:7   error  Do not use setState in componentDidUpdate       react/no-did-update-set-state
             `}</Example>
             <p>
-              <small>Przykładowe podsumowanie znalezionych błedów</small>
+              <small>Przykładowe podsumowanie znalezionych błędów</small>
             </p>
           </Column>
         </Row>
@@ -314,7 +314,7 @@ export default class Lesson extends React.Component {
             <p>
               Możemy teraz utworzyć nasz nowy projekt za pomocą komendy:<br />
               <code>create-react-app nazwa-katalogu</code><br />
-              Należy pamiętać, że nazwa katalogu nie może pokrywać się z nazwą instalowanych w nim pakietów npm, dlatego nie używajmy naz typu "react" etc.
+              Należy pamiętać, że nazwa katalogu nie może pokrywać się z nazwą instalowanych w nim pakietów npm, dlatego nie używajmy nazw typu "react" etc.
             </p>
           </Column>          
           <Column width={6}>
@@ -358,7 +358,7 @@ export default class Lesson extends React.Component {
           </Column>
         </Row>
         <Row>
-          <Column><h3>uruchomenie</h3></Column>
+          <Column><h3>uruchomienie</h3></Column>
           <Column width={6}>
             <p>Po utworzeniu nowego projektu możemy od razu uruchomić go przechodząc do katalogu projektu i wywołując komendę `<code>npm start</code>`</p>
             <p>
