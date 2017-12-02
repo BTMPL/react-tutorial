@@ -647,7 +647,7 @@ export default class Lesson extends React.Component {
               import ReactDOM from "react-dom";
               
               const TweetTime = (props) => {
-                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
                 return <time>{date}</time>
               }
               const TweetUser = ({ name, handle }) => <span><b>{name}</b> @{handle}</span>;
@@ -746,7 +746,7 @@ export default class Lesson extends React.Component {
               import PropTypes from "prop-types";
 
               const TweetTime = (props) => {
-                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
                 return <time>{date}</time>
               };
               TweetTime.propTypes = {
@@ -828,7 +828,7 @@ export default class Lesson extends React.Component {
               import PropTypes from "prop-types";
 
               const TweetTime = (props) => {
-                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
                 return <time>{date}</time>
               };
               TweetTime.propTypes = {
@@ -927,7 +927,7 @@ export default class Lesson extends React.Component {
               import PropTypes from "prop-types";
 
               const TweetTime = (props) => {
-                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
                 return <time>{date}</time>
               };
               TweetTime.propTypes = {
@@ -1034,7 +1034,7 @@ export default class Lesson extends React.Component {
               import PropTypes from "prop-types";
 
               const TweetTime = (props) => {
-                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
                 return <time>{date}</time>
               };
               TweetTime.propTypes = {
@@ -1132,7 +1132,7 @@ export default class Lesson extends React.Component {
               import PropTypes from "prop-types";
 
               const TweetTime = (props) => {
-                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
                 return <time>{date}</time>
               };
               TweetTime.propTypes = {
@@ -1258,7 +1258,7 @@ export default class Lesson extends React.Component {
               import PropTypes from "prop-types";
 
               const TweetTime = (props) => {
-                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
                 return <time>{date}</time>
               };
               TweetTime.propTypes = {
@@ -1386,7 +1386,7 @@ export default class Lesson extends React.Component {
             import PropTypes from "prop-types";
 
             const TweetTime = (props) => {
-              const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+              const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
               return <time>{date}</time>
             };
             TweetTime.propTypes = {
@@ -1642,7 +1642,7 @@ export default class Lesson extends React.Component {
               import PropTypes from "prop-types";
 
               const TweetTime = (props) => {
-                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
                 return <time>{date}</time>
               };
               TweetTime.propTypes = {
@@ -1755,7 +1755,7 @@ export default class Lesson extends React.Component {
               import PropTypes from "prop-types";
 
               const TweetTime = (props) => {
-                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
                 return <time>{date}</time>
               };
               TweetTime.propTypes = {
@@ -1900,7 +1900,7 @@ export default class Lesson extends React.Component {
               import PropTypes from "prop-types";
 
               const TweetTime = (props) => {
-                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
                 return <time>{date}</time>
               };
               TweetTime.propTypes = {
@@ -2317,7 +2317,7 @@ export default class Lesson extends React.Component {
               import PropTypes from "prop-types";
 
               const TweetTime = (props) => {
-                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
                 return <time>{date}</time>
               };
               TweetTime.propTypes = {
@@ -2480,7 +2480,7 @@ export default class Lesson extends React.Component {
               import PropTypes from "prop-types";
 
               const TweetTime = (props) => {
-                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
                 return <time>{date}</time>
               };
               TweetTime.propTypes = {
@@ -2630,7 +2630,7 @@ export default class Lesson extends React.Component {
               import PropTypes from "prop-types";
 
               const TweetTime = (props) => {
-                const date = \`\${props.date.getDay() + 1} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
                 return <time>{date}</time>
               };
               TweetTime.propTypes = {
