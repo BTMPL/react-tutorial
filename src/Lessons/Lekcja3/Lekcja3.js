@@ -232,7 +232,7 @@ export default class Lesson extends React.Component {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
 
@@ -278,7 +278,7 @@ export default class Lesson extends React.Component {
             </ul>
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
                           
@@ -324,7 +324,7 @@ export default class Lesson extends React.Component {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
 
@@ -377,7 +377,7 @@ export default class Lesson extends React.Component {
 
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
 
@@ -540,7 +540,7 @@ export default class Lesson extends React.Component {
             </p>
           </Column>        
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               
@@ -642,7 +642,7 @@ export default class Lesson extends React.Component {
             </p>
           </Column>        
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               
@@ -739,7 +739,7 @@ export default class Lesson extends React.Component {
             </p>
           </Column>        
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               @important
@@ -822,7 +822,7 @@ export default class Lesson extends React.Component {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -921,7 +921,7 @@ export default class Lesson extends React.Component {
             </div>     
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -1028,7 +1028,7 @@ export default class Lesson extends React.Component {
             </ul>
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -1126,7 +1126,7 @@ export default class Lesson extends React.Component {
 
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -1252,7 +1252,7 @@ export default class Lesson extends React.Component {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -1380,7 +1380,7 @@ export default class Lesson extends React.Component {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
             import React from "react";
             import ReactDOM from "react-dom";
             import PropTypes from "prop-types";
@@ -1548,14 +1548,17 @@ export default class Lesson extends React.Component {
               nie jest ona wywoływana np. jako callback lub po określonym czasie (<code>setTimeout</code>, <code>setInterval</code>). Aby zapobiec temu "problemowi"
               możemy wykorzystać jedno z 3 rozwiązań:
             </p>
-            <Example>{`
+            <Example isRunable>{`
+              import React from "react";
+              import ReactDOM from "react-dom";
+
               class Example extends React.Component {
                 handleClick() {
-                  console.log(this);
+                  alert(this);
                 }
 
                 handleClickBound = () => {
-                  console.log(this);
+                  alert(this);
                 }
 
                 render() {
@@ -1569,6 +1572,8 @@ export default class Lesson extends React.Component {
                   )
                 }
               }
+
+              ReactDOM.render(<Example />, document.getElementById('root'));
             `}</Example>
 
             <h3>SyntheticEvent</h3>
@@ -1631,7 +1636,7 @@ export default class Lesson extends React.Component {
             <p>aby sprawdzić, czy wszystko działa OK - strona powinna odświeżyć się i pokazać nową zawartość.</p>
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -1744,7 +1749,7 @@ export default class Lesson extends React.Component {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -1889,7 +1894,7 @@ export default class Lesson extends React.Component {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -2306,7 +2311,7 @@ export default class Lesson extends React.Component {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -2469,7 +2474,7 @@ export default class Lesson extends React.Component {
             </Uwaga>
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -2619,7 +2624,7 @@ export default class Lesson extends React.Component {
             </p>            
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";

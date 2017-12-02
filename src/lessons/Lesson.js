@@ -3,7 +3,6 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 import { Align, Column, Row } from "../common/Layout/Layout";
-import Sidebar from "../common/Sidebar/Sidebar";
 
 import Style from "./Lesson.less";
 
@@ -51,17 +50,17 @@ export default class Lesson extends React.Component {
     const Component = this.state.lessonComponent;
 
     return (
-      <Row full>
-        <div className={Style.sidebar}>
+      <Row full className={Style.lesson}>
+        <Column width={3} className={Style.sidebar}>
           {this.renderIndex()}
-        </div>
-        <div className={Style.content}>     
+        </Column>
+        <Column width={9} className={Style.content}>     
           <Row>
             <Column>
               <Component section={this.props.match.params.section} />
             </Column>
           </Row>
-        </div>
+        </Column>
       </Row>
     );
   }

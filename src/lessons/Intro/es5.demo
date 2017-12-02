@@ -1,3 +1,0 @@
-var double = function(item) {
-  return item * 2;
-}

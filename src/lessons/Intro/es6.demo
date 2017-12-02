@@ -1,3 +1,0 @@
-// "Arrow function" lub "fat arrow" to nowy sposób tworzenia funkcji w ES6
-// Poza krótszą składnią posiada on także niejawny `return` jeżeli nie umiesz kodu w {}
-const double = item => item * 2;

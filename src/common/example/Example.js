@@ -80,14 +80,16 @@ export default class Example extends React.Component {
     this.loadScript('https://unpkg.com/react@16/umd/react.production.min.js', this.window.document).then(() => {
       this.loadScript('https://unpkg.com/react-dom@16/umd/react-dom.production.min.js', this.window.document).then(() => {
         this.loadScript('https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.0/prop-types.min.js', this.window.document).then(() => {
-          const s = this.window.document.createElement('script');
-          let code = this.state.fullText || this.state.text;
-          code = code.replace(/import(.*)\n/g, '');
-          s.text = window.Babel.transform(code, {
-            presets: ["react"],
-            plugins: ["transform-class-properties"]
-          }).code;
-          this.window.document.body.appendChild(s);
+          this.loadScript('https://cdnjs.cloudflare.com/ajax/libs/styled-components/2.2.4/styled-components.min.js', this.window.document).then(() => {
+            const s = this.window.document.createElement('script');
+            let code = this.state.fullText || this.state.text;
+            code = code.replace(/import(.*)\n/g, '');
+            s.text = window.Babel.transform(code, {
+              presets: ["react"],
+              plugins: ["transform-class-properties"]
+            }).code;
+            this.window.document.body.appendChild(s);
+          })
         })
       })
     })

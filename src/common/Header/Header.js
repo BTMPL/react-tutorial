@@ -11,14 +11,14 @@ export default class Header extends React.Component {
   render() {
     return (
       <header className={Style.header}>
-        <Row>
+        <Row full>
           <Column width={6}>
-            [logo]
+            szczecinski.eu
           </Column>
           <Column width={6}>        
             <Align right>
               <NavLink to="/" exact>O kursie</NavLink>
-              <Link to="/lekcja/intro" strict="true">Start</Link>
+              <Link to="/lekcja/lekcja1/podstawowe-pojecia" strict="true">Start</Link>
             </Align>
           </Column>
         </Row>

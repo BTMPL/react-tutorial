@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Route, Switch, Link } from "react-router-dom";
 
-import Header from "common/Header/Header";
+import Header from "./common/Header/Header";
 
 import Lesson from "./Lessons/Lesson";
 import Home from "./Home/Home";
