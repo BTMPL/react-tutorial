@@ -6,12 +6,10 @@ import Example from "./../../common/example/Example";
 
 import devtools from "./react-devtools.jpg";
 
-export default class Lesson extends React.Component {
+import Lekcja from "../Lekcja";
 
-  static propTypes = {
-    section: PropTypes.string
-  }
-
+export default class Lesson extends Lekcja {
+  
   static title = "Lekcja 1 - Podstawowe pojęcia, konfiguracja środowiska pracy";
 
   static getSections = () => {
@@ -34,32 +32,6 @@ export default class Lesson extends React.Component {
       }
     ]
   }
-
-  renderIndex = () => {
-
-  }
-
-  getPrev = (currentUrl) => {
-    const index = Lesson.getSections().findIndex((item => {
-      const split = item.url.split('/');
-      return split[split.length - 1] === currentUrl;
-    }));
-    if(index === 0) {
-      return;
-    }
-    return Lesson.getSections()[index - 1];
-  }
-
-  getNext = (currentUrl) => {
-    const index = Lesson.getSections().findIndex((item => {
-      const split = item.url.split('/');
-      return split[split.length - 1] === currentUrl;
-    }));
-    if(index + 1 === Lesson.getSections().length) {
-      return;
-    }
-    return Lesson.getSections()[index + 1];
-  }   
 
   renderPodstawowePojecia = () => {
     return (
@@ -416,20 +388,8 @@ export default class Lesson extends React.Component {
             </p>
           </Column>
         </Row>
-        <Navigate prev={this.getPrev(this.props.section)} next={{title:'Lekcja 2', url: '/lekcja/lekcja2/wprowadzenie-do-react'}} />
+        <Navigate prev={this.getPrev(this.props.section)} next={{title:'Lekcja 2', url: '/lekcja/lekcja2/const-let'}} />
       </div>      
     )      
-  }
-
-  render() {
-    if(this.props.section) {
-      const section = 'render' + this.props.section.split('-').reduce((acc, item, index) => {
-        return acc.concat(`${item.substr(0, 1).toUpperCase()}${item.substr(1)}`);
-      }, []).join('')
-    
-      return this[section]()
-    }
-
-    else return this.renderPodstawowePojecia();
   }
 }

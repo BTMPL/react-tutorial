@@ -6,12 +6,9 @@ import Example from "./../../common/example/Example";
 
 import { Uwaga } from "./../../common/Inserts/Inserts";
 
+import Lekcja from "../Lekcja";
 
-export default class Lesson extends React.Component {
-
-  static propTypes = {
-    section: PropTypes.string
-  }
+export default class Lesson extends Lekcja {
 
   static title = "Lekcja 2 - Szybki kurs ES6 i ESNext";
 
@@ -54,28 +51,6 @@ export default class Lesson extends React.Component {
         title: 'Dekoratory',
       },      
     ]
-  }  
-
-  getPrev = (currentUrl) => {
-    const index = Lesson.getSections().findIndex((item => {
-      const split = item.url.split('/');
-      return split[split.length - 1] === currentUrl;
-    }));
-    if(index === 0) {
-      return;
-    }
-    return Lesson.getSections()[index - 1];
-  }
-
-  getNext = (currentUrl) => {
-    const index = Lesson.getSections().findIndex((item => {
-      const split = item.url.split('/');
-      return split[split.length - 1] === currentUrl;
-    }));
-    if(index + 1 === Lesson.getSections().length) {
-      return;
-    }
-    return Lesson.getSections()[index + 1];
   }  
 
   renderConstLet = () => {
@@ -151,7 +126,7 @@ export default class Lesson extends React.Component {
             `}</Example>
           </Column>
         </Row>        
-        <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
+        <Navigate prev={{url: '/lekcja/lekcja1/podstawowe-pojecia', title: 'Lekcja 1'}} next={this.getNext(this.props.section)} />
       </div> 
     );
   }
@@ -853,20 +828,8 @@ export default class Lesson extends React.Component {
             `}</Example>
           </Column>
         </Row>                     
-        <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
+        <Navigate prev={this.getPrev(this.props.section)} next={{url: '/lekcja/lekcja3/wprowadzenie-do-react', title: 'Lekcja 3'}} />
       </div> 
     );
   }   
-
-
-  render() {
-    if(this.props.section) {
-      const section = 'render' + this.props.section.split('-').reduce((acc, item, index) => {
-        return acc.concat(`${item.substr(0, 1).toUpperCase()}${item.substr(1)}`);
-      }, []).join('')
-      return this[section]();
-    }
-    
-    return <div>Lesson 2</div>
-  }
 }

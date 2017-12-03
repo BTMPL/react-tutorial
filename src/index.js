@@ -24,7 +24,7 @@ const render = () => {
     <div>
       <Header />
       <Switch>
-        <Route path="/lekcja/:lesson/:section?" component={Lesson} />
+        <Route path="/lekcja/:lesson/:section?" component={Lesson} />        
         <Route component={Home} />
       </Switch>
       <Route component={Scroll} />

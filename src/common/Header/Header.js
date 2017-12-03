@@ -17,8 +17,9 @@ export default class Header extends React.Component {
           </Column>
           <Column width={6}>        
             <Align right>
-              <NavLink to="/" exact>O kursie</NavLink>
-              <Link to="/lekcja/lekcja1/podstawowe-pojecia" strict="true">Start</Link>
+              <NavLink to="/" exact>Home</NavLink>
+              <a href="https://medium.com/@baphemot" target="_blank">Blog</a>
+              <Link to="/lekcja/lekcja1/podstawowe-pojecia" strict="true">Kurs React</Link>
             </Align>
           </Column>
         </Row>
