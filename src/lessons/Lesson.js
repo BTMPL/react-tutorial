@@ -11,18 +11,25 @@ import Lesson2 from "./Lekcja2/Lekcja2";
 import Lesson3 from "./Lekcja3/Lekcja3";
 import Lesson4 from "./Lekcja4/Lekcja4";
 
+const lessons = {
+  lekcja1: Lesson1,
+  lekcja2: Lesson2,
+  lekcja3: Lesson3,
+  lekcja4: Lesson4
+};
+
 
 export default class Lesson extends React.Component {
   state = {
     lessonComponent: null
   }
 
-  loadLesson = (lesson) => {
-    const fileName = `${lesson.substr(0, 1).toUpperCase()}${lesson.substr(1)}`;
-    import(`./${fileName}/${fileName}`).then(data => this.setState({
-      lessonComponent: data.default
-    }));
+  loadLesson = (lessonName) => {
+    this.setState({
+      lessonComponent: lessons[lessonName]
+    });
   }
+
 
   renderIndex = () => {
     return (
