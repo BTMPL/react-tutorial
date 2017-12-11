@@ -20,16 +20,6 @@ const lessons = {
 
 
 export default class Lesson extends React.Component {
-  state = {
-    lessonComponent: null
-  }
-
-  loadLesson = (lessonName) => {
-    this.setState({
-      lessonComponent: lessons[lessonName]
-    });
-  }
-
 
   renderIndex = () => {
     return (
@@ -51,11 +41,7 @@ export default class Lesson extends React.Component {
   }
 
   render() {
-    if(!this.state.lessonComponent) {
-      return <Row><Column><Align center><p>Wczytywanie ...</p></Align></Column></Row>
-    }
-
-    const Component = this.state.lessonComponent;
+    const Component = lessons[this.props.match.params.lesson];
 
     return (
       <Row full className={Style.lesson}>
@@ -71,17 +57,5 @@ export default class Lesson extends React.Component {
         </Column>
       </Row>
     );
-  }
-
-  componentDidMount() {
-    this.loadLesson(this.props.match.params.lesson);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.match.params.lesson !== this.props.match.params.lesson) {
-      this.setState({
-        lessonComponent: null
-      }, () => this.loadLesson(nextProps.match.params.lesson));
-    }
   }
 }
