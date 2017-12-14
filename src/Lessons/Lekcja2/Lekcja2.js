@@ -43,8 +43,8 @@ export default class Lesson extends Lekcja {
         title: 'Moduły',
       },
       {
-        url: '/lekcja/lekcja2/promise-i-async-await',
-        title: 'Promise i async await',
+        url: '/lekcja/lekcja2/promise',
+        title: 'Kod asynchroniczny - Promise',
       },      
       {
         url: '/lekcja/lekcja2/dekoratory',
@@ -832,4 +832,148 @@ export default class Lesson extends Lekcja {
       </div> 
     );
   }   
+
+  renderPromise = () => {
+    return (
+      <div>
+        <Row>
+          <Column>
+            <h2>Szybki kurs ES6 i ESNext</h2>
+            <h3>Kod asynchroniczny</h3>
+            <p>
+              Duża część pracy z JS zwiazana jest ze operacjami, które nie dzieją się od razu - odpytywanie zewnętrznych serwerów, oczekiwanie na 
+              skomplikowane obliczenia czy wykonanie się innego kawałku kodu. Jako, że JS jest jedno wątkowy, wykonywanie tego typu operacji na głównym
+              wątku powodowało by zablokowanie go - w rezultacie blokowało by także interakcję z UI etc.
+            </p>
+            <p>
+              Dotychczasowo problem ten rozwiąznywany był przy użyciu callbacków - funkcje były wywoływane z inną funkcją, która była następnie wywoływana
+              kiedy główne zadanie zostało wykonane. Kod taki stawał się nieczytelny i bardzo szybko można było przestać orientować się w jaki sposób 
+              przebiega egzekucja aplikacji.
+            </p>
+            <p>
+              W celu rozwiązania problemu w ES6 wprowadzono pojęcie Promise (z ang. "obietnice"), które raz rozpoczęte mogą zakończyć pozytywnie lub 
+              negatywnie, a nasza aplikacja może "zasubskrybować" oba te zdarzenia.
+            </p>
+
+            <h3>Promise</h3>
+          </Column>
+        </Row>        
+        <Row>
+          <Column width={6}>
+            <p>
+              W celu utworzenia własnego Promise używamy konstruktora <code>new Promise</code> przekazując 2 callbacki - <code>resolve</code> i <code>reject</code>.
+            </p>
+            <p>
+              W celu "zasubskrybowania" pomyślnego wykonania się Promise, na zwróconym obiekcie używamy metody <code>.then</code>, która jako parametr
+              przyjmuje wartość, z jaką "wykonał" się Promise. W celu zasubskrybowania niepoprawnego wykonania, używamy analogicznie metody <code>.catch</code>.
+            </p>
+            <p>
+              Samo Promise powinno zaś wywołać <code>resolve</code> jeżeli wszystko zakończyło się sukcesem, lub <code>reject</code> jeżeli operacja nie
+              powiodła się. Wartość, z jaką zostaną wywołane w/w funkcje przekazywana jest odpowiednio do <code>then</code> oraz <code>catch</code>.
+            </p>
+          </Column>
+          <Column width={6}>
+            <Example isRunable={true}>{`
+              const getPromise = () => {
+                return new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    resolve(42);
+                  }, 1000);
+                });
+              }
+
+              alert('Tworze Promise');
+              getPromise().then(value => {
+                alert('Promise wykonane, wartość: ' + value);
+              });
+              alert('Promise utworzone pomyślnie');
+            `}</Example>
+          </Column>
+        </Row>  
+        <Row>
+          <Column width={6}>
+            <p>
+              Promise może występować jedynie w jedynym z 3 stanów: nie wykonany, wykonany pomyślnie i wykonany niepomyślnie. Jeżeli użyjemy <code>.then</code>
+              lub <code>.catch</code> na Promise które już wcześniej było wykonane pomyślnie/niepomyślnie, nasz "listener" zostanie wykonany w następnym 
+              cyklu interpretora JS.
+            </p>
+            <p>
+              Możliwe jest także utworzenie Promise które od razu będzie wykonane pomyślnie lub niepomyślnie używając <code>Promise.resolve()</code> lub 
+              <code>Promise.reject()</code>
+            </p>
+          </Column>
+          <Column width={6}>
+            <Example isRunable={true}>{`
+              const resolvedPromise = Promise.resolve();
+              resolvedPromise.then(() => alert('Promise pomyślny!'));
+
+              const rejectedPromise = Promise.reject();
+              rejectedPromise.catch(() => alert('Promise zakonczony niepowodzeniem!'));
+
+            `}</Example>
+          </Column>
+        </Row>    
+        
+        <Row>
+          <Column width={6}>
+            <p>
+              Promisy mogą być także łączone w łańcuchy (ang. chained) - jeżeli funkcja przekazana w <code>then</code> zwróci cokolwiek innego niż wartość
+              falsy lub odrzucone Promise, kolejny <code>then</code> zostanie wykonany (i odpowiednio dla łańcuchów <code>catch</code>).
+            </p>
+          </Column>
+          <Column width={6}>
+            <Example isRunable={true}>{`
+              const resolvedPromise = Promise.resolve();
+              resolvedPromise.then(() => {
+                  alert('Pierwszy Promise pomyślny!');
+                  return 42;
+              }).then((value) => alert('Poprzednie "then" przesłało dalej ' + value));
+            `}</Example>
+          </Column>
+        </Row>  
+        
+        <Row>
+          <Column width={6}>
+            <p>
+              Dodatkowo, obiekt Promise zawiera dwa mechanizmy pozwalające na pracę z wieloma Promisami:
+            </p>
+            <p>
+              <code>Promise.all([Promise])</code> - utworzy Promise, który wykona się w momencie, kiedy wszystkie przekazane obiekty Promise wykonają się<br />.
+              <code>Promise.race([Promise])</code> - wywoła się w momencie, w którym wywoła się pierwszy z przekazanych obiektów Promise.
+            </p>
+          </Column>
+          <Column width={6}>
+            <Example isRunable={true}>{`
+              Promise.all([
+                new Promise(res => setTimeout(() => res(42), 1000)), // wykonaj po 1 sekundzie,
+                new Promise(res => setTimeout(() => res(64), 2000)) // wykonaj po 2 sekundach
+              ]).then(values => {
+                alert('Wywołano z tablicą: ' + values.join(', '));
+              });
+            `}</Example>
+            <Example isRunable={true}>{`
+              Promise.race([
+                new Promise(res => setTimeout(() => res(42), 1000)), // wykonaj po 1 sekundzie,
+                new Promise(res => setTimeout(() => res(64), 2000)) // wykonaj po 2 sekundach
+              ]).then(value => {
+                alert('Wywołano z wynikiem: ' + value); // wywołane tylko dla pierwszego Promise!
+              });
+            `}</Example>            
+          </Column>
+        </Row>    
+        <Row>
+          <Column>
+            <Uwaga>
+              <h4>Uwaga</h4>
+              <p>
+                Raz uruchomionego Promise nie da się anulować. Jeżeli zachodzi potrzeba anulowania, należy przewidzieć to w części <code>then</code>. Istnieje 
+                kilka rozwiązań tego problemu w postaci nieoficjalnych bibliotek.
+              </p>
+            </Uwaga>
+          </Column>
+        </Row>     
+        <Navigate prev={this.getPrev(this.props.section)} next={{url: '/lekcja/lekcja3/wprowadzenie-do-react', title: 'Lekcja 3'}} />
+      </div> 
+    );
+  }    
 }

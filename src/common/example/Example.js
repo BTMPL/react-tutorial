@@ -75,7 +75,7 @@ export default class Example extends React.Component {
   handleRender = () => {
 
     this.window = window.open('', 'reactwindow', 'width=400; height=600');
-    this.window.document.body.innerHTML = `<div id="root">Please wait ...</div>`;
+    this.window.document.body.innerHTML = `<div id="root">Ładowanie ...</div>`;
 
     this.loadScript('https://unpkg.com/react@16/umd/react.production.min.js', this.window.document).then(() => {
       this.loadScript('https://unpkg.com/react-dom@16/umd/react-dom.production.min.js', this.window.document).then(() => {
