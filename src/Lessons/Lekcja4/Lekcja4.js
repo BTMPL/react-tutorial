@@ -692,7 +692,7 @@ export default class Lesson extends Lekcja {
       <div>
         <Row>
           <Column>
-            <h2>Listy komponentów</h2>
+            <h2>Listy komponentów - renderowanie bez rodzica (Fragmenty)</h2>
             <p>
               W poprzednich rozdziałach mogliśmy zauważyć, że wszędzie tam gdzie renderujemy, lub zwracamy JSX, zwracany jest jeden nadrzędny komponent,
               który zawiera w sobie wiele "sąsiadujących" komponentów. Rozwiązanie to było obowiązkowe w React &lt;= 15 i sprawiało problemy przy pracy
@@ -711,75 +711,7 @@ export default class Lesson extends Lekcja {
             </p>     
           </Column>          
           <Column width={6}>
-            <Example isRunnable>{`
-              import React from "react";
-              import ReactDOM from "react-dom";
-              import PropTypes from "prop-types";
-
-              const TweetTime = (props) => {
-                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
-                return <time>{date}</time>
-              };
-              TweetTime.propTypes = {
-                date: PropTypes.instanceOf(Date).isRequired
-              };
-              
-              const TweetUser = ({ name, handle }) => <span><b>{name}</b> @{handle}</span>;
-              TweetUser.propTypes = {
-                handle: PropTypes.string.isRequired,
-                name: PropTypes.string  
-              };
-              TweetUser.defaultProps = {
-                name: 'Anonim'
-              };
-              
-              class Tweet extends React.Component {
-
-                static propTypes = {
-                  tweet: PropTypes.shape({
-                    user: PropTypes.shape({
-                      handle: PropTypes.string.isReqired,
-                      name: PropTypes.string,
-                    }),
-                    date: PropTypes.instanceOf(Date).isRequired,
-                    text: PropTypes.string.isRequired
-                  })
-                } 
-              
-                render() {
-                  const { user, text, date } = this.props.tweet;
-                  return (
-                    <div>
-                      <TweetUser name={user.name} handle={user.handle} /> -
-                      <TweetTime date={date} />
-                      <p>
-                        {text}
-                      </p>
-                    </div>
-                  )
-                }
-              }            
-              
-              
-              const TweetData = [{
-                id: 1,
-                user: {
-                  name: "Bartosz Szczeciński",
-                  handle: "btmpl"
-                },
-                date: new Date(),
-                text: "Witaj świecie!"
-              }, {
-                id: 2,
-                user: {
-                  name: "Bartosz Szczeciński",
-                  handle: "btmpl"
-                },
-                date: new Date(),
-                text: "To jest mój prywatny Twitter!"
-              }];
-
-              @important             
+            <Example>{`          
               const TweetList = ({ tweets }) => {                
                 return (
                   <div>
@@ -787,15 +719,7 @@ export default class Lesson extends Lekcja {
                     <Tweet tweet={tweets[1]} />
                   </div>
                 );
-              }   
-              @end-important 
-
-              TweetList.propTypes = {
-                tweets: PropTypes.arrayOf(PropTypes.object)
-              }
-
-              ReactDOM.render(<TweetList tweets={TweetData} />, document.getElementById('root'));              
-                           
+              }           
             `}</Example>              
           </Column>          
         </Row>
@@ -807,100 +731,50 @@ export default class Lesson extends Lekcja {
             </p>     
           </Column>          
           <Column width={6}>
-            <Example isRunnable>{`
-              import React from "react";
-              import ReactDOM from "react-dom";
-              import PropTypes from "prop-types";
-
-              const TweetTime = (props) => {
-                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
-                return <time>{date}</time>
-              };
-              TweetTime.propTypes = {
-                date: PropTypes.instanceOf(Date).isRequired
-              };
-              
-              const TweetUser = ({ name, handle }) => <span><b>{name}</b> @{handle}</span>;
-              TweetUser.propTypes = {
-                handle: PropTypes.string.isRequired,
-                name: PropTypes.string  
-              };
-              TweetUser.defaultProps = {
-                name: 'Anonim'
-              };
-              
-              class Tweet extends React.Component {
-
-                static propTypes = {
-                  tweet: PropTypes.shape({
-                    user: PropTypes.shape({
-                      handle: PropTypes.string.isReqired,
-                      name: PropTypes.string,
-                    }),
-                    date: PropTypes.instanceOf(Date).isRequired,
-                    text: PropTypes.string.isRequired
-                  })
-                } 
-              
-                render() {
-                  const { user, text, date } = this.props.tweet;
-                  return (
-                    <div>
-                      <TweetUser name={user.name} handle={user.handle} /> -
-                      <TweetTime date={date} />
-                      <p>
-                        {text}
-                      </p>
-                    </div>
-                  )
-                }
-              }            
-              
-              
-              const TweetData = [{
-                id: 1,
-                user: {
-                  name: "Bartosz Szczeciński",
-                  handle: "btmpl"
-                },
-                date: new Date(),
-                text: "Witaj świecie!"
-              }, {
-                id: 2,
-                user: {
-                  name: "Bartosz Szczeciński",
-                  handle: "btmpl"
-                },
-                date: new Date(),
-                text: "To jest mój prywatny Twitter!"
-              }];
-
-              @important             
+            <Example>{`           
               const TweetList = ({ tweets }) => {                
                 return (
-                  React.Fragment([
+                  <React.Fragment>
                     <Tweet tweet={tweets[0]} />,
                     <Tweet tweet={tweets[1]} />
-                  ])
+                  </React.Fragment>
                 );
-              }   
-              @end-important 
-
-              TweetList.propTypes = {
-                tweets: PropTypes.arrayOf(PropTypes.object)
-              }
-
-              ReactDOM.render(<TweetList tweets={TweetData} />, document.getElementById('root'));              
-                          
-            `}</Example>
-            {
-              React.Fragment([
-                <div>hi</div>,
-                <div>ho</div>,
-              ])
-            }              
+              }         
+            `}</Example>                  
           </Column>          
-        </Row>             
+        </Row>     
+        <Row>
+          <Column width={6}>
+            <p>
+              W nowej wersji JSX możemy korzystać z jeszcze bardziej uproszczonej notacji. Należy mieć jednak na uwadze, że nie każdy boilerplate 
+              i nie każde narzędzie (edytor, runner testów etc.) mogą rozpoznać te składnię.
+            </p>   
+            <p>
+              Więcej o Fragmentach przeczytasz na stronie <a href="https://reactjs.org/docs/fragments.html" target="_blank">https://reactjs.org/docs/fragments.html</a>.
+            </p>              
+          </Column>          
+          <Column width={6}>
+            <Example>{`           
+              const TweetList = ({ tweets }) => {                
+                return (
+                  <>
+                    <Tweet tweet={tweets[0]} />,
+                    <Tweet tweet={tweets[1]} />
+                  </>
+                );
+              }         
+            `}</Example>                  
+          </Column>          
+        </Row>    
+        <Row>
+          <Uwaga>
+            <h4>Uwaga</h4>
+            <p>
+              Jeżeli korzystasz z React w wersji &gt;16 i &lt; 16.2 możesz skorzystać z biblioteki <a href="https://github.com/gajus/react-aux" target="_blank">react-aux</a>
+              aby móc stosować uproszczoną składnię z identycznym rezultatem.
+            </p>
+          </Uwaga>
+        </Row>              
         <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
       </div>
     )
