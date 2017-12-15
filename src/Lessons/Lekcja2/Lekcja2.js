@@ -126,7 +126,7 @@ export default class Lesson extends Lekcja {
             `}</Example>
           </Column>
         </Row>        
-        <Navigate prev={{url: '/lekcja/lekcja1/podstawowe-pojecia', title: 'Lekcja 1'}} next={this.getNext(this.props.section)} />
+        <Navigate prev={{url: '/lekcja/lekcja1/create-react-app', title: 'Lekcja 1'}} next={this.getNext(this.props.section)} />
       </div> 
     );
   }
@@ -873,7 +873,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunnable={true}>{`
               const getPromise = () => {
                 return new Promise((resolve, reject) => {
                   setTimeout(() => {
@@ -903,7 +903,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunnable={true}>{`
               const resolvedPromise = Promise.resolve();
               resolvedPromise.then(() => alert('Promise pomyślny!'));
 
@@ -922,7 +922,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunnable={true}>{`
               const resolvedPromise = Promise.resolve();
               resolvedPromise.then(() => {
                   alert('Pierwszy Promise pomyślny!');
@@ -943,7 +943,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable={true}>{`
+            <Example isRunnable={true}>{`
               Promise.all([
                 new Promise(res => setTimeout(() => res(42), 1000)), // wykonaj po 1 sekundzie,
                 new Promise(res => setTimeout(() => res(64), 2000)) // wykonaj po 2 sekundach
@@ -951,7 +951,7 @@ export default class Lesson extends Lekcja {
                 alert('Wywołano z tablicą: ' + values.join(', '));
               });
             `}</Example>
-            <Example isRunable={true}>{`
+            <Example isRunnable={true}>{`
               Promise.race([
                 new Promise(res => setTimeout(() => res(42), 1000)), // wykonaj po 1 sekundzie,
                 new Promise(res => setTimeout(() => res(64), 2000)) // wykonaj po 2 sekundach

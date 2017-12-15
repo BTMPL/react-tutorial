@@ -125,7 +125,7 @@ export default class Lesson extends Lekcja {
             </p>          
           </Column>
         </Row>
-        <Navigate prev={{url: '/lekcja/lekcja1/podstawowe-pojecia', title: 'Lekcja 2'}} next={this.getNext(this.props.section)} />
+        <Navigate prev={{url: '/lekcja/lekcja2/dekoratory', title: 'Lekcja 2'}} next={this.getNext(this.props.section)} />
       </div>
     )
   }
@@ -171,7 +171,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
 
@@ -217,7 +217,7 @@ export default class Lesson extends Lekcja {
             </ul>
           </Column>
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
                           
@@ -263,7 +263,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
 
@@ -316,7 +316,7 @@ export default class Lesson extends Lekcja {
 
           </Column>
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
 
@@ -479,7 +479,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>        
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               

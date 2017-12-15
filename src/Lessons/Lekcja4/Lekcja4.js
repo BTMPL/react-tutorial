@@ -27,6 +27,10 @@ export default class Lesson extends Lekcja {
         title: 'Listy komponentów'
       },
       {
+        url: '/lekcja/lekcja4/renderowanie-wielu-komponentow',
+        title: 'Listy komponentów - renderowanie bez rodzica'
+      },      
+      {
         url: '/lekcja/lekcja4/wprowadzenie-do-formularzy',
         title: 'Formularze niekontrolowane, referencje'
       }, 
@@ -110,7 +114,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>        
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               
@@ -161,7 +165,7 @@ export default class Lesson extends Lekcja {
             </Uwaga>          
           </Column>
         </Row>                 
-        <Navigate prev={{url: '/lekcja/lekcja3/wprowadzenie-do-react', title: 'Lekcja 3'}} next={this.getNext(this.props.section)} />    
+        <Navigate prev={{url: '/lekcja/lekcja3/kompozycja', title: 'Lekcja 3'}} next={this.getNext(this.props.section)} />    
       </div>
     )
   }
@@ -207,7 +211,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>        
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               @important
@@ -290,7 +294,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -389,7 +393,7 @@ export default class Lesson extends Lekcja {
             </div>     
           </Column>
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -496,7 +500,7 @@ export default class Lesson extends Lekcja {
             </ul>
           </Column>
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -594,7 +598,7 @@ export default class Lesson extends Lekcja {
 
           </Column>
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -683,6 +687,226 @@ export default class Lesson extends Lekcja {
     )
   }
 
+  renderRenderowanieWieluKomponentow = () => {
+    return (
+      <div>
+        <Row>
+          <Column>
+            <h2>Listy komponentów</h2>
+            <p>
+              W poprzednich rozdziałach mogliśmy zauważyć, że wszędzie tam gdzie renderujemy, lub zwracamy JSX, zwracany jest jeden nadrzędny komponent,
+              który zawiera w sobie wiele "sąsiadujących" komponentów. Rozwiązanie to było obowiązkowe w React &lt;= 15 i sprawiało problemy przy pracy
+              z flexbox czy tabelami.
+            </p>
+            <p>
+              Począwszy od React 16.2 możliwym stało się stosowanie nowej składni z użyciem <code>React.Fragment</code>.
+            </p>
+          </Column>
+        </Row>  
+        <Row>
+          <Column width={6}>
+            <p>
+              W kodzie po prawej zmieniliśmy chwilowo nasz komponent tak, by renderował dwa Tweety, owinięte w jeden <code>&lt;div&gt;</code>. Nie zawsze 
+              jest to porządane wyjście. Możemy zatem zmodyfikować nasz komponent tak, by wyrenderowany kod nie zawierał tego dodatkowego znacznika.
+            </p>     
+          </Column>          
+          <Column width={6}>
+            <Example isRunnable>{`
+              import React from "react";
+              import ReactDOM from "react-dom";
+              import PropTypes from "prop-types";
+
+              const TweetTime = (props) => {
+                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                return <time>{date}</time>
+              };
+              TweetTime.propTypes = {
+                date: PropTypes.instanceOf(Date).isRequired
+              };
+              
+              const TweetUser = ({ name, handle }) => <span><b>{name}</b> @{handle}</span>;
+              TweetUser.propTypes = {
+                handle: PropTypes.string.isRequired,
+                name: PropTypes.string  
+              };
+              TweetUser.defaultProps = {
+                name: 'Anonim'
+              };
+              
+              class Tweet extends React.Component {
+
+                static propTypes = {
+                  tweet: PropTypes.shape({
+                    user: PropTypes.shape({
+                      handle: PropTypes.string.isReqired,
+                      name: PropTypes.string,
+                    }),
+                    date: PropTypes.instanceOf(Date).isRequired,
+                    text: PropTypes.string.isRequired
+                  })
+                } 
+              
+                render() {
+                  const { user, text, date } = this.props.tweet;
+                  return (
+                    <div>
+                      <TweetUser name={user.name} handle={user.handle} /> -
+                      <TweetTime date={date} />
+                      <p>
+                        {text}
+                      </p>
+                    </div>
+                  )
+                }
+              }            
+              
+              
+              const TweetData = [{
+                id: 1,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "Witaj świecie!"
+              }, {
+                id: 2,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "To jest mój prywatny Twitter!"
+              }];
+
+              @important             
+              const TweetList = ({ tweets }) => {                
+                return (
+                  <div>
+                    <Tweet tweet={tweets[0]} />
+                    <Tweet tweet={tweets[1]} />
+                  </div>
+                );
+              }   
+              @end-important 
+
+              TweetList.propTypes = {
+                tweets: PropTypes.arrayOf(PropTypes.object)
+              }
+
+              ReactDOM.render(<TweetList tweets={TweetData} />, document.getElementById('root'));              
+                           
+            `}</Example>              
+          </Column>          
+        </Row>
+        <Row>
+          <Column width={6}>
+            <p>
+              W kodzie po prawej zmieniliśmy chwilowo nasz komponent tak, by renderował dwa Tweety, owinięte w jeden <code>&lt;div&gt;</code>. Nie zawsze 
+              jest to porządane wyjście. Możemy zatem zmodyfikować nasz komponent tak, by wyrenderowany kod nie zawierał tego dodatkowego znacznika.
+            </p>     
+          </Column>          
+          <Column width={6}>
+            <Example isRunnable>{`
+              import React from "react";
+              import ReactDOM from "react-dom";
+              import PropTypes from "prop-types";
+
+              const TweetTime = (props) => {
+                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                return <time>{date}</time>
+              };
+              TweetTime.propTypes = {
+                date: PropTypes.instanceOf(Date).isRequired
+              };
+              
+              const TweetUser = ({ name, handle }) => <span><b>{name}</b> @{handle}</span>;
+              TweetUser.propTypes = {
+                handle: PropTypes.string.isRequired,
+                name: PropTypes.string  
+              };
+              TweetUser.defaultProps = {
+                name: 'Anonim'
+              };
+              
+              class Tweet extends React.Component {
+
+                static propTypes = {
+                  tweet: PropTypes.shape({
+                    user: PropTypes.shape({
+                      handle: PropTypes.string.isReqired,
+                      name: PropTypes.string,
+                    }),
+                    date: PropTypes.instanceOf(Date).isRequired,
+                    text: PropTypes.string.isRequired
+                  })
+                } 
+              
+                render() {
+                  const { user, text, date } = this.props.tweet;
+                  return (
+                    <div>
+                      <TweetUser name={user.name} handle={user.handle} /> -
+                      <TweetTime date={date} />
+                      <p>
+                        {text}
+                      </p>
+                    </div>
+                  )
+                }
+              }            
+              
+              
+              const TweetData = [{
+                id: 1,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "Witaj świecie!"
+              }, {
+                id: 2,
+                user: {
+                  name: "Bartosz Szczeciński",
+                  handle: "btmpl"
+                },
+                date: new Date(),
+                text: "To jest mój prywatny Twitter!"
+              }];
+
+              @important             
+              const TweetList = ({ tweets }) => {                
+                return (
+                  React.Fragment([
+                    <Tweet tweet={tweets[0]} />,
+                    <Tweet tweet={tweets[1]} />
+                  ])
+                );
+              }   
+              @end-important 
+
+              TweetList.propTypes = {
+                tweets: PropTypes.arrayOf(PropTypes.object)
+              }
+
+              ReactDOM.render(<TweetList tweets={TweetData} />, document.getElementById('root'));              
+                          
+            `}</Example>
+            {
+              React.Fragment([
+                <div>hi</div>,
+                <div>ho</div>,
+              ])
+            }              
+          </Column>          
+        </Row>             
+        <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
+      </div>
+    )
+  }
+
+
   renderWprowadzenieDoFormularzy = () => {
     return (
       <div>
@@ -720,7 +944,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -848,7 +1072,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
             import React from "react";
             import ReactDOM from "react-dom";
             import PropTypes from "prop-types";
@@ -1016,7 +1240,7 @@ export default class Lesson extends Lekcja {
               nie jest ona wywoływana np. jako callback lub po określonym czasie (<code>setTimeout</code>, <code>setInterval</code>). Aby zapobiec temu "problemowi"
               możemy wykorzystać jedno z 3 rozwiązań:
             </p>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
 
@@ -1104,7 +1328,7 @@ export default class Lesson extends Lekcja {
             <p>aby sprawdzić, czy wszystko działa OK - strona powinna odświeżyć się i pokazać nową zawartość.</p>
           </Column>
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -1217,7 +1441,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -1362,7 +1586,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -1779,7 +2003,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -1942,7 +2166,7 @@ export default class Lesson extends Lekcja {
             </Uwaga>
           </Column>
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";
@@ -2092,7 +2316,7 @@ export default class Lesson extends Lekcja {
             </p>            
           </Column>
           <Column width={6}>
-            <Example isRunable>{`
+            <Example isRunnable>{`
               import React from "react";
               import ReactDOM from "react-dom";
               import PropTypes from "prop-types";

@@ -10,12 +10,14 @@ import Lesson1 from "./Lekcja1/Lekcja1";
 import Lesson2 from "./Lekcja2/Lekcja2";
 import Lesson3 from "./Lekcja3/Lekcja3";
 import Lesson4 from "./Lekcja4/Lekcja4";
+import Lesson5 from "./Lekcja5/Lekcja5";
 
 const lessons = {
   lekcja1: Lesson1,
   lekcja2: Lesson2,
   lekcja3: Lesson3,
-  lekcja4: Lesson4
+  lekcja4: Lesson4,
+  lekcja5: Lesson5,
 };
 
 
@@ -24,7 +26,7 @@ export default class Lesson extends React.Component {
   renderIndex = () => {
     return (
       <div>
-        {[Lesson1, Lesson2, Lesson3, Lesson4].map(lesson => {
+        {[Lesson1, Lesson2, Lesson3, Lesson4, Lesson5].map(lesson => {
           return (
             <ul key={lesson.title}>            
               <li key={lesson.title} className="lesson">{lesson.title}</li>

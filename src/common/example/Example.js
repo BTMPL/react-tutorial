@@ -17,12 +17,12 @@ export default class Example extends React.Component {
     code: PropTypes.string,
     children: PropTypes.node,
     showLineNumbers: PropTypes.bool,
-    isRunable: PropTypes.bool,
+    isRunnable: PropTypes.bool,
   }
 
   static defaultProps = {
     showLineNumbers: true,
-    isRunable: false
+    isRunnable: false
   }
 
   state = {
@@ -96,7 +96,7 @@ export default class Example extends React.Component {
   }
 
   componentDidMount() {
-    if(Example.babelAdded === false && this.props.isRunable) {
+    if(Example.babelAdded === false && this.props.isRunnable) {
       Example.babelAdded = true;
       this.loadScript('https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js', document);
     }
@@ -144,7 +144,7 @@ export default class Example extends React.Component {
           {this.state.text}
         </SyntaxHighlighter>
         {this.state.fullText && <span className={styles.more} onClick={this.handleClick}>Pokaż cały kod tego przykładu</span>}
-        {this.props.isRunable && <span className={styles.run} onClick={this.handleRender}>Uruchom w nowym oknie</span>}
+        {this.props.isRunnable && <span className={styles.run} onClick={this.handleRender}>Uruchom w nowym oknie</span>}
       </div>
     )
   }
