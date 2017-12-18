@@ -72,6 +72,23 @@ export default class Example extends React.Component {
     })
   };
 
+  getExampleCSS() {
+    return `
+      .tweet {
+        font-family: Arial;
+        font-size: 12px;
+        color: #222;
+        padding: 10;
+        background: #f7f7f7;
+        margin: 0 0 10px 0;
+      }
+
+      .tweet p {
+        margin: 5px 0 0 0;
+      }
+    `;
+  }
+
   handleRender = () => {
 
     this.window = window.open('', 'reactwindow', 'width=400; height=600');
@@ -82,12 +99,16 @@ export default class Example extends React.Component {
         this.loadScript('https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.0/prop-types.min.js', this.window.document).then(() => {
           this.loadScript('https://cdnjs.cloudflare.com/ajax/libs/styled-components/2.2.4/styled-components.min.js', this.window.document).then(() => {
             const s = this.window.document.createElement('script');
-            let code = this.state.fullText || this.state.text;
+            let code = this.state.fullText || this.state.text;            
             code = code.replace(/import(.*)\n/g, '');
             s.text = window.Babel.transform(code, {
               presets: ["react"],
               plugins: ["transform-class-properties"]
             }).code;
+
+            let style = this.window.document.createElement('style');
+            style.innerHTML = this.getExampleCSS();
+            this.window.document.head.appendChild(style);
             this.window.document.body.appendChild(s);
           })
         })

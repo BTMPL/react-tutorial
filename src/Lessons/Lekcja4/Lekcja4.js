@@ -2346,7 +2346,7 @@ export default class Lesson extends Lekcja {
         </Row>                
         <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
       </div>
-    ) ;  
+    );  
   }
 
 }
