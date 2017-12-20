@@ -16,6 +16,7 @@ export default class Example extends React.Component {
   static propTypes = {
     code: PropTypes.string,
     children: PropTypes.node,
+    preload: PropTypes.arrayOf(PropTypes.string),
     showLineNumbers: PropTypes.bool,
     isRunnable: PropTypes.bool,
   }
@@ -94,22 +95,29 @@ export default class Example extends React.Component {
     this.window = window.open('', 'reactwindow', 'width=400; height=600');
     this.window.document.body.innerHTML = `<div id="root">Ładowanie ...</div>`;
 
+    const render = () => {
+      const s = this.window.document.createElement('script');
+      let code = this.state.fullText || this.state.text;            
+      code = code.replace(/import(.*)\n/g, '');
+      s.text = window.Babel.transform(code, {
+        presets: ["react"],
+        plugins: ["transform-class-properties"]
+      }).code;
+
+      let style = this.window.document.createElement('style');
+      style.innerHTML = this.getExampleCSS();
+      this.window.document.head.appendChild(style);
+      this.window.document.body.appendChild(s);      
+    }
+
     this.loadScript('https://unpkg.com/react@16/umd/react.production.min.js', this.window.document).then(() => {
       this.loadScript('https://unpkg.com/react-dom@16/umd/react-dom.production.min.js', this.window.document).then(() => {
         this.loadScript('https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.0/prop-types.min.js', this.window.document).then(() => {
           this.loadScript('https://cdnjs.cloudflare.com/ajax/libs/styled-components/2.2.4/styled-components.min.js', this.window.document).then(() => {
-            const s = this.window.document.createElement('script');
-            let code = this.state.fullText || this.state.text;            
-            code = code.replace(/import(.*)\n/g, '');
-            s.text = window.Babel.transform(code, {
-              presets: ["react"],
-              plugins: ["transform-class-properties"]
-            }).code;
-
-            let style = this.window.document.createElement('style');
-            style.innerHTML = this.getExampleCSS();
-            this.window.document.head.appendChild(style);
-            this.window.document.body.appendChild(s);
+            this.loadScript('https://cdnjs.cloudflare.com/ajax/libs/styled-components/2.3.0/styled-components.min.js', this.window.document).then(() => {
+              this.window.styled = this.window.styled.default;
+              render();
+            })            
           })
         })
       })

@@ -2344,7 +2344,7 @@ export default class Lesson extends Lekcja {
             `}</Example>            
           </Column>          
         </Row>                
-        <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
+        <Navigate prev={this.getPrev(this.props.section)} next={{url: '/lekcja/lekcja5/style-i-css', title: 'Lekcja 5'}} />
       </div>
     );  
   }

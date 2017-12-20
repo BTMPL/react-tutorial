@@ -19,6 +19,10 @@ export default class Lesson extends Lekcja {
         title: 'CSS'
       }, 
       {
+        url: '/lekcja/lekcja5/css-in-js',
+        title: 'CSS-in-JS'
+      },      
+      {
         url: '/lekcja/lekcja5/ajax',
         title: 'Pobieranie danych - AJAX'
       }     
@@ -212,8 +216,11 @@ export default class Lesson extends Lekcja {
           <Column width={6}>
             <p>
               Istnieją dwa główne sposoby dołączania samych arkuszy CSS do projektu - można zapisać je w pliku i samemu dodać do naszego pliku HTML znacznik
-              {" "}<code>&lt;link&gt;</code>. Można także użyć loaderów webpack - css-loader + style-loader które pozwolą nam zaimportować plik CSS do naszej
-              aplikacji. Jeżeli używasz create-react-app masz dostęp do tej funkcjonalności.
+              {" "}<code>&lt;link&gt;</code>. 
+            </p>
+            <p>
+              Można także użyć loaderów webpack - css-loader + style-loader które pozwolą nam zaimportować plik CSS do naszej aplikacji. Jeżeli używasz 
+              create-react-app masz dostęp do tej funkcjonalności.
             </p>
             <p>
               Przykładowa zawartość pliku <code>style.css</code>:
@@ -362,13 +369,81 @@ export default class Lesson extends Lekcja {
               ReactDOM.render(<TweetApp tweets={TweetData} />, document.getElementById('root'));
             `}</Example>            
           </Column>        
-        </Row>      
-        <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
+        </Row> 
+        <Row>
+          <Column>
+            <h3>css-modules</h3>
+            <p>
+              Popularnym problemem, z którym często spotykamy się przy porjektowaniu HTML i CSS jest kolizja nazw klas - kilku programistów może wybrać tę
+              samą nazwę klasy dla różnych elementów i po dodaniu swoich arkuszy styli do projektu ich właściwości zaczną ze sobą oddziałowyać - łączyć się
+              lub nadpisywać. W celu uniknięcia tego typu sytuacji stosuje się różne techniki takie jak tworzenie przestrzeni nazw albo metodologie np. BEM.
+            </p>
+            <p>
+              W świecie JS problem ten rozwiązano nieco inaczej - konieczność dbania o to, by klasy były unikalne przesunięta została z programisty na bundler.
+              Przy użyciu <code>css-loader</code> z włączoną opcją <code>css-modules</code>, bundler zmieni nasze nazwy klas na pseudo-losowe, zapewniając
+              że szansa nadpisywania się klas kilku niezależnych elementów jest znikoma.
+            </p>
+            <Uwaga>
+              <h4>Uwaga</h4>
+              <p>
+                Opisany tu mechanizm nie jest niestety aktywny w create-react-app - żeby z niego skorzystać konieczne było by ejectowanie się z CRA i zmiana
+                konfiguracji webpack.
+              </p>
+            </Uwaga>
+          </Column>  
+        </Row>     
+        <Row>
+          <Column width={6}>
+            <p>
+              W celu skorzystania z css-modules musimy zmodyfikować nieco proces, w który importujemy nasz plik CSS. Na skutek tej zmiany otrzymamy obiekt,
+              który zawierać będzie zdefiniowane przez nas klasy jako klucze, zaś ich wartość zawierać będzie pseudo-losową nazwę klasy, wygenerowaną dla
+              konkrentego przypadku użycia. Zakładając, że w naszym projekcie istnieje plik <code>style.css</code> o zawartości:
+            </p>
+            <Example>{`
+              .button {
+                color: white;
+                background: blue;
+                padding: 10px;
+              }
+            `}</Example>
+            <p>
+              Możemy użyć css-loader i css-modules w następując sposób:
+            </p>            
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              import React from "react";
+              import ReactDOM from "react-dom";
+              
+              import Styles from "./style.css";
+              console.log(Styles);
+              /**
+               * {
+               *   button: 'RMStbBE9w'
+               * }
+               */
+
+              ReactDOM.render(
+                <button className={Styles.button}>Kliknij mnie!</button>, 
+                document.getElementById('root')
+              );
+            `}</Example>            
+          </Column>
+        </Row>
+        <Row>
+          <Column>
+            <p>
+              Podobnie jak w poprzednich przykładach, webpack zaimportuje nasz plik CSS lecz przed umieszczeniem go w dokumencie przetworzy znajdujące się 
+              w nim selektory CSS zastępując klasy wg. podanego w konfiguracji wzorca.
+            </p>
+          </Column>  
+        </Row>         
+        <Navigate prev={{url: '/lekcja/lekcja4/przekazywanie-danych-do-rodzica', title: 'Przekazywanie danych do rodzica i rodzeństwa'}} next={this.getNext(this.props.section)} />
       </div>
     );  
   }
 
-  renderAjax = () => {
+  renderStyledComponents = () => {
     return (
       <div>
         <Row>
@@ -378,6 +453,135 @@ export default class Lesson extends Lekcja {
             <p>?</p>                  
           </Column>
         </Row>  
+        
+        <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />    
+      </div>
+    )
+  }   
+
+  renderCssInJs = () => {
+    return (
+      <div>
+        <Row>
+          <Column>
+            <h2>Receptury</h2>
+            <h3>CSS-in-JS</h3>
+            <p>
+              Innym, równie popularnym sposobem na osadzanie CSS w JS jest takzwane "css-in-js", czyli stosowanie CSS bezpośrednio w definicji komponentów.
+              Kilk wartych uwagi implementacji tego rozwiązania to:
+            </p>                  
+            <ul>
+              <li><a href="https://www.styled-components.com/" target="_blank">styled-components</a></li>
+              <li><a href="https://github.com/paypal/glamorous" target="_blank">glamorous</a></li>
+              <li><a href="https://github.com/emotion-js/emotion" target="_blank">emotion</a></li>
+            </ul>
+            <p>
+              Mechanizm CSS-in-JS pozwala na łatwiejsze dystrybuowanie warstwy CSS z naszymi komponentami, pozwala na łatwe nadpisywanie i rozszerzanie
+              oraz na traktowanie CSS tak samo jak zwykłe komponenty React.
+            </p>
+            <p>
+              Rozwiązania te są do siebie bardzo podobne - różnią się jednak niektórymi decyzjami architektonicznymi, więc jeżeli zdecydujesz się na to 
+              rozwiązanie sprawdź wpierw, które będzie najlepsze dla Ciebie! Poniższe przykłady dotyczą biblioteki styled-components.
+            </p>
+          </Column>
+        </Row>  
+
+        <Row>
+          <Column width={6}>
+            <p>
+              Rozwiązania tego typu skupiają się na definiowaniu elementów z danymi stylami, nie zaś na dodawaniu CSS do istniejących już komponentów. 
+              Pierwszym krokiem jest zaimportowanie bibliteki, następnie możemy już konstruować nasze komponenty - najczęściej używając składni taged template
+              strings.
+            </p>
+            <p>
+              Rozwiązanie takie działa dwu etapowo:
+            </p>
+            <ul>
+              <li>na podstawie przekazanego CSS tworzy nową klasę z "pseudo losową" nazwą taki selektor dodaje do elementu</li>
+              <li>
+                tworzy nowy element na podstawie przekazanego (w tym wypadku element HTML <code>&lt;button&gt;</code>) i przekazuje mu wcześniej wygenerowaną
+                klasę jako prop <code>className</code>
+              </li>
+            </ul>
+          </Column>
+          <Column width={6}>
+            <Example isRunnable>{`
+              import React from "react";
+              import ReactDOM from "react-dom";
+              import styled from "styled-components";
+
+              const Button = styled('button')\`
+                background: blue;
+                color: white;
+                padding: 10px;
+                border: 0;
+                cursor: pointer;
+              \`;
+
+              ReactDOM.render(
+                <Button>Kliknij mnie!</Button>, 
+                document.getElementById('root')
+              );
+            `}</Example>            
+          </Column>
+        </Row>   
+        
+        <Row>
+          <Column width={6}>
+            <p>
+              Rozwiązanie takie umożliwia zatem kilka innych ciekaowych zastosować takich jak rozszerzanie elementów na zasadzie dziediczenia oraz 
+              parametryzowanie.
+            </p>
+            <p>
+              Dodatkowo, przy wykorzystaniu mechanizmu <code>&lt;ThemeProvider&gt;</code> możemy przygotować zestaw zmiennych zawierających kolory, rozmiary,
+              marginesy etc. i następnie dynczmienie podmieniać je w czasie pracy aplikacji.
+            </p>
+          </Column>
+          <Column width={6}>
+            <Example isRunnable>{`
+              import React from "react";
+              import ReactDOM from "react-dom";
+              import styled from "styled-components";              
+              const Button = styled('button')\`
+                background: blue;
+                color: white;
+                padding: 10px;
+                border: 0;
+                cursor: pointer;
+              \`;
+
+              @important
+              // rozszerzmy definicję komponentu Button
+              const RedButton = styled(Button)\`
+                background: red;
+              \`
+
+              const ColorButton = styled(Button)\`
+                background: $\{props => props.background || 'yellow'\}
+              \`
+
+              ReactDOM.render(
+                <div>
+                  <Button>Kliknij mnie!</Button>
+                  <RedButton>Kliknij mnie!</RedButton>
+                  <ColorButton>Kliknij mnie!</ColorButton>
+                  <ColorButton background="pink">Kliknij mnie!</ColorButton>
+                </div>, 
+                document.getElementById('root')
+              );
+              @end-important
+            `}</Example>            
+          </Column>
+        </Row>    
+        <Row>
+          <Column>
+            <p>
+              styled-components pozwala także na stosowanie pseudo-selektorów (np. <code>:hover</code>), samo tworzenie klas CSS i ręczne dopisywanie ich do
+              elementów (przez eksport nazwany <code>css</code>) czy wstrzykiwanie globalnego CSS, nie przypisanego do komponentu (np. dla definicji <code>@font-face</code>
+              czy <code>@keyframes</code> przy użyciu <code>injectGlobal</code>).
+            </p>
+          </Column> 
+        </Row>             
         
         <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />    
       </div>
