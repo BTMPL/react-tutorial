@@ -873,7 +873,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunnable={true}>{`
+            <Example isRunnable>{`
               const getPromise = () => {
                 return new Promise((resolve, reject) => {
                   setTimeout(() => {
@@ -903,7 +903,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunnable={true}>{`
+            <Example isRunnable>{`
               const resolvedPromise = Promise.resolve();
               resolvedPromise.then(() => alert('Promise pomyślny!'));
 
@@ -922,7 +922,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunnable={true}>{`
+            <Example isRunnable>{`
               const resolvedPromise = Promise.resolve();
               resolvedPromise.then(() => {
                   alert('Pierwszy Promise pomyślny!');
@@ -943,7 +943,7 @@ export default class Lesson extends Lekcja {
             </p>
           </Column>
           <Column width={6}>
-            <Example isRunnable={true}>{`
+            <Example isRunnable>{`
               Promise.all([
                 new Promise(res => setTimeout(() => res(42), 1000)), // wykonaj po 1 sekundzie,
                 new Promise(res => setTimeout(() => res(64), 2000)) // wykonaj po 2 sekundach
@@ -951,7 +951,7 @@ export default class Lesson extends Lekcja {
                 alert('Wywołano z tablicą: ' + values.join(', '));
               });
             `}</Example>
-            <Example isRunnable={true}>{`
+            <Example isRunnable>{`
               Promise.race([
                 new Promise(res => setTimeout(() => res(42), 1000)), // wykonaj po 1 sekundzie,
                 new Promise(res => setTimeout(() => res(64), 2000)) // wykonaj po 2 sekundach

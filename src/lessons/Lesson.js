@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { NavLink } from "react-router-dom";
 
@@ -22,6 +23,15 @@ const lessons = {
 
 
 export default class Lesson extends React.Component {
+
+  static propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        lesson: PropTypes.string,
+        section: PropTypes.string
+      })
+    })
+  }  
 
   renderIndex = () => {
     return (

@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
 import { HashRouter, Route, Switch, Link } from "react-router-dom";
 
 import Header from "./common/Header/Header";
@@ -10,6 +11,12 @@ import Home from "./Home/Home";
 import "./App.less";
 
 class Scroll extends React.Component {
+
+  static propTypes = {
+    location: PropTypes.shape({
+      pathname: PropTypes.string
+    })
+  }
 
   componentDidUpdate(prevProps) {
     if(prevProps.location.pathname !== this.props.location.pathname) {

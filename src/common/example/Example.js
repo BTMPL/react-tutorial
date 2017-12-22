@@ -14,9 +14,6 @@ export default class Example extends React.Component {
   static babelAdded = false;
 
   static propTypes = {
-    code: PropTypes.string,
-    children: PropTypes.node,
-    preload: PropTypes.arrayOf(PropTypes.string),
     showLineNumbers: PropTypes.bool,
     isRunnable: PropTypes.bool,
   }
