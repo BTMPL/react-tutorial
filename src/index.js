@@ -23,17 +23,7 @@ class Scroll extends React.Component {
       window.scrollTo(0,0);
     }
   }
-  render = () => null;
-  
-  componentDidMount() {
-
-    window.addEventListener('keydown', 
-    () => console.log('sup'), false)
-  
-    document.addEventListener('keydown',  
-    () => console.log('yo'), false)
-  }
-    
+  render = () => null;    
 }
 
 const render = () => {
