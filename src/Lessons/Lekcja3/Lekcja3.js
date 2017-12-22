@@ -136,11 +136,7 @@ export default class Lesson extends Lekcja {
         <Row>
           <Column>
             <h2>Wprowadzenie do React</h2>
-            <h3>JSX</h3>
-          </Column>
-        </Row>
-        <Row>
-          <Column>
+            <h3>JSX</h3>          
             <p>
               Nasza aplikacja działa, ale jest strasznie prosta - renderuje tylko zwykły string. Jeżeli spróbujemy dodać do niego znaczniki HTML 
               zostaną one również potraktowane jako łańcuch tekstowy i wyświetlone jako tekst, nie jako znaczniki HTML.
@@ -290,11 +286,7 @@ export default class Lesson extends Lekcja {
         <Row>
           <Column>
             <h2>Wprowadzenie do React</h2>
-            <h3>Komponenty bezstanowe</h3>
-          </Column>
-        </Row>
-        <Row>
-          <Column>
+            <h3>Komponenty bezstanowe</h3>          
             <p>
               Jedną z głównych zalet React jest możliwość tworzenia komponentów, które "ukrywają" nam szczegóły implementacji i pozwalają na szybkie
               dodawanie funkcjonalności do naszej aplikacji. Na przykład jeżeli chcemy dodać odtwarzacz video, dodajemy po prostu w kodzie JSX 

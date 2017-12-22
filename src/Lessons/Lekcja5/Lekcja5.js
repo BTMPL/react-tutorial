@@ -24,8 +24,12 @@ export default class Lesson extends Lekcja {
       },      
       {
         url: '/lekcja/lekcja5/ajax',
-        title: 'Pobieranie danych - AJAX'
-      }     
+        title: 'Wymiana danych - AJAX'
+      },
+      {
+        url: '/lekcja/lekcja5/deploy',
+        title: 'Wersja produkcyjna i publikowanie'
+      }        
     ]
   }  
 
@@ -37,7 +41,7 @@ export default class Lesson extends Lekcja {
             <h2>Lekcja 5 - Receptury</h2>
             <h3>CSS</h3>
             <p>
-              Jak narazie nasza aplikacja skupia się na HTML, interakcji z użytkownikiem etc. - nie zapominajmy jednak o tym, że powinna ona też odpowiednio
+              Jak na razie nasza aplikacja skupia się na HTML, interakcji z użytkownikiem etc. - nie zapominajmy jednak o tym, że powinna ona też odpowiednio
               wyglądać. W React przyjdzie nam pracować z CSS na kilka sposobów - podstawowym jest praca ze stylami inline i plikami CSS (lub LESS, SCSS etc.)
             </p>
             <h3>Style inline</h3>
@@ -46,7 +50,7 @@ export default class Lesson extends Lekcja {
         <Row>
           <Column width={6}>
             <p>
-              Podstawowe rozwiązanie opiera się na przekazaniu do elementów styli jako atrybut HTML <code>style</code>. Jako jego wartość przekazujemy zawsze
+              Podstawowe rozwiązanie opiera się na przekazaniu do elementów stylów jako atrybut HTML <code>style</code>. Jako jego wartość przekazujemy zawsze
               obiekt, którego klucze przyjmują notację <code>camelCase</code>, dokładnie taką, jak znamy z JavaScriptowego <code>element.style</code>.
             </p>
             <p>
@@ -156,10 +160,19 @@ export default class Lesson extends Lekcja {
                   text: ''
                 }
 
+                static propTypes = {
+                  onSubmit: PropTypes.func.isRequired
+                }
+
                 handleChange = (event) => {
                   this.setState({
                     text: event.target.value
                   })
+                }
+
+                handleSubmit = () => {
+                  this.props.onSubmit(this.state.text);
+                  this.setState({ text: '' });
                 }
 
                 render() {
@@ -168,8 +181,7 @@ export default class Lesson extends Lekcja {
                     <div>
                       <input type="text" onChange={this.handleChange} value={text} />
                       <br />
-                      <button>Tweetuj!</button>
-                      {text && <p>Podgląd: {text}</p>}
+                      <button onClick={this.handleSubmit}>Tweetuj!</button>
                     </div>                    
                   )
                 }          
@@ -184,10 +196,26 @@ export default class Lesson extends Lekcja {
                   }
                 }
 
+                addTweet = (text) => {
+                  const newTweet = {
+                    id: this.state.tweets.length + 1,
+                    user: {
+                      name: "Bartosz Szczeciński",
+                      handle: "btmpl"
+                    },
+                    date: new Date(),
+                    text: text
+                  }
+
+                  this.setState({
+                    tweets: [newTweet, ...this.state.tweets]
+                  });
+                }                
+
                 render() {
                   return (
                     <div>
-                      <TweetForm />
+                      <TweetForm onSubmit={this.addTweet} />
                       <TweetList tweets={this.state.tweets} />                
                     </div>
                   )
@@ -201,7 +229,7 @@ export default class Lesson extends Lekcja {
           <Column>
             <h3>Klasy CSS</h3>
             <p>
-              W React możemy także korzystać z zewnętrznych (lub osadzonych w dokumencie) arkuszy styli CSS. W tym celu należy dodać do elementu HTML klasę
+              W React możemy także korzystać z zewnętrznych (lub osadzonych w dokumencie) arkuszy stylów CSS. W tym celu należy dodać do elementu HTML klasę
               CSS za pomocą atrybuty <code>class</code>.
             </p>
             <Uwaga>
@@ -329,10 +357,19 @@ export default class Lesson extends Lekcja {
                   text: ''
                 }
 
+                static propTypes = {
+                  onSubmit: PropTypes.func.isRequired
+                }
+
                 handleChange = (event) => {
                   this.setState({
                     text: event.target.value
                   })
+                }
+
+                handleSubmit = () => {
+                  this.props.onSubmit(this.state.text);
+                  this.setState({ text: '' });
                 }
 
                 render() {
@@ -341,8 +378,7 @@ export default class Lesson extends Lekcja {
                     <div>
                       <input type="text" onChange={this.handleChange} value={text} />
                       <br />
-                      <button>Tweetuj!</button>
-                      {text && <p>Podgląd: {text}</p>}
+                      <button onClick={this.handleSubmit}>Tweetuj!</button>
                     </div>                    
                   )
                 }          
@@ -357,10 +393,26 @@ export default class Lesson extends Lekcja {
                   }
                 }
 
+                addTweet = (text) => {
+                  const newTweet = {
+                    id: this.state.tweets.length + 1,
+                    user: {
+                      name: "Bartosz Szczeciński",
+                      handle: "btmpl"
+                    },
+                    date: new Date(),
+                    text: text
+                  }
+
+                  this.setState({
+                    tweets: [newTweet, ...this.state.tweets]
+                  });
+                }                
+
                 render() {
                   return (
                     <div>
-                      <TweetForm />
+                      <TweetForm onSubmit={this.addTweet} />
                       <TweetList tweets={this.state.tweets} />                
                     </div>
                   )
@@ -374,8 +426,8 @@ export default class Lesson extends Lekcja {
           <Column>
             <h3>css-modules</h3>
             <p>
-              Popularnym problemem, z którym często spotykamy się przy porjektowaniu HTML i CSS jest kolizja nazw klas - kilku programistów może wybrać tę
-              samą nazwę klasy dla różnych elementów i po dodaniu swoich arkuszy styli do projektu ich właściwości zaczną ze sobą oddziałowyać - łączyć się
+              Popularnym problemem, z którym często spotykamy się przy projektowaniu HTML i CSS jest kolizja nazw klas - kilku programistów może wybrać tę
+              samą nazwę klasy dla różnych elementów i po dodaniu swoich arkuszy stylów do projektu ich właściwości zaczną ze sobą oddziałowywać - łączyć się
               lub nadpisywać. W celu uniknięcia tego typu sytuacji stosuje się różne techniki takie jak tworzenie przestrzeni nazw albo metodologie np. BEM.
             </p>
             <p>
@@ -397,7 +449,7 @@ export default class Lesson extends Lekcja {
             <p>
               W celu skorzystania z css-modules musimy zmodyfikować nieco proces, w który importujemy nasz plik CSS. Na skutek tej zmiany otrzymamy obiekt,
               który zawierać będzie zdefiniowane przez nas klasy jako klucze, zaś ich wartość zawierać będzie pseudo-losową nazwę klasy, wygenerowaną dla
-              konkrentego przypadku użycia. Zakładając, że w naszym projekcie istnieje plik <code>style.css</code> o zawartości:
+              konkretnego przypadku użycia. Zakładając, że w naszym projekcie istnieje plik <code>style.css</code> o zawartości:
             </p>
             <Example>{`
               .button {
@@ -443,16 +495,256 @@ export default class Lesson extends Lekcja {
     );  
   }
 
-  renderStyledComponents = () => {
+  renderAjax = () => {
     return (
       <div>
         <Row>
           <Column>
             <h2>Receptury</h2>
-            <h3>Pobieranie danych - AJAX</h3>
-            <p>?</p>                  
+            <h3>Wymiana danych - AJAX</h3>
+            <p>
+              React nie posiada zbudowanych mechanizmów pozwalających na komunikację z backendami w celu pobrania lub wysłania danych - developer może dowolnie
+              dobrać rozwiązanie pasujące do jego wymagań. Może być to komunikacja za pomocą AJAX (tutaj najczęściej używany jest <code>fetch</code> lub <code>axios</code>),
+              sockety (np. <code>socket.io</code>) czy GraphQL.
+            </p>
+            <p>
+              W naszej aplikacji wdrożymy rozwiązanie oparte o AJAX i używające wbudowanej w przeglądarki funkcji <code>fetch</code>
+            </p>
+            <p>
+              Przed przystąpieniem do integracji musimy zdać sobie sprawę z jednej ważnej rzeczy - w React nie ma możliwości aby komponent sam z siebie wstrzymał
+              się z renderowaniem do momentu, aż dane zostaną pobrane. Nasze komponenty powinny być skonstruowane tak, by móc obsłużyć stan braku danych (a idealnie
+              stany takie jak "dane nie pobrane", "brak danych dla zapytania", "dane pobrane").
+            </p>
+            <p>
+              Kolejną wynikającą z tej sytuacji rzeczą do zapamiętania jest miejsce, w którym inicjujemy żądanie pobrania danych. Jeżeli nie ma możliwości, by
+              dane trafiły do nas przed pierwszym wywołaniem <code>render()</code>, nie zyskamy nic z umieszczania go w <code>componentWillMount</code>. Dodatkowo
+              przemawia za tym zmiana, jaką wprowadza React Fiber, na skutek której funkcje takie jak <code>constructor</code>, <code>componentWillMount</code> mogą
+              zostać wywołane wielokrotnie przed wywołaniem <code>render()</code> - jeżeli tak się stanie, nasze zapytanie AJAX zostanie wysłane wielokrotnie.
+            </p>
+            <p>
+              Uzbrojeni w tę wiedzę dodajmy do naszej aplikacji pobieranie danych z zewnętrznego serwera. Na potrzeby demonstracji skorzystamy z ogólnodostępnego
+              serwisu <a href="https://jsonplaceholder.typicode.com/" target="_blank">jsonplaceholder.typicode.com</a>.
+            </p>
           </Column>
         </Row>  
+        <Row>
+          <Column width={6}>
+            <p>
+              Pierwszą rzeczą o którą musimy zadbać, to ustawienie <code>this.state.tweets</code> na pusty Array. Użyjemy tego by sprawdzić, czy udało nam się już
+              załadować jakieś Tweety z API.
+            </p>
+            <p>
+              W metodzie <code>render()</code> dodajemy nasze sprawdzenie - jeżeli kolekcja tweets jest pusta, wyświetlmy komunikat o braku Tweetów, w przeciwnym
+              wypadku - komponent <code>&lt;TweetList&gt;</code>.
+            </p>
+            <p>
+              Cała logika pobierania danych jak ustaliliśmy wcześniej znajduje się w <code>componentDidMount()</code>. Używając funkcji <code>fetch</code>
+              ( <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" target="_blank">dokumentacja w MDN</a> ):
+            </p>
+            <ol>
+              <li>pobieramy dane z zewnętrznego serwera</li>
+              <li>zamieniamy odpowiedź w format JSON</li>
+              <li>dodajemy wyniki do tablicy <code>this.state.tweets</code> dbając o to żeby przyjęły one kształt, jakiego oczekuje nasza aplikacja</li>
+            </ol>
+            <p>
+              Dodatkowo, w naszej metodzie <code>addTweet</code> dodajemy przesyłanie danych do serwera i w oparciu o odpowiedź, jaką otrzymujemy na to zapytanie
+              modyfikujemy naszą kolekcję Tweetów - dodajemy nowy Tweet na początek listy (musimy tylko upewnić się, że data, którą otrzymamy od serwera jest
+              obiektem, a nie stringiem).
+            </p>
+            <p>
+              Rozwiązanie tego typu nazywamy "pesymistycznym aktualizowaniem". Jego przeciwieństwo - "optymistyczne aktualizowanie" - polega na dodaniu elementu
+              do stanu lokalnego i "zaufaniu" że dane dotrą do serwera i zostaną pomyślnie zapisane. Oczywiście możemy zaimplementować też ponawianie niepomyślnych
+              zapytań etc.
+            </p>
+          </Column>
+          <Column width={6}>
+            <Example isRunnable>{`
+              import React from "react";
+              import ReactDOM from "react-dom";
+              import PropTypes from "prop-types";
+              
+              import "./style.css";
+              
+              class Tweet extends React.Component {
+
+                static propTypes = {
+                  tweet: PropTypes.shape({
+                    user: PropTypes.shape({
+                      handle: PropTypes.string.isReqired,
+                      name: PropTypes.string,
+                    }),
+                    date: PropTypes.instanceOf(Date).isRequired,
+                    text: PropTypes.string.isRequired
+                  })
+                } 
+                render() {
+                  const { user, text, date } = this.props.tweet;
+                  return (
+                    <div class="tweet">
+                      <TweetUser name={user.name} handle={user.handle} /> -
+                      <TweetTime date={date} />
+                      <p>
+                        {text}
+                      </p>
+                    </div>
+                  )
+                }                
+              }                          
+
+              const TweetTime = (props) => {
+                const date = \`\${props.date.getDate()} \${props.date.toLocaleString('pl-pl', { month: "long" })}\`;
+                return <time>{date}</time>
+              };
+              TweetTime.propTypes = {
+                date: PropTypes.instanceOf(Date).isRequired
+              };
+              
+              const TweetUser = ({ name, handle }) => <span><b>{name}</b> @{handle}</span>;
+              TweetUser.propTypes = {
+                handle: PropTypes.string.isRequired,
+                name: PropTypes.string  
+              };
+              TweetUser.defaultProps = {
+                name: 'Anonim'
+              };                                          
+                            
+              const TweetList = ({ tweets }) => {                
+                return (
+                  <div>
+                    {tweets.map(item => <Tweet tweet={item} key={item.id} />)}
+                  </div>
+                );
+              }   
+              TweetList.propTypes = {
+                tweets: PropTypes.arrayOf(PropTypes.object)
+              }
+
+              
+              class TweetForm extends React.Component {
+
+                state = {
+                  text: ''
+                }
+
+                static propTypes = {
+                  onSubmit: PropTypes.func.isRequired
+                }
+
+                handleChange = (event) => {
+                  this.setState({
+                    text: event.target.value
+                  })
+                }
+
+                handleSubmit = () => {
+                  this.props.onSubmit(this.state.text);
+                  this.setState({ text: '' });
+                }
+
+                render() {
+                  const { text } = this.state;
+                  return (
+                    <div className="TweetForm">
+                      <input type="text" onChange={this.handleChange} value={text} />
+                      <button onClick={this.handleSubmit}>Tweetuj!</button>
+                    </div>                    
+                  )
+                }          
+              }
+              
+              @important
+              class TweetApp extends React.Component {
+
+                constructor(props) {
+                  super(props);
+                  this.state = {
+                    tweets: []
+                  }
+                }
+
+                addTweet = (text) => {
+                  const newTweet = {
+                    id: this.state.tweets.length + 1,
+                    user: {
+                      name: "Bartosz Szczeciński",
+                      handle: "btmpl"
+                    },
+                    date: new Date(),
+                    text: text
+                  }
+
+                  fetch('https://jsonplaceholder.typicode.com/posts', {
+                    method: 'POST',
+                    body: JSON.stringify(newTweet),
+                    headers: {
+                      "Content-type": "application/json; charset=UTF-8"
+                    }
+                  })
+                  .then(response => response.json())
+                  .then(json => {
+                    this.setState({
+                      tweets: [{
+                        ...json,
+                        date: new Date(json.date)
+                      }, ...this.state.tweets]
+                    });                    
+                  })
+                }                
+
+                render() {
+                  return (
+                    <div>
+                      <TweetForm onSubmit={this.addTweet} />
+                      {this.state.tweets.length !== 0 
+                        ? <TweetList tweets={this.state.tweets} />
+                        : <p>Trwa pobieranie Tweetów ...</p>
+                      }
+                    </div>
+                  )
+                }
+
+                componentDidMount() {
+                  fetch('https://jsonplaceholder.typicode.com/comments')
+                    .then(response => response.json())
+                    .then(data => {
+                      this.setState({
+                        tweets: data.map(input => inputToAppFormat(input))
+                      })
+                    })
+                }
+              }
+
+              const inputToAppFormat = (data) => ({
+                user: {
+                  name: data.name,
+                  handle: data.email.split('@')[0],
+                },
+                date: new Date(),
+                text: data.body
+              });
+              @end-important
+              ReactDOM.render(<TweetApp />, document.getElementById('root'));
+            `}</Example>            
+          </Column>        
+        </Row>
+        <Row>
+          <Column>
+            <h3>CORS</h3>
+            <p>
+              Przeglądarki implementują mechanizm CORS (ang. Cross Origin Request Security), który aktywowany jest w momencie, kiedy przeglądarka wysyła żądanie
+              AJAX do serwera dostępnego pod inną domeną (sub-domeną, portem lub protokołem). Mechanizm ten ma za zadanie uniemożliwienie złośliwym skryptom na
+              wykonywanie np. połączeń do banków internetowych za pomocą przeglądarki użytkownika, w której mogą znajdować się dane do logowania. Więcej informacji
+              nt. tego mechanizmu znaleźć można <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS" target="_blank">na stronie MDN</a>.
+            </p>
+            <p>
+              Może zdarzyć się, że podczas łączenia się z API nie będziemy mogli pobrać z niego danych (nawet pomimo tego, że widzimy je w zakładce z połączeniami
+              w naszej przeglądarce). <code>create-react-app</code> zapewnia nam obejście tego problemu na czas tworzenia aplikacji (z użyciem webpack), ale docelowo
+              będziemy musieli zadbać o to, żeby komunikacja z API była możliwa bez tego rozwiązania. Więcej na temat wbudowanego serwera proxy znajdziesz 
+              w <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#proxying-api-requests-in-development" target="_blank">
+              dokumentacji</a>.
+            </p>
+          </Column>
+        </Row>
         
         <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />    
       </div>
@@ -468,7 +760,7 @@ export default class Lesson extends Lekcja {
             <h3>CSS-in-JS</h3>
             <p>
               Innym, równie popularnym sposobem na osadzanie CSS w JS jest takzwane "css-in-js", czyli stosowanie CSS bezpośrednio w definicji komponentów.
-              Kilk wartych uwagi implementacji tego rozwiązania to:
+              Kilka wartych uwagi implementacji tego rozwiązania to:
             </p>                  
             <ul>
               <li><a href="https://www.styled-components.com/" target="_blank">styled-components</a></li>
@@ -490,7 +782,7 @@ export default class Lesson extends Lekcja {
           <Column width={6}>
             <p>
               Rozwiązania tego typu skupiają się na definiowaniu elementów z danymi stylami, nie zaś na dodawaniu CSS do istniejących już komponentów. 
-              Pierwszym krokiem jest zaimportowanie bibliteki, następnie możemy już konstruować nasze komponenty - najczęściej używając składni taged template
+              Pierwszym krokiem jest zaimportowanie biblioteki, następnie możemy już konstruować nasze komponenty - najczęściej używając składni taged template
               strings.
             </p>
             <p>
@@ -529,12 +821,12 @@ export default class Lesson extends Lekcja {
         <Row>
           <Column width={6}>
             <p>
-              Rozwiązanie takie umożliwia zatem kilka innych ciekaowych zastosować takich jak rozszerzanie elementów na zasadzie dziediczenia oraz 
+              Rozwiązanie takie umożliwia zatem kilka innych ciekawych zastosować takich jak rozszerzanie elementów na zasadzie dziedziczenia oraz 
               parametryzowanie.
             </p>
             <p>
               Dodatkowo, przy wykorzystaniu mechanizmu <code>&lt;ThemeProvider&gt;</code> możemy przygotować zestaw zmiennych zawierających kolory, rozmiary,
-              marginesy etc. i następnie dynczmienie podmieniać je w czasie pracy aplikacji.
+              marginesy etc. i następnie dynamicznie podmieniać je w czasie pracy aplikacji.
             </p>
           </Column>
           <Column width={6}>

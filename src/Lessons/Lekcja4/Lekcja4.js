@@ -58,7 +58,8 @@ export default class Lesson extends Lekcja {
       <div>
         <Row>
           <Column>
-            <h2>Przekazywanie danych w relacji rodzic : dziecko</h2>
+            <h2>Interakcja z komponentami</h2>
+            <h3>Przekazywanie danych w relacji rodzic : dziecko</h3>
             <p>
               Nasza aplikacja wciąż działa poprawnie, mamy już kilka komponentów, które możemy wykorzystywać (teraz lub w przyszłości) w innych częściach
               aplikacji, jednak komponenty te decydują nie tylko o tym jak dane są prezentowane, ale także o tym jakie dane są prezentowane - stanowczo nie 
@@ -175,7 +176,8 @@ export default class Lesson extends Lekcja {
       <div>
         <Row>
           <Column>
-            <h2>Definiowanie props oraz wartości domyślne</h2>
+            <h2>Interakcja z komponentami</h2>
+            <h3>Definiowanie props oraz wartości domyślne</h3>
           </Column>
         </Row>
         <Row>
@@ -370,7 +372,8 @@ export default class Lesson extends Lekcja {
       <div>
         <Row>
           <Column>
-            <h2>Listy komponentów</h2>
+            <h2>Interakcja z komponentami</h2>
+            <h3>Listy komponentów</h3>
             <p>
               W jednym z poprzednich ćwiczeń wyrenderowaliśmy wiele kopii elementu <code>Tweet</code> umieszczając go wielokrotnie w kodzie JSX
               oczywiście rozwiązanie takie nie sprawdzi się w przypadku, kiedy lista elementów jest dynamiczna i chcemy wyrenderować je wszystkie.
@@ -479,7 +482,7 @@ export default class Lesson extends Lekcja {
               W celu optymalizacji wydajności, przy każdym renderowaniu komponentu React stara się nie usuwać i tworzyć nowych elementów DOM i kiedy
               to możliwe wykorzystuje już istniejące elementy. W przypadku tablic, których zawartość może ulegać zmianie (wartości są zmieniane, elementy
               są dodawane i usuwane) React potrzebuje odrobiony pomocy ze strony developera w określeniu który element DOM należy zaktualizować, jeżeli
-              dane w tablicy zmieniły się, a który usunąć. W innym wypadku DOM i VDOM mogły by ulec rozsynchronizowaniu i nasze UI nie odzwierciedlało by
+              dane w tablicy zmieniły się, a który usunąć. W innym wypadku DOM i VDOM mogły by ulec desynchronizacji i nasze UI nie odzwierciedlało by
               stanu aplikacji.
             </p>
           </Column>
@@ -692,7 +695,8 @@ export default class Lesson extends Lekcja {
       <div>
         <Row>
           <Column>
-            <h2>Listy komponentów - renderowanie bez rodzica (Fragmenty)</h2>
+            <h2>Interakcja z komponentami</h2>
+            <h3>Listy komponentów - renderowanie bez rodzica (Fragmenty)</h3>
             <p>
               W poprzednich rozdziałach mogliśmy zauważyć, że wszędzie tam gdzie renderujemy, lub zwracamy JSX, zwracany jest jeden nadrzędny komponent,
               który zawiera w sobie wiele "sąsiadujących" komponentów. Rozwiązanie to było obowiązkowe w React &lt;= 15 i sprawiało problemy przy pracy
@@ -707,7 +711,7 @@ export default class Lesson extends Lekcja {
           <Column width={6}>
             <p>
               W kodzie po prawej zmieniliśmy chwilowo nasz komponent tak, by renderował dwa Tweety, owinięte w jeden <code>&lt;div&gt;</code>. Nie zawsze 
-              jest to porządane wyjście. Możemy zatem zmodyfikować nasz komponent tak, by wyrenderowany kod nie zawierał tego dodatkowego znacznika.
+              jest to pożądane wyjście. Możemy zatem zmodyfikować nasz komponent tak, by wyrenderowany kod nie zawierał tego dodatkowego znacznika.
             </p>     
           </Column>          
           <Column width={6}>
@@ -722,27 +726,7 @@ export default class Lesson extends Lekcja {
               }           
             `}</Example>              
           </Column>          
-        </Row>
-        <Row>
-          <Column width={6}>
-            <p>
-              W kodzie po prawej zmieniliśmy chwilowo nasz komponent tak, by renderował dwa Tweety, owinięte w jeden <code>&lt;div&gt;</code>. Nie zawsze 
-              jest to porządane wyjście. Możemy zatem zmodyfikować nasz komponent tak, by wyrenderowany kod nie zawierał tego dodatkowego znacznika.
-            </p>     
-          </Column>          
-          <Column width={6}>
-            <Example>{`           
-              const TweetList = ({ tweets }) => {                
-                return (
-                  <React.Fragment>
-                    <Tweet tweet={tweets[0]} />,
-                    <Tweet tweet={tweets[1]} />
-                  </React.Fragment>
-                );
-              }         
-            `}</Example>                  
-          </Column>          
-        </Row>     
+        </Row>    
         <Row>
           <Column width={6}>
             <p>
@@ -786,7 +770,8 @@ export default class Lesson extends Lekcja {
       <div>
         <Row>
           <Column>
-            <h2>Formularze niekontrolowane</h2>
+            <h2>Interakcja z komponentami</h2>
+            <h3>Formularze niekontrolowane</h3>
             <p>
               Duża część interakcji, w jaką nasi użytkownicy wchodzą z naszą aplikacją opiera się o pracę z formularzami. W React wyróżniamy dwa typy formularzy.
               Pierwszy z nich to tzw. formularz niekontrolowany (ang. uncontrolled forms). Praca z nimi wygląda dokładnie tak, jak praca z formularzami w czystym
@@ -1081,8 +1066,8 @@ export default class Lesson extends Lekcja {
       <div>
         <Row>
           <Column>
-            <h2>Zdarzenia</h2>
-            <h3>Dodawanie listenerów</h3>
+            <h2>Interakcja z komponentami</h2>
+            <h3>Zdarzenia - dodawanie listenerów</h3>
             <p>
               Dodawanie listenerów dla zdarzeń w React działa bardzo podobnie do tego, jak wykonywane jest to w czystym HTML, należy mieć na uwadze jedynie:
             </p>
@@ -1173,7 +1158,8 @@ export default class Lesson extends Lekcja {
       <div>
         <Row>
           <Column>
-            <h2>Stan komponentu</h2>
+            <h2>Interakcja z komponentami</h2>
+            <h3>Stan komponentu</h3>
             <p>
               W jednym z poprzednich rozdziałów poznaliśmy komponenty stanowe, które poza tym, że są zapisane jako klasa, posiadają właśnie ów stan.
               Stan komponentu to obiekt, zawierający informacje opisujące dane, jakie w danym momencie powinien reprezentować obiekt, a kiedy dane te
@@ -1583,7 +1569,8 @@ export default class Lesson extends Lekcja {
       <div>
         <Row>
           <Column>
-            <h2>Cykl życia komponentu</h2>
+            <h2>Interakcja z komponentami</h2>
+            <h3>Cykl życia komponentu</h3>
             <p>
               Kolejnym ważnym tematem odróżniającym komponenty stanowe i bezstanowe jest tzw. cykl życia (ang. life cycle) komponentu. Komponenty
               bezstanowe tworzone są i niszczone za każdym razem, kiedy ich rodzic jest ponownie renderowany. Gdyby to samo działo się z komponentami
@@ -1849,7 +1836,8 @@ export default class Lesson extends Lekcja {
       <div>
         <Row>
           <Column>
-            <h2>Przekazywanie danych do rodzica i rodzeństwa</h2>
+            <h2>Interakcja z komponentami</h2>
+            <h3>Przekazywanie danych do rodzica i rodzeństwa</h3>
             <p>
               Wiemy już jak przekazywać dane od rodzica do dziecka - używamy w tym celu props. Mechanizm ten przyda nam się także do przekazywania danych
               w drugą stronę - od dziecka do rodzica. Zanim poznamy sposób, spójrzmy na problem, jaki pozwoli nam to rozwiązać w naszej aplikacji.

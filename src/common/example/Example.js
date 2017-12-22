@@ -87,6 +87,22 @@ export default class Example extends React.Component {
       .tweet p {
         margin: 5px 0 0 0;
       }
+
+      .TweetForm {
+        padding: 5px;
+        background: #e7e7e7;
+        margin: 0 0 10px 0;
+      }
+
+      .TweetForm input[type="text"] {
+        width: calc(100% - 100px);
+        padding: 5px;
+      }
+
+      .TweetForm button {
+        width: 100px;
+        padding: 5px;
+      }
     `;
   }
 
@@ -101,7 +117,7 @@ export default class Example extends React.Component {
       code = code.replace(/import(.*)\n/g, '');
       s.text = window.Babel.transform(code, {
         presets: ["react"],
-        plugins: ["transform-class-properties"]
+        plugins: ["transform-class-properties", "transform-object-rest-spread"]
       }).code;
 
       let style = this.window.document.createElement('style');

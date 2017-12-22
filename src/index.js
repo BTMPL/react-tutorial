@@ -17,6 +17,16 @@ class Scroll extends React.Component {
     }
   }
   render = () => null;
+  
+  componentDidMount() {
+
+    window.addEventListener('keydown', 
+    () => console.log('sup'), false)
+  
+    document.addEventListener('keydown',  
+    () => console.log('yo'), false)
+  }
+    
 }
 
 const render = () => {
