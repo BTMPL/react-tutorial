@@ -20,7 +20,10 @@ class Scroll extends React.Component {
 
   componentDidUpdate(prevProps) {
     if(prevProps.location.pathname !== this.props.location.pathname) {
-      window.scrollTo(0,0);
+      document.body.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
     }
   }
   render = () => null;    
