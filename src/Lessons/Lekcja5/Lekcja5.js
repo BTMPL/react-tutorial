@@ -28,7 +28,7 @@ export default class Lesson extends Lekcja {
       },
       {
         url: '/lekcja/lekcja5/deploy',
-        title: 'Wersja produkcyjna i publikowanie'
+        title: 'Wersja produkcyjna i publikowanie aplikacji'
       }        
     ]
   }  
@@ -438,8 +438,8 @@ export default class Lesson extends Lekcja {
             <Uwaga>
               <h4>Uwaga</h4>
               <p>
-                Opisany tu mechanizm nie jest niestety aktywny w create-react-app - żeby z niego skorzystać konieczne było by ejectowanie się z CRA i zmiana
-                konfiguracji webpack.
+                Opisany tu mechanizm nie jest niestety aktywny w <acronym title="create-react-app">CRA</acronym> - żeby z niego skorzystać konieczne było by 
+                ejectowanie się z <acronym title="create-react-app">CRA</acronym> i zmiana konfiguracji webpack.
               </p>
             </Uwaga>
           </Column>  
@@ -738,9 +738,9 @@ export default class Lesson extends Lekcja {
             </p>
             <p>
               Może zdarzyć się, że podczas łączenia się z API nie będziemy mogli pobrać z niego danych (nawet pomimo tego, że widzimy je w zakładce z połączeniami
-              w naszej przeglądarce). <code>create-react-app</code> zapewnia nam obejście tego problemu na czas tworzenia aplikacji (z użyciem webpack), ale docelowo
-              będziemy musieli zadbać o to, żeby komunikacja z API była możliwa bez tego rozwiązania. Więcej na temat wbudowanego serwera proxy znajdziesz 
-              w <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#proxying-api-requests-in-development" target="_blank">
+              w naszej przeglądarce). <acronym title="create-react-app">CRA</acronym> zapewnia nam obejście tego problemu na czas tworzenia aplikacji (z użyciem webpack), 
+              ale docelowo będziemy musieli zadbać o to, żeby komunikacja z API była możliwa bez tego rozwiązania. Więcej na temat wbudowanego serwera proxy 
+              znajdziesz w <a href="https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#proxying-api-requests-in-development" target="_blank">
               dokumentacji</a>.
             </p>
           </Column>
@@ -879,5 +879,117 @@ export default class Lesson extends Lekcja {
       </div>
     )
   }  
+
+  renderDeploy = () => {
+    return (
+      <div>
+        <Row>
+          <Column>
+            <h2>Receptury</h2>
+            <h3>Wersja produkcyjna i publikowanie aplikacji</h3>
+
+            <p>
+              W przypadku gdy nie korzystamy z żadnych rozwiązań server-side, nie potrzebujemy uruchomić własnego API etc. udostępnianie naszej aplikacji napisanej
+              w React jest bardzo proste. 
+            </p>
+            <p>
+              Pierwszym co musimy zrobić to wygenerowanie wersji produkcyjnej naszej aplikacji. Typowa aplikacja w czasie developowania zawiera dużo informacji, które
+              nie są potrzebne w wersji produkcyjnej, kod jest nie zminimalizowany etc. przez co może ona zajmować kilka lub kilkanaście megabajtów. Aby poprawnie 
+              zbudować aplikację w wersji produkcyjnej zwykle używamy oddzielnego pliku konfiguracyjnego dla naszego bundlera. 
+              <acronym title="create-react-app">CRA</acronym> zawiera taki plik konfiguracyjny i żeby zbudować wersję publiczną naszej aplikacji wystarczy wywołać 
+              komendę:
+            </p>
+            <Example showLineNumbers={false}>{`
+              yarn run build
+            `}</Example>
+            <p>
+              W odpowiedzi powinniśmy zobaczyć informacje związane z postępem przygotowywania wersji produkcyjnej:
+            </p>
+            <Example showLineNumbers={false}>{`
+              yarn run v1.3.2
+              $ react-scripts build
+              Creating an optimized production build...
+              Compiled without warnings.
+              
+              File sizes after gzip:
+              
+                36.5 KB  build\static\js\main.4cb50106.js
+                126 B    build\static\css\main.11ef35f4.css
+              
+              The project was built assuming it is hosted at the server root.
+              To override this, specify the homepage in your package.json.
+              For example, add this to build it for GitHub Pages:
+              
+                "homepage" : "http://myname.github.io/myapp",
+              
+              The build folder is ready to be deployed.
+              You may serve it with a static server:
+              
+                yarn global add serve
+                serve -s build
+              
+              Done in 45.26s.            
+            `}</Example>
+            <p>
+              W folderze naszego projektu pojawił się także nowy folder - <code>/build</code> - który zawiera gotową wersję naszej aplikacji, którą możemy umieścić
+              na dowolnym serwerze dostępnym w sieci. Serwer ten nie musi obsługiwać żadnych dodatkowych technologi tj. node.
+            </p>
+
+            <p>
+              Jeżeli nie korzystasz z <acronym title="create-react-app">CRA</acronym> musisz samemu utworzyć odpowiedni plik konfiguracyjny. Webpack jest w stanie 
+              samemu zasugerować kilka odpowiednich zmian jeżeli uruchomisz go z odpwiednią flagą <code>webpack -p</code>.
+            </p>
+            <Uwaga>
+              <h4>Uwaga</h4>
+              <p>
+                Na chwilę obecną wersja webpack 4.0 nie używa flagi <code>-p</code> zamiast tego należy uruchomić webpack komendą <code>webpack --mode production</code>.
+              </p>
+            </Uwaga>
+            <h3>Publikacja z użyciem surge</h3>
+            <p>
+              Jeżeli nie dysponujesz żadnym serwerem, albo chcesz na szybko udostępnić prostą aplikację możesz skorzystać np. z usługi <a href="http://surge.sh/" target="_blank">surge.sh</a>,
+              która pozwala na bezpłatne hostowanie prostych aplikacji. W celu skorzystania z surge zainstaluj globalnie moduł <code>surge</code> z npm:
+            </p>
+            <Example showLineNumbers={false}>{`
+              yarn global add surge
+            `}</Example>
+            <p>
+              A następnie opublikuj dane z katalogu <code>/build</code>:              
+            </p>
+            <Example showLineNumbers={false}>{`
+              λ cd build\
+
+              λ surge
+              
+                  Surge - surge.sh
+              
+                            email: twoj@email.com
+                            token: *****************
+                    project path: D:\\Sciezka\\Do\\Aplikacji\\build\\
+                            size: 4 files, 502.3 KB
+                          domain: losowa-nazwa.surge.sh
+                          upload: [====================] 100%, eta: 0.0s
+                propagate on CDN: [====================] 100%
+                            plan: Free
+                            users: twoj@email.com
+                      IP Address: 12.34.56.78
+              
+                  Success! Project is published and running at losowa-nazwa       
+            `}</Example>
+            <p>
+              Po kilku sekundach Twoja aplikacja powinna być dostępna pod domeną, którą losowo wygenerowało Surge.
+            </p>
+            <Uwaga>
+              <h4>Uwaga</h4>
+              <p>
+                Pamiętaj by przed wywołaniem surge przejść do katalogu <code>/build</code>! W innym wypadku możesz omyłkowo opublikować kod swojej aplikacji, a nie jej
+                uruchamialną wersję!
+              </p>
+            </Uwaga>
+          </Column>
+        </Row>
+      </div>
+    );
+  } 
 
 }

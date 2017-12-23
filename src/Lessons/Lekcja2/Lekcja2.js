@@ -560,8 +560,9 @@ export default class Lesson extends Lekcja {
         <Row>
           <Column width={6}>
             <p>
-              W aktualnej wersji JS nie możemy korzystać z określeń typu <code>static</code> etc. czy też definiować zmienne bezpośrednio w ciele klasy - ale jeżeli używamy
-              create-react-app, lub dodamy obsługę <a href="https://babeljs.io/docs/plugins/transform-class-properties/" target="_blank">class properties</a> do naszego projektu 
+              W aktualnej wersji JS nie możemy korzystać z określeń typu <code>static</code> etc. czy też definiować zmienne bezpośrednio w ciele klasy 
+              - ale jeżeli używamy <acronym title="create-react-app">CRA</acronym>, lub dodamy 
+              obsługę <a href="https://babeljs.io/docs/plugins/transform-class-properties/" target="_blank">class properties</a> do naszego projektu 
               będzie to możliwe. 
             </p>
             <p>

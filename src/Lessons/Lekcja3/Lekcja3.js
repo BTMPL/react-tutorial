@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+
+import { Link } from "react-router-dom";
 import Navigate from "./../../common/Navigate/Navigate";
 import { Row, Column } from "./../../common/Layout/Layout";
 import Example from "./../../common/example/Example";
@@ -151,7 +153,9 @@ export default class Lesson extends Lekcja {
               <h4>Uwaga</h4>
               <p>           
                 Znaczniki JSX nie są interpretowane przez przeglądarkę i będą prowadzić do powstawania błędów. Od teraz wszystkie przykłady uruchamiaj
-                w środowisku create-react-app lub innym boilerplate. Kod z tej sekcji umieść w pliku <code>src/index.js</code>
+                w środowisku <acronym title="create-react-app">CRA</acronym> lub innym boilerplate. Kod z tej sekcji umieść w 
+                pliku <code>src/index.js</code> i uruchom projekt poleceniem <code>npm start</code>. Jeżeli nie skonfigurowałeś 
+                jeszcze <acronym title="create-react-app">CRA</acronym> zajrzyj do sekcji <Link to={'/lekcja/lekcja1/create-react-app'}>Lekcja 1</Link>.
               </p>
             </Uwaga>
           </Column>
