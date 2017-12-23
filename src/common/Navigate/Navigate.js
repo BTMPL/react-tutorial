@@ -23,12 +23,12 @@ export default class Navigate extends React.Component {
   render() {
     return (
       <Row className={Style.Navigate}>
-        <Column width={6} mobileWidth={6}>
+        <Column width={6} mobileWidth={12}>
           <Align left>
             {this.props.prev && <Link to={this.props.prev.url}>{this.props.prev.title}</Link>}
           </Align>        
         </Column>
-        <Column width={6} mobileWidth={6}>
+        <Column width={6} mobileWidth={12}>
           <Align right>
             {this.props.next && <Link to={this.props.next.url}>{this.props.next.title}</Link>}
           </Align>          

@@ -288,8 +288,9 @@ export default class Lesson extends Lekcja {
           <Column width={6}>
             <h3>Przekazywanie danych</h3>
             <p>
-              Jeżeli używasz create-react-app lub dodałeś do projektu preset <a href="https://babeljs.io/docs/plugins/transform-class-properties/" target="_blank">
-              babel-plugin-transform-class-properties</a> możesz używać alternatywnego, krótszego zapisu PropTypes dla komponentów stanowych.
+              Jeżeli używasz <acronym title="create-react-app">CRA</acronym> lub dodałeś do projektu preset 
+              <a href="https://babeljs.io/docs/plugins/transform-class-properties/" target="_blank">babel-plugin-transform-class-properties</a> możesz używać 
+              alternatywnego, krótszego zapisu PropTypes dla komponentów stanowych.
             </p>
             <p>
               Opiera on się o nowy typ pola danych - <code>static</code> ale w praktyce wciąż transpilowany jest na poprzednią notację.

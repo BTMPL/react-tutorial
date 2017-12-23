@@ -13,7 +13,7 @@ export default class Header extends React.Component {
       <header className={Style.header}>
         <Row full>
           <Column width={6}>
-            szczecinski.eu
+            <img src="https://github.com/btmpl.png" alt="" className={Style.avatar} /> szczecinski.eu
           </Column>
           <Column width={6}>        
             <Align right>

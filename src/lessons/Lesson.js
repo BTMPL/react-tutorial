@@ -61,11 +61,7 @@ export default class Lesson extends React.Component {
           {this.renderIndex()}
         </Column>
         <Column width={9} className={Style.content}>     
-          <Row>
-            <Column>
-              <Component section={this.props.match.params.section} />
-            </Column>
-          </Row>
+          <Component section={this.props.match.params.section} />
         </Column>
       </Row>
     );
