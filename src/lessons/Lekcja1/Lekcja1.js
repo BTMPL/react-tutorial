@@ -4,13 +4,15 @@ import Navigate from "../../common/Navigate/Navigate";
 import { Row, Column } from "../../common/Layout/Layout";
 import Example from "./../../common/example/Example";
 
+import { Uwaga } from "./../../common/Inserts/Inserts";
+
 import devtools from "./react-devtools.jpg";
 
 import Lekcja from "../Lekcja";
 
 export default class Lesson extends Lekcja {
   
-  static title = "Lekcja 1 - Podstawowe pojęcia, konfiguracja środowiska pracy";
+  static title = "Lekcja 1 - Podstawowe pojęcia, konfiguracja środowiska";
 
   static getSections = () => {
     return [
@@ -38,7 +40,8 @@ export default class Lesson extends Lekcja {
       <div>
         <Row>
           <Column>
-            <h2>Podstawowe pojęcia</h2>
+            <h2>Podstawowe pojęcia, konfiguracja środowiska</h2>
+            <h3>Podstawowe pojęcia</h3>
             <p>
               Przed rozpoczęciem pracy omówmy kilka podstawowych pojęć, którymi będziemy posługiwać się w kursie lub z którymi zetkniesz się pracując z React.
             </p>
@@ -96,7 +99,8 @@ export default class Lesson extends Lekcja {
       <div>
         <Row>
           <Column>
-            <h2>Środowisko NodeJS</h2>
+            <h2>Podstawowe pojęcia, konfiguracja środowiska</h2>
+            <h3>Środowisko NodeJS</h3>
             <p>
               Kurs przygotowany jest z myślą o użytkownikach systemów Unixowych oraz Windows. Większość poleceń wykonywanych będzie w powłoce, dlatego zaleca się, 
               by czytelnik znał podstawy obsługi odpowiedniej powłoki, zaś użytkownicy Windows używali powłoki bash (np. git-bash.exe)
@@ -160,7 +164,8 @@ export default class Lesson extends Lekcja {
       <div>
         <Row>
           <Column>
-            <h2>Narzędzia wspomagające</h2>
+            <h2>Podstawowe pojęcia, konfiguracja środowiska</h2>
+            <h3>Narzędzia wspomagające</h3>
             <p>
               W ostatnich latach JavaScript rozwija się bardzo dynamicznie - pojawia się wiele rozwiązań, które stopniowo wdrażane są przez producentów przeglądarek. 
               Niestety, tworząc aplikacje webowe musimy liczyć się z tym, że nasi użytkownicy nie zawsze będą posiadali najnowsze wersje przeglądarek, 
@@ -301,7 +306,8 @@ export default class Lesson extends Lekcja {
       <div>
         <Row>
           <Column>
-            <h2>create react app</h2>
+            <h2>Podstawowe pojęcia, konfiguracja środowiska</h2>
+            <h3>create react app</h3>
             <p>
               Jednym z najczęstszych zarzutów, z jakimi początkowo borykał się React była znacząca ilość pracy, jaką developerzy musieli poświęcić na przygotowanie 
               środowiska pracy - dobór pakietów, konfiguracja babel, webpack etc. Odpowiedzią na to był wysyp nieoficjalnych boilerplate udostępnianych jako 
@@ -340,14 +346,19 @@ export default class Lesson extends Lekcja {
               <code>npm install create-react-app --global</code>
             </p>   
             <p>
-              Kiedy proces zakończy się, powinniśmy mieć możliwość uruchomienia nowej komendy - <code>create-react-app</code>. Jeżeli po wywołaniu w/w komendy otrzymasz
-              komunikat informujący o braku programu, uruchom nowe okno powłoki.
+              Kiedy proces zakończy się, powinniśmy mieć możliwość uruchomienia nowej komendy - <code>create-react-app</code>. Jeżeli po wywołaniu w/w komendy 
+              otrzymasz komunikat informujący o braku programu, uruchom nowe okno powłoki.
             </p>       
             <p>
               Możemy teraz utworzyć nasz nowy projekt za pomocą komendy:<br />
-              <code>create-react-app nazwa-katalogu</code><br />
-              Należy pamiętać, że nazwa katalogu nie może pokrywać się z nazwą instalowanych w nim pakietów npm, dlatego nie używajmy nazw typu "react" etc.
+              <code>create-react-app nazwa-katalogu</code><br />              
             </p>
+            <Uwaga>
+              <h4>Uwaga</h4>
+              <p>
+                Należy pamiętać, że nazwa katalogu nie może pokrywać się z nazwą instalowanych w nim pakietów npm, dlatego nie używajmy nazw typu "react" etc.
+              </p>
+            </Uwaga>
           </Column>          
           <Column width={6}>
             <Example>{`
