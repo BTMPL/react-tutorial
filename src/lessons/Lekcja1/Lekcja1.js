@@ -10,6 +10,7 @@ import devtools from "./react-devtools.jpg";
 
 import Lekcja from "../Lekcja";
 
+
 export default class Lesson extends Lekcja {
   
   static title = "Lekcja 1 - Podstawowe pojęcia, konfiguracja środowiska";
@@ -116,7 +117,7 @@ export default class Lesson extends Lekcja {
           <Column width={6}>
             <p>W następnej kolejności, upewnijmy się, że dysponujemy odpowiednimi wersjami node oraz npm. Najnowsze wersje nie są wymagane, ale na pewno pomagają. 
             Upewnijmy się więc, że node posiadamy w wersji minimum 7.x, a npm 5.x. Aby uaktualnić npm wystarczy najczęściej wydać 
-            polecenie <code>npm install -G npm</code></p>
+            polecenie <code>npm install -g npm</code></p>
           </Column>
           <Column width={6}>
             <Example showLineNumbers={false}>{`

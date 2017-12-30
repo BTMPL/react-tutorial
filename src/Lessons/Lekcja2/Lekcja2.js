@@ -97,7 +97,7 @@ export default class Lesson extends Lekcja {
         <Row>
           <Column width={6}>
             <p>
-              <code>var</code> jest podobny w działaniu do <code>var</code> dostępny jest on jednak tylko w zasięgu, w którym został zadeklarowany.
+              <code>let</code> jest podobny w działaniu do <code>var</code> dostępny jest on jednak tylko w zasięgu, w którym został zadeklarowany.
             </p>
 
             <p>
@@ -399,7 +399,7 @@ export default class Lesson extends Lekcja {
             <Example>{`
               const test = "myKey";
               const obj = {
-                [myKey]: 42
+                [test]: 42
               };
               console.log(obj.myKey); // 42
             `}</Example>

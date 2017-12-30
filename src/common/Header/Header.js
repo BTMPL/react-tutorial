@@ -1,12 +1,18 @@
 import React from "react";
 import { createPortal } from "react-dom";
 
+import PropTypes from "prop-types";
+
 import { Switch, Route, NavLink, Link } from "react-router-dom";
 import { Row, Column, Align } from "../Layout/Layout";
 
 import Style from "./Header.less";
 
 export default class Header extends React.Component {
+
+  static propTypes = {
+    onNavbarToggle: PropTypes.func
+  }
 
   render() {
     return (
@@ -20,6 +26,8 @@ export default class Header extends React.Component {
               <NavLink to="/" exact>Home</NavLink>
               <a href="https://medium.com/@baphemot" target="_blank">Blog</a>
               <Link to="/lekcja/lekcja1/podstawowe-pojecia" strict="true">Kurs React</Link>
+
+              {this.props.onNavbarToggle && <span className={Style.mobileMenu} onClick={this.props.onNavbarToggle} />}
             </Align>
           </Column>
         </Row>

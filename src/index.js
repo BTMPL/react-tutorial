@@ -15,7 +15,8 @@ class Scroll extends React.Component {
   static propTypes = {
     location: PropTypes.shape({
       pathname: PropTypes.string
-    })
+    }),
+    navChangeCallback: PropTypes.func,
   }
 
   componentDidUpdate(prevProps) {
@@ -23,23 +24,46 @@ class Scroll extends React.Component {
       document.body.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
-      })
+      });
+
+      ga('set', 'page', this.props.location.pathname);
+      ga('send', 'pageview');
+
+      this.props.navChangeCallback();
     }
   }
   render = () => null;    
 }
 
+class App extends React.Component {
+  state = {
+    navbarOpen: false
+  }
+
+  toggleNavbar = () => this.setState({ navbarOpen: !this.state.navbarOpen });
+  closeSidebar = () => {
+    this.setState({ navbarOpen: false });
+  }
+
+  render() {
+    return (
+      <HashRouter>
+        <div className={this.state.navbarOpen ? 'navbar' : ''}>
+          <Route path="/" exact render={() => <Header />} />
+          <Route path="/lekcja" render={() => <Header onNavbarToggle={this.toggleNavbar} />} />
+          <Switch>
+            <Route path="/lekcja/:lesson/:section?" component={Lesson} />
+            <Route component={Home} />
+          </Switch>
+          <Route render={(props) => <Scroll {...props} navChangeCallback={this.closeSidebar} />} />
+        </div>
+      </HashRouter>
+    )    
+  }
+}
+
 const render = () => {
-  ReactDOM.render(<HashRouter>
-    <div>
-      <Header />
-      <Switch>
-        <Route path="/lekcja/:lesson/:section?" component={Lesson} />        
-        <Route component={Home} />
-      </Switch>
-      <Route component={Scroll} />
-    </div>
-  </HashRouter>, document.getElementById("react-app"));
+  ReactDOM.render(<App />, document.getElementById("react-app"));
 };
 
 render();

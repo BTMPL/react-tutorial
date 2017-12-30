@@ -713,32 +713,33 @@ export default class Lesson extends Lekcja {
             <p>
               W kodzie po prawej zmieniliśmy chwilowo nasz komponent tak, by renderował dwa Tweety, owinięte w jeden <code>&lt;div&gt;</code>. Nie zawsze 
               jest to pożądane wyjście. Możemy zatem zmodyfikować nasz komponent tak, by wyrenderowany kod nie zawierał tego dodatkowego znacznika.
-            </p>     
+            </p>  
+            <p>
+              Więcej o Fragmentach przeczytasz na stronie <a href="https://reactjs.org/docs/fragments.html" target="_blank">reactjs.org/docs/fragments.html</a>.
+            </p>                 
           </Column>          
           <Column width={6}>
-            <Example>{`          
+            <Example>{`           
               const TweetList = ({ tweets }) => {                
                 return (
-                  <div>
-                    <Tweet tweet={tweets[0]} />
+                  <React.Fragment>
+                    <Tweet tweet={tweets[0]} />,
                     <Tweet tweet={tweets[1]} />
-                  </div>
+                  </React.Fragment>
                 );
-              }           
-            `}</Example>              
+              }         
+            `}</Example>            
           </Column>          
         </Row>    
         <Row>
           <Column width={6}>
             <p>
-              W nowej wersji JSX możemy korzystać z jeszcze bardziej uproszczonej notacji. Należy mieć jednak na uwadze, że nie każdy boilerplate 
-              i nie każde narzędzie (edytor, runner testów etc.) mogą rozpoznać te składnię.
-            </p>   
-            <p>
-              Więcej o Fragmentach przeczytasz na stronie <a href="https://reactjs.org/docs/fragments.html" target="_blank">https://reactjs.org/docs/fragments.html</a>.
-            </p>              
+              Istnieje także skrócona notacja tego mechanizmu jednak na chwilę obecną nie jest ona jeszcze wspierana przez wszystkie narzędzia - listę technologii
+              wspierających ten zapis znajdzisz <a href="https://reactjs.org/blog/2017/11/28/react-v16.2.0-fragment-support.html#support-for-fragment-syntax" target="_blank">w
+              poście informującym o jego dodaniu</a>.
+            </p>             
           </Column>          
-          <Column width={6}>
+          <Column width={6}>                      
             <Example>{`           
               const TweetList = ({ tweets }) => {                
                 return (
@@ -748,15 +749,15 @@ export default class Lesson extends Lekcja {
                   </>
                 );
               }         
-            `}</Example>                  
+            `}</Example>
           </Column>          
         </Row>    
         <Row>
           <Uwaga>
             <h4>Uwaga</h4>
             <p>
-              Jeżeli korzystasz z React w wersji &gt;16 i &lt; 16.2 możesz skorzystać z biblioteki <a href="https://github.com/gajus/react-aux" target="_blank">react-aux</a>
-              aby móc stosować uproszczoną składnię z identycznym rezultatem.
+              Jeżeli korzystasz z React w wersji &gt;16 i &lt; 16.2 możesz skorzystać z  
+              biblioteki <a href="https://github.com/gajus/react-aux" target="_blank">react-aux</a> aby móc stosować uproszczoną składnię z identycznym rezultatem.
             </p>
           </Uwaga>
         </Row>              
@@ -1077,7 +1078,7 @@ export default class Lesson extends Lekcja {
               <li>do listenera musimy przekazać wskazanie na funkcję, a nie nową funkcję lub wywołanie funkcji</li>
             </ul>
             <p>
-              Ostatni warunek jest częstym pododem błędów wśród początkujących developerów - nasz kod powinien przekazywać wskazanie na funkcję - 
+              Ostatni warunek jest częstym powodem błędów wśród początkujących developerów - nasz kod powinien przekazywać wskazanie na funkcję - 
               np. <code>onClick={`{this.handleClick}`}</code> a nie jej wywołanie - <code>onClick={`{this.handleClick()}`}</code>
             </p>
             <h3>Przekazywanie danych do handlerów</h3>
@@ -1433,7 +1434,7 @@ export default class Lesson extends Lekcja {
         <Row>
           <Column width={6}>
             <p>
-              Zmieńmy zatem nieco nasz komponent (i tymczasowo dodajmy podlgąd, aby widzieć zachodzącą w stanie zmianę).
+              Zmieńmy zatem nieco nasz komponent (i tymczasowo dodajmy podgląd, aby widzieć zachodzącą w stanie zmianę).
             </p>
             <p>
               Do naszego handlera <code>handleChange</code> dodajemy wywołanie <code>this.setState</code>, które jako parametr

@@ -35,11 +35,28 @@
     }
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 768px) {    
     display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    z-index: 1;
+    background: white;
+    overflow: auto;
+    margin-top: -20px;     
 
     & + div {
       padding: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  :global(.navbar) {
+    .sidebar {
+      display: block;
     }
   }
 }
