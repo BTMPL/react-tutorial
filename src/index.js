@@ -1,7 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
+//import ReactDOM from "react-dom";
+import { render as renderToDom } from 'react-snapshot';
 import PropTypes from "prop-types";
-import { HashRouter, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 
 import Header from "./common/Header/Header";
 
@@ -26,8 +27,13 @@ class Scroll extends React.Component {
         block: 'start'
       });
 
-      ga('set', 'page', this.props.location.pathname);
-      ga('send', 'pageview');
+      try {
+        ga('set', 'page', this.props.location.pathname);
+        ga('send', 'pageview');
+      }
+      catch(e) {
+        
+      }
 
       this.props.navChangeCallback();
     }
@@ -47,7 +53,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <HashRouter>
+      <BrowserRouter>
         <div className={this.state.navbarOpen ? 'navbar' : ''}>
           <Route path="/" exact render={() => <Header />} />
           <Route path="/lekcja" render={() => <Header onNavbarToggle={this.toggleNavbar} />} />
@@ -57,13 +63,13 @@ class App extends React.Component {
           </Switch>
           <Route render={(props) => <Scroll {...props} navChangeCallback={this.closeSidebar} />} />
         </div>
-      </HashRouter>
+      </BrowserRouter>
     )    
   }
 }
 
 const render = () => {
-  ReactDOM.render(<App />, document.getElementById("react-app"));
+  renderToDom(<App />, document.getElementById("react-app"));
 };
 
 render();

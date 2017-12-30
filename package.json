@@ -7,7 +7,7 @@
     "start": "cross-env NODE_ENV=development node server.js",
     "test": "jest",
     "lint": "eslint src",
-    "build": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.production.js --progress --hide-modules -p"
+    "build": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.production.js --progress --hide-modules -p && react-snapshot --build-dir dist"
   },
   "keywords": [],
   "author": "",
@@ -46,6 +46,7 @@
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-snapshot": "^1.3.0",
     "react-syntax-highlighter": "*",
     "rimraf": "^2.6.2",
     "style-loader": "^0.19.1",
