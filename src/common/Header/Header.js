@@ -26,6 +26,7 @@ export default class Header extends React.Component {
               <NavLink to="/" exact>Home</NavLink>
               <a href="https://medium.com/@baphemot" target="_blank">Blog</a>
               <Link to="/lekcja/lekcja1/podstawowe-pojecia" strict="true">Kurs React</Link>
+              <a href="mailto:baphemot@gmail.com">Kontakt</a>
 
               {this.props.onNavbarToggle && <span className={Style.mobileMenu} onClick={this.props.onNavbarToggle} />}
             </Align>
