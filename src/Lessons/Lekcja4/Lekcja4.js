@@ -501,6 +501,7 @@ export default class Lesson extends Lekcja {
               <li>klucze były stringami</li>
               <li>były unikalne w skali wspólnego rodzica</li>
               <li>były "stałe" - nie powinnyśmy generować ich losowo (np. używając <code>Math.random()</code>) w czasie renderowania</li>
+              <li>nie ulegały zmianie podczas kolejnych renderowań tablicy - indeks elementu tablicy powinniśmy używać tylko w ostateczności!</li>
             </ul>
           </Column>
           <Column width={6}>
@@ -1561,6 +1562,60 @@ export default class Lesson extends Lekcja {
             `}</Example>           
           </Column>          
         </Row>
+        <Row>
+          <Column width={6}>
+            <p>
+              Funkcja <code>setState</code> posiada też drugą formę, w której jako pierwszy parametr możemy przekazać funkcję, która w momencie
+              aktualizacji stanu zostanie wywołana z jego aktualną wartością. Przydaje się to głównie w przypadku modyfikowania stanu w oparciu
+              o jego aktualną wartość (np. zwiększenie o 1, lub dodanie do tablicy).
+            </p>
+            <p>
+              W przypadku, kiedy użyli byśmy poprzedniej notacji, dane mogły by być nieprawidłowe w wyniku optymalizacji (batching akcji) React:
+            </p>
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              this.setState({ value: this.state.value + 1});
+              this.setState({ value: this.state.value + 1});
+              this.setState({ value: this.state.value + 1});              
+              // spowoduje zwiększenie wartości this.state.value o 1
+
+              this.setState((state) => ({ value: state.value + 1}));
+              this.setState((state) => ({ value: state.value + 1}));
+              this.setState((state) => ({ value: state.value + 1}));
+              // spowoduje zwiększenie wartości this.state.value o 3              
+            `}</Example>           
+          </Column>
+        </Row>
+        <Row>
+          <Column>
+            <h3>Asynchroniczna natura stanu</h3>
+          </Column>
+        </Row>          
+        <Row>
+          <Column width={6}>
+            <p>
+              Należy pamiętać, że funkcja <code>setState</code> jest asynchroniczna, dlatego odwołanie się do <code>this.state</code> zaraz
+              po jej wywołaniu zwróci nam starą wartość stanu.
+            </p>
+            <p>
+              Aby uzyskać dostęp do zmodyfikowanego stanu, mozemy użyć drugiego argumentu funkcji - callbacku, który wywołany zostanie po tym
+              jak stan zostanie faktycznie zaktualizowany.
+            </p>
+          </Column>
+          <Column width={6}>
+            <Example>{`
+              // zakładając this.state.value = 0;
+              
+              this.setState({
+                value: 1
+              }, () => {
+                console.log(this.state.value); // wartość "1"
+              });
+              console.log(this.state.value); // wartość "0"
+            `}</Example>           
+          </Column>
+        </Row>
         <Navigate prev={this.getPrev(this.props.section)} next={this.getNext(this.props.section)} />
       </div>
     )
@@ -1600,7 +1655,7 @@ export default class Lesson extends Lekcja {
                 super(props);
 
                 this.state = {
-                  text: this.props.text
+                  text: props.text
                 };
               }
             `}</Example>
@@ -2314,9 +2369,9 @@ export default class Lesson extends Lekcja {
                     text: text
                   }
 
-                  this.setState({
-                    tweets: [newTweet, ...this.state.tweets]
-                  });
+                  this.setState((state) => ({
+                    tweets: [newTweet, ...state.tweets]
+                  }));
                 }
                 @end-important
 

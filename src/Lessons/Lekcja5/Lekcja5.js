@@ -207,9 +207,9 @@ export default class Lesson extends Lekcja {
                     text: text
                   }
 
-                  this.setState({
-                    tweets: [newTweet, ...this.state.tweets]
-                  });
+                  this.setState((state) => ({
+                    tweets: [newTweet, ...state.tweets]
+                  }));
                 }                
 
                 render() {
@@ -404,9 +404,9 @@ export default class Lesson extends Lekcja {
                     text: text
                   }
 
-                  this.setState({
-                    tweets: [newTweet, ...this.state.tweets]
-                  });
+                  this.setState((state) => ({
+                    tweets: [newTweet, ...state.tweets]
+                  }));
                 }                
 
                 render() {
@@ -682,12 +682,12 @@ export default class Lesson extends Lekcja {
                   })
                   .then(response => response.json())
                   .then(json => {
-                    this.setState({
+                    this.setState((state) => ({
                       tweets: [{
                         ...json,
                         date: new Date(json.date)
-                      }, ...this.state.tweets]
-                    });                    
+                      }, ...state.tweets]
+                    }));                    
                   })
                 }                
 
