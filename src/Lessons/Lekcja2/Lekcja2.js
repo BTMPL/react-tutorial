@@ -973,7 +973,7 @@ export default class Lesson extends Lekcja {
             </Uwaga>
           </Column>
         </Row>     
-        <Navigate prev={this.getPrev(this.props.section)} next={{url: '/lekcja/lekcja3/wprowadzenie-do-react', title: 'Lekcja 3'}} />
+        <Navigate prev={this.getPrev(this.props.section)} next={{url: '/lekcja/lekcja2/dekoratory', title: 'Dekoratory'}} />
       </div> 
     );
   }    
