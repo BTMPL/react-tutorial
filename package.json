@@ -7,7 +7,7 @@
     "start": "NODE_ENV=development node server.js",
     "test": "jest",
     "lint": "eslint src",
-    "build": "NODE_ENV=production webpack --config webpack/webpack.config.production.js --progress --hide-modules -p && react-snapshot --build-dir dist"
+    "build": "webpack --env.NODE_ENV=production --config webpack/webpack.config.production.js --progress --hide-modules -p && react-snapshot --build-dir dist"
   },
   "keywords": [],
   "author": "",
