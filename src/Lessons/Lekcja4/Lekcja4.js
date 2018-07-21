@@ -67,7 +67,7 @@ export default class Lesson extends Lekcja {
             </p>
             <p>
               React sugeruje nam przekazywanie danych w jednym kierunku (ang. one way data flow) musi natomiast istnieć możliwość przekazywania danych 
-              z komponentu dziecka do komponentu rodzica. Z chwilę dowiesz się jak przekazywać dane "w dół" - z komponentu rodzica do komponentu dziecka.
+              z komponentu dziecka do komponentu rodzica. Za chwilę dowiesz się jak przekazywać dane "w dół" - z komponentu rodzica do komponentu dziecka.
               O tym jak przekazać dane w drugą stronę dowiesz się z dalszych rozdziałów, kiedy poruszymy tematy związane z formularzami.
             </p>
  
@@ -197,7 +197,7 @@ export default class Lesson extends Lekcja {
               o określonej strukturze.
             </p>
             <p>
-              Warto mieć na uwagę, że mechanizm PropTypes jest tylko sugestią - jest on jedynie używany jeżeli aplikacja działa w trybie developerskim,
+              Warto mieć na uwadze, że mechanizm PropTypes jest tylko sugestią - jest on jedynie używany jeżeli aplikacja działa w trybie developerskim,
               a nawet jeżeli przekażemy złe wartości nie spowoduje to zatrzymania aplikacji a jedynie komunikat w konsoli. PropTypes powinny być używane
               jako rodzaj dokumentacji komponentu, ale są także używane przez auto-podpowiadanie składni w wielu popularnych edytorach kodu.
             </p>
