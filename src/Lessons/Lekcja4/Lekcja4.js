@@ -925,8 +925,8 @@ export default class Lesson extends Lekcja {
             <Uwaga>
               <h4>Uwaga</h4>
               <p>
-                Funkcja ta wywoływana jest w <code>render</code> oznacza to, że referencje nie są dostępne w <code>componentWillMount</code> i innych funkcjach
-                wywoływanych przed pierwszym renderowaniem komponentu.
+                Funkcja ta wywoływana jest w <code>render</code> oznacza to, że referencje nie są dostępne w <code>constructor</code> i innych funkcjach
+                wywoływanych przed pierwszym renderowaniem komponentu (np. pierwszym wywołaniu <code>getDerivedStateFromProps</code>.)
               </p>
             </Uwaga>
             <p>
@@ -1672,41 +1672,26 @@ export default class Lesson extends Lekcja {
               <li>nie wywołuj akcji asynchronicznych</li>
             </ul>
             <hr />
-            <h4>componentWillMount</h4>
+            <h4>static getDerivedStateFromProps(nextProps, state)</h4>
             <p>
-              Metoda wywoływana bezpośrednio przed pierwszym wywołaniem <code>render</code>. W obecnej formie React nie pełni ona specjalnie przydatnej 
-              roli. Należy pamiętać, że wszelkie operacje asynchroniczne (np. pobieranie danych) zainicjowane w tej metodzie nie wykonają się przed
-              wywołaniem <code>render</code> więc nie należy ich tutaj umieszczać.
+              Metoda wywoływana bezpośrednio przed każdym wywołaniem <code>render</code>. Umożliwia ona synchronizację stanu (jego wyliczenie) w oparciu
+              o props, jakie otrzymuje komponent. Funkcja ta powinna zwrócić obiekt danych, które należy dodać lub zmienić w stanie komponentu, podobnie
+              jak w przypadku wywołania funkcji <code>this.setState</code>.
             </p>
+            <p>
+              Zwróć uwage, że funkcja ta jest funkcją statyczną i musi być poprzedzona specyfikatorem <code>static</code>. Ozacza to, że w funkcji nie ma
+              dostępu do obiektu <code>this</code>!
+            </p>
+            <Uwaga>
+              <h4>Uwaga</h4>
+              <p>
+                Funkcja ta wywoływana jest za każdym razem kiedy komponent ulega przerenderowaniu - dotyczy to także przerenderowania na skutek wywołania
+                <code>this.setState</code> - miej na uwadze, by nie nadpisać stanu propsami!
+              </p>
+            </Uwaga>
             <p><b>tak</b></p>
             <ul>
-              <li>wprowadź ostatnie poprawki w stanie komponentu przed renderowaniem</li>
-            </ul>
-            <p><b>nie</b></p>
-            <ul>
-              <li>nie wywołuj akcji asynchronicznych</li>
-            </ul> 
-            <hr />           
-            <h4>componentWillReceiveProps(nextProps)</h4>
-            <p>
-              Za każdym razem, kiedy nasz komponent jest ponownie renderowany na skutek ponownego renderowania się rodzica metoda ta będzie wywoływana,
-              a jako parametr otrzyma mapę propsów, które dostępne będą jako <code>this.props</code> w dalszej części cyklu. Powinniśmy tutaj sprawdzić
-              czy aktualne i przyszłe propsy różnią się i zareagować na ewentualną zmianę. Pamiętajmy, że metoda ta jest wywoływana nawet jeżeli żadna
-              faktyczna zmiana nie miała miejsca!
-            </p> 
-            <Example>{`
-              componentWillReceiveProps(nextProps) {
-                if(nextProps.text !== this.props.text) {
-                  /**
-                   * props text uległ zmianie i jego nowa wartośc znajduje się 
-                   * w nextProps.text - powinniśmy na to jakoś zareagować
-                   */
-                }
-              }
-            `}</Example>
-            <p><b>tak</b></p>  
-            <ul>
-              <li>zareaguj na zmiany props (np. w celu synchronizacji stanu i propsów)</li>
+              <li>synchronizacja stanu komponentu z otrzymanymi propsami</li>
             </ul>
             <p><b>nie</b></p>
             <ul>
@@ -1722,29 +1707,16 @@ export default class Lesson extends Lekcja {
               powinna zwrócić wartość <code>true</code> jeżeli komponent ma zostać ponownie wyrenderowany, lub <code>false</code> w przeciwnym wypadku.
             </p>  
             <hr />   
-            <h4>componentWillUpdate(nextProps, nextState)</h4>
-            <p>
-              Jeżeli <code>shouldComponentUpdate</code> zwróciło <code>true</code> (lub funkcja ta nie była w ogóle zaimplementowana) i komponent zamierza
-              się ponownie wyrenderować, przed samym <code>render</code> wywołana zostanie ta funkcja. Jest ona przydatna, jeżeli zaimplementowaliśmy
-              <code>shoulComponentUpdate</code> i chcemy zareagować na zmianę propsów - <code>componentWillReceiveProps</code> jest wywoływane przed {" "}
-              <code>sCU</code> więc jeżeli chcemy mieć pewność, że operacja wykona się przed render, ale tylko jeżeli komponent zamierza się ponownie
-              wyrenderować, możemy wywołać ją właśnie tutaj.
-            </p> 
-            <p><b>tak</b></p> 
-            <ul>
-              <li>zareaguj na zmiany props (np. w celu synchronizacji stanu i propsów) jeżeli używasz także <code>shouldComponentUpdate</code></li>
-            </ul>
-            <p><b>nie</b></p>
-            <ul>
-              <li>nie wywołuj akcji asynchronicznych</li>
-            </ul> 
-            <hr />           
-            <h4>componentDidUpdate(prevProps, prevState)</h4>
+           
+            <h4>componentDidUpdate(prevProps, prevState, snapshot)</h4>
             <p>
               Funkcja ta wywoływana jest tuż po tym jak zakończył się proces renderowania (wywołana została metoda <code>render</code> naszego komponentu
               oraz wszystkich jego dzieci), a jako parametry otrzymuje poprzednie propsy i poprzedni stan. Jest to odpowiednie miejsce do wywoływania
               zdarzeń asynchronicznych, zaś jeżeli potrzebujemy zaktualizować tutaj stan, powinniśmy być bardzo ostrożni, aby nie wpaść w pętlę
               zdarzeń <code>render -> componentDidUpdate -> update -> this.setState -> componentDidUpdate</code>
+            </p>
+            <p>
+              Trzeic parametr jest wartością zwróconą przez <code>getSnapshotBeforeUpdate</code>.
             </p>
             <Example>{`
               componentDidUpdate(prevProps) {
@@ -1768,7 +1740,7 @@ export default class Lesson extends Lekcja {
               <li>nie aktualizuj bezpośrednio stanu komponentu</li>
             </ul>    
             <hr />                     
-            <h4>componentDidMount</h4>
+            <h4>componentDidMount()</h4>
             <p>
               Metoda zostanie wywołana tylko raz w cyklu życia komponentu zaraz po pierwszym wywołaniu <code>render</code>. Nadaje się ona idealnie dla
               wykonywania operacji asynchronicznych. Powinniśmy unikać wywoływania tutaj operacji zmieniających stan, ponieważ spowoduje to kolejne 
@@ -1785,7 +1757,7 @@ export default class Lesson extends Lekcja {
               <li>nie aktualizuj bezpośrednio stanu komponentu</li>
             </ul>   
             <hr />          
-            <h4>componentWillUnmount</h4>
+            <h4>componentWillUnmount()</h4>
             <p>
               Tuż przed usunięciem komponentu wywoływana jest metoda <code>componentWillUnmount</code>, działająca nieco jak destruktor znany z programowania
               obiektowego. Jeżeli nasz komponent zmodyfikował DOM, uruchomił timery (<code>setTimeout()</code>) lub dodał nasłuchiwanie na zdarzenia
@@ -1831,6 +1803,55 @@ export default class Lesson extends Lekcja {
               }            
             `}</Example>
 
+            <hr />  
+
+            <h4>getSnapshotBeforeUpdate(prevProps, prevState)</h4>
+            <p>
+              Funkcja ta wywoływana jest tuż przed tym, jak aktualizacja komponentu zostanie przekazana przeglądarce do wyrenderowania. Możesz użyć jej
+              w celu odczytania DOMu (np. pozycji scrollu strony) zanim ulegnie on zmianie. Zwrócona wartość zostanie przekazana do <code>componentDidUpdate</code>
+              jako parametr.
+            </p>
+            <Uwaga>
+              <h4>Uwaga</h4>
+              <p>
+                Wraz z React 16.3 wprowadzone zostały nowe metody cyklu życia zastępujące kilka, które zostają wycofane. Są one co prawda wciąż dostępne
+                ale nie zaleca się ich używania ponieważ niebawem ich nazwy zostaną zmienione a z czasem usunięte.
+              </p> 
+            </Uwaga>
+            <h4>componentWillReceiveProps(nextProps) -&gt; UNSAFE_componentWillReceiveProps</h4>
+            <p>
+              Funkcja ta wywoływana jest w momencie, kiedy komponent ulega przerenderowaniu na skutek przerenderowania się rodzica.
+            </p>
+            <Example>{`
+              componentWillReceiveProps(nextProps) {
+                if(nextProps.text !== this.props.text) {
+                  /**
+                   * props text uległ zmianie i jego nowa wartośc znajduje się 
+                   * w nextProps.text - powinniśmy na to jakoś zareagować
+                   */
+                }
+              }
+            `}</Example>
+            <p><b>tak</b></p>  
+            <ul>
+              <li>zareaguj na zmiany props (np. w celu synchronizacji stanu i propsów)</li>
+            </ul>
+            <p><b>nie</b></p>
+            <ul>
+              <li>nie wywołuj akcji asynchronicznych</li>
+            </ul> 
+
+            <hr />           
+            <h4>componentWillMount() -&gt; UNSAFE_componentWillMount</h4>
+            <p>
+              Wywoływana w momencie, w którym komponent zostaje dodany do VDOM, przed pierwszym renderem.
+            </p>   
+            <hr />           
+            <h4>componentWillUpdate(nextProps, nextState) -&gt; UNSAFE_componentWillUpdate</h4>
+            <p>
+              Wywoływane przed aktualizacją komponentu.
+            </p>                        
+
             <h3>Cykle życia</h3>
 
             <p>
@@ -1839,14 +1860,14 @@ export default class Lesson extends Lekcja {
             <p>
               Cykl montowania komponentu:<br />
               <code>
-                constructor -> componentWillMount -> render -> componentDidMount
+                constructor -> static getDerivedStateFromProps -> render -> componentDidMount
               </code>
             </p>
 
             <p>
               Cykl aktualizowania komponentu:<br />
               <code>
-                componentWillReceiveProps -> shouldComponentUpdate -> componentWillUpdate -> render -> componentDidUpdate
+              static getDerivedStateFromProps -> shouldComponentUpdate -> render -> getSnapshotBeforeUpdate -> componentDidUpdate
               </code>
             </p>     
             
@@ -1856,9 +1877,9 @@ export default class Lesson extends Lekcja {
               jak i w <code>componentDidUpdate</code>.
             </p>
 
-            <h3>Dlaczego nie wywoływać akcji asynchronicznych w <code>componentWill*</code>?</h3>
+            <h3>Dlaczego nie wywoływać akcji asynchronicznych w <code>UNSAFE_componentWill*</code>?</h3>
             <p>
-              Metody <code>componentWill*</code> zdają się być stworzone dla zadań asynchronicznych takich jak pobieranie danych z serwera - przecież
+              Metody <code>UNSAFE_componentWill*</code> zdają się być stworzone dla zadań asynchronicznych takich jak pobieranie danych z serwera - przecież
               chcemy pobrać dane "zanim komponent"! Niestety w tym wypadku intuicja podpowiada nam nieco źle, a wynika to z powodu zmian wprowadzonych
               w React Fiber, którego głównym celem była poprawa "płynności animacji".
             </p>
@@ -1874,8 +1895,8 @@ export default class Lesson extends Lekcja {
             <Uwaga>
               <h4>Uwaga</h4>
               <p>
-                Niejako wyjątkiem jest tutaj działanie <code>componentWillMount</code> i <code>componentDidMount</code> w przypadku, kiedy stosujemy 
-                renderowanie na serwerze. W takiej sytuacji <code>componentWillMount</code> wykonywany jest jedynie po stronie serwera, 
+                Niejako wyjątkiem jest tutaj działanie <code>UNSAFE_componentWillMount</code> i <code>componentDidMount</code> w przypadku, kiedy stosujemy 
+                renderowanie na serwerze. W takiej sytuacji <code>UNSAFE_componentWillMount</code> wykonywany jest jedynie po stronie serwera, 
                 zaś <code>componentDidMount</code> w przeglądarce. Jeżeli chcemy wykonać operację jedynie na serwerze, powinniśmy zainicjować ją w pierwszej
                 z tych dwóch metod.
               </p>

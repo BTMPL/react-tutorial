@@ -517,8 +517,8 @@ export default class Lesson extends Lekcja {
             </p>
             <p>
               Kolejną wynikającą z tej sytuacji rzeczą do zapamiętania jest miejsce, w którym inicjujemy żądanie pobrania danych. Jeżeli nie ma możliwości, by
-              dane trafiły do nas przed pierwszym wywołaniem <code>render()</code>, nie zyskamy nic z umieszczania go w <code>componentWillMount</code>. Dodatkowo
-              przemawia za tym zmiana, jaką wprowadza React Fiber, na skutek której funkcje takie jak <code>constructor</code>, <code>componentWillMount</code> mogą
+              dane trafiły do nas przed pierwszym wywołaniem <code>render()</code>, nie zyskamy nic z umieszczania go w <code>contructor</code>. Dodatkowo
+              przemawia za tym zmiana, jaką wprowadza React Fiber, na skutek której funkcje takie jak <code>constructor</code>, <code>UNSAFE_componentWill</code> mogą
               zostać wywołane wielokrotnie przed wywołaniem <code>render()</code> - jeżeli tak się stanie, nasze zapytanie AJAX zostanie wysłane wielokrotnie.
             </p>
             <p>
